@@ -564,8 +564,11 @@ function CartOverlay({
   items: CartItem[];
   onClose: () => void;
   onRemove: (id: string) => void;
-  onCheckout: () => void;
+  onCheckout: (email: string) => void;
 }) {
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
@@ -578,6 +581,16 @@ function CartOverlay({
   }, [onClose]);
 
   const total = items.reduce((s, i) => s + i.price, 0);
+
+  const handleClick = () => {
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    if (!ok) {
+      setEmailError(true);
+      return;
+    }
+    setEmailError(false);
+    onCheckout(email.trim());
+  };
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm overflow-y-auto">
@@ -662,8 +675,29 @@ function CartOverlay({
                 <span className="text-lg font-light">{total}€</span>
               </div>
 
+              <div className="mt-6">
+                <label className="block text-xs font-light text-muted-foreground mb-2">
+                  Email pour la confirmation
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (emailError) setEmailError(false);
+                  }}
+                  placeholder="ton@email.com"
+                  className="w-full px-4 py-3 rounded-full border border-border bg-background text-sm font-light focus:border-foreground outline-none transition-colors"
+                />
+                {emailError && (
+                  <p className="mt-2 text-xs text-destructive font-light">
+                    Merci d'entrer un email valide.
+                  </p>
+                )}
+              </div>
+
               <button
-                onClick={onCheckout}
+                onClick={handleClick}
                 className="block w-full text-center rounded-full bg-foreground px-8 py-5 mt-6 text-base font-light text-background transition-transform hover:scale-[1.02]"
               >
                 Commander
@@ -713,8 +747,9 @@ function Index() {
     setConfigOpen(false);
   };
 
-  const handleCheckout = () => {
-    // TODO: replaced once Stripe is wired up
+  const handleCheckout = (email: string) => {
+    // TODO: replaced once Stripe is wired up. Email captured: `email`.
+    console.log("Checkout requested for", email);
     window.open(REVOLUT_URL, "_blank", "noopener,noreferrer");
   };
 
