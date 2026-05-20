@@ -287,36 +287,38 @@ function ReversiblePreview({
   colorA?: string;
   colorB?: string;
 }) {
-  const cA = colorA ?? "#e5e5e5";
-  const cB = colorB ?? "#e5e5e5";
-  const Shape = ({ img }: { img: string }) => {
-    const base = {
-      WebkitMaskImage: `url(${img})`,
-      maskImage: `url(${img})`,
-      WebkitMaskSize: "contain",
-      maskSize: "contain",
-      WebkitMaskRepeat: "no-repeat",
-      maskRepeat: "no-repeat",
-      WebkitMaskPosition: "center",
-      maskPosition: "center",
-    } as React.CSSProperties;
+  const Shape = ({ img, color }: { img: string; color: string }) => (
+    <div
+      className="w-28 h-28 sm:w-32 sm:h-32 transition-colors"
+      style={{
+        WebkitMaskImage: `url(${img})`,
+        maskImage: `url(${img})`,
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+        backgroundColor: color,
+      }}
+    />
+  );
+  const Column = ({ label, color }: { label: string; color?: string }) => {
+    const c = color ?? "#e5e5e5";
     return (
-      <div className="relative w-32 h-32 sm:w-36 sm:h-36">
-        <div
-          className="absolute inset-0 transition-colors"
-          style={{ ...base, backgroundColor: cA, clipPath: "polygon(0 0, 55% 0, 45% 100%, 0 100%)" }}
-        />
-        <div
-          className="absolute inset-0 transition-colors"
-          style={{ ...base, backgroundColor: cB, clipPath: "polygon(55% 0, 100% 0, 100% 100%, 45% 100%)" }}
-        />
+      <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center">
+          {topImg && <Shape img={topImg} color={c} />}
+          {bottomImg && <Shape img={bottomImg} color={c} />}
+        </div>
+        <p className="text-xs font-light text-muted-foreground mt-2">{label}</p>
       </div>
     );
   };
   return (
-    <div className="flex justify-center items-end gap-3 py-4 rounded-2xl bg-secondary/40">
-      {topImg && <Shape img={topImg} />}
-      {bottomImg && <Shape img={bottomImg} />}
+    <div className="flex justify-center items-start gap-10 sm:gap-16 py-6 rounded-2xl bg-secondary/40">
+      <Column label="Côté A" color={colorA} />
+      <Column label="Côté B" color={colorB} />
     </div>
   );
 }
