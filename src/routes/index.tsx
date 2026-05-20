@@ -343,6 +343,12 @@ function ConfiguratorOverlay({ onClose }: { onClose: () => void }) {
           )}
           {step === 4 && (
             <div className="space-y-8">
+              <ReversiblePreview
+                topImg={selectedTop?.img}
+                bottomImg={selectedBottom?.img}
+                colorA={colorA}
+                colorB={colorB}
+              />
               <FabricPicker
                 label="Côté A"
                 value={fabricA}
