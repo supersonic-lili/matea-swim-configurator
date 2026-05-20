@@ -675,8 +675,29 @@ function CartOverlay({
                 <span className="text-lg font-light">{total}€</span>
               </div>
 
+              <div className="mt-6">
+                <label className="block text-xs font-light text-muted-foreground mb-2">
+                  Email pour la confirmation
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (emailError) setEmailError(false);
+                  }}
+                  placeholder="ton@email.com"
+                  className="w-full px-4 py-3 rounded-full border border-border bg-background text-sm font-light focus:border-foreground outline-none transition-colors"
+                />
+                {emailError && (
+                  <p className="mt-2 text-xs text-destructive font-light">
+                    Merci d'entrer un email valide.
+                  </p>
+                )}
+              </div>
+
               <button
-                onClick={onCheckout}
+                onClick={handleClick}
                 className="block w-full text-center rounded-full bg-foreground px-8 py-5 mt-6 text-base font-light text-background transition-transform hover:scale-[1.02]"
               >
                 Commander
