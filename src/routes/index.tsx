@@ -1,10 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { X } from "lucide-react";
 import heroBg from "@/assets/hero-background.jpg";
 import top1 from "@/assets/top-shape-1.png";
 import top2 from "@/assets/top-shape-2.png";
 import bottom1 from "@/assets/bottom-shape-1.png";
 import bottom2 from "@/assets/bottom-shape-2.png";
+import editorialMain from "@/assets/editorial-main.jpg";
+import editorialSecondary1 from "@/assets/editorial-secondary-1.jpg";
+import editorialSecondary2 from "@/assets/editorial-secondary-2.jpg";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -31,7 +35,7 @@ const SIZES = ["XS", "S", "M", "L", "XL"];
 
 const REVOLUT_URL = "https://revolut.me/PLACEHOLDER";
 
-function Hero() {
+function Hero({ onOpen }: { onOpen: () => void }) {
   return (
     <section
       className="relative min-h-screen w-full flex flex-col items-center justify-center px-6 text-center"
@@ -47,34 +51,50 @@ function Hero() {
       <p className="font-serif-italic mt-6 text-xl sm:text-2xl md:text-3xl text-foreground/90">
         maillots réversibles &amp; faits main, Marseille
       </p>
-      <a
-        href="#configurator"
+      <button
+        onClick={onOpen}
         className="mt-12 inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-medium text-background transition-transform hover:scale-105"
       >
         Crée ton maillot
-      </a>
+      </button>
     </section>
   );
 }
 
-function Fabrics() {
+function Editorial() {
   return (
-    <section id="fabrics" className="py-24 sm:py-32 bg-background">
+    <section className="py-24 sm:py-40 bg-background">
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-12">Nos matières</h2>
-      </div>
-      <div className="overflow-x-auto no-scrollbar">
-        <div className="flex gap-8 px-6 sm:px-12 pb-6 min-w-max">
-          {FABRICS.map((f) => (
-            <div key={f.id} className="flex flex-col items-center group cursor-pointer">
-              <div
-                className="w-44 h-44 sm:w-56 sm:h-56 rounded-full transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.25)]"
-                style={{ backgroundColor: f.color }}
-              />
-              <p className="mt-5 text-base font-medium text-foreground">{f.name}</p>
-            </div>
-          ))}
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-center mb-16 sm:mb-24">
+          Le maillot MATEA
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
+          <div className="md:row-span-2">
+            <img
+              src={editorialMain}
+              alt="Maillot MATEA"
+              loading="lazy"
+              className="w-full h-full object-cover aspect-[3/4] rounded-sm"
+            />
+          </div>
+          <div className="flex flex-col gap-6 sm:gap-10">
+            <img
+              src={editorialSecondary1}
+              alt="Détail tissu MATEA"
+              loading="lazy"
+              className="w-full object-cover aspect-[4/3] rounded-sm"
+            />
+            <img
+              src={editorialSecondary2}
+              alt="MATEA à Marseille"
+              loading="lazy"
+              className="w-full object-cover aspect-[4/3] rounded-sm"
+            />
+          </div>
         </div>
+        <p className="font-serif-italic text-center text-xl sm:text-2xl text-foreground/80 mt-16 sm:mt-24 max-w-2xl mx-auto">
+          Chaque maillot est unique, cousu à la main à Marseille.
+        </p>
       </div>
     </section>
   );
@@ -242,7 +262,7 @@ function FabricPicker({
   );
 }
 
-function Configurator() {
+function ConfiguratorOverlay({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(1);
   const [top, setTop] = useState<string | null>(null);
   const [bottom, setBottom] = useState<string | null>(null);
@@ -251,6 +271,17 @@ function Configurator() {
   const [fabricA, setFabricA] = useState<string | null>(null);
   const [fabricB, setFabricB] = useState<string | null>(null);
   const [warning, setWarning] = useState<string | null>(null);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
 
   const setFabricBSafe = (v: string) => {
     if (v === fabricA) {
@@ -289,14 +320,19 @@ function Configurator() {
   };
 
   return (
-    <section id="configurator" className="py-24 sm:py-32 bg-secondary/40">
-      <div className="max-w-3xl mx-auto px-6">
-        <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-center mb-12">
-          Crée ton maillot
-        </h2>
-        <div className="bg-background rounded-3xl shadow-[0_30px_80px_-30px_rgba(0,0,0,0.15)] p-6 sm:p-12">
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm overflow-y-auto">
+      <div className="min-h-full w-full flex items-start sm:items-center justify-center p-4 sm:p-8">
+        <div className="relative w-full max-w-3xl bg-background rounded-3xl shadow-2xl p-6 sm:p-12 my-8">
+          <button
+            onClick={onClose}
+            aria-label="Fermer"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 rounded-full bg-secondary hover:bg-foreground hover:text-background flex items-center justify-center transition-colors z-10"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
           <ProgressBar step={step} />
-          <h3 className="text-2xl sm:text-3xl font-semibold mb-8">{titles[step]}</h3>
+          <h3 className="text-2xl sm:text-3xl font-semibold mb-8 pr-12">{titles[step]}</h3>
 
           {step === 1 && <ShapePicker options={TOPS} value={top} onChange={setTop} />}
           {step === 2 && (
@@ -401,7 +437,7 @@ function Configurator() {
           )}
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -417,12 +453,13 @@ function Footer() {
 }
 
 function Index() {
+  const [open, setOpen] = useState(false);
   return (
     <main className="bg-background text-foreground">
-      <Hero />
-      <Fabrics />
-      <Configurator />
+      <Hero onOpen={() => setOpen(true)} />
+      <Editorial />
       <Footer />
+      {open && <ConfiguratorOverlay onClose={() => setOpen(false)} />}
     </main>
   );
 }
