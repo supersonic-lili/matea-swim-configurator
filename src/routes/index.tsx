@@ -1,26 +1,428 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import heroBg from "@/assets/hero-background.jpg";
+import top1 from "@/assets/top-shape-1.png";
+import top2 from "@/assets/top-shape-2.png";
+import bottom1 from "@/assets/bottom-shape-1.png";
+import bottom2 from "@/assets/bottom-shape-2.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+const FABRICS = [
+  { id: "yuzu", name: "Yuzu Yellow", color: "#F5C518" },
+  { id: "brazil", name: "Brazil Green", color: "#2E8B57" },
+  { id: "chili", name: "Chili Red", color: "#C0392B" },
+  { id: "tutti", name: "Tutti Frutti", color: "#FF6F91" },
+  { id: "ocean", name: "Ocean Blue", color: "#1A6E9E" },
+  { id: "fire", name: "Fire Orange", color: "#E8610A" },
+];
+
+const TOPS = [
+  { id: "top1", label: "Haut 1", img: top1 },
+  { id: "top2", label: "Haut 2", img: top2 },
+];
+const BOTTOMS = [
+  { id: "bottom1", label: "Bas 1", img: bottom1 },
+  { id: "bottom2", label: "Bas 2", img: bottom2 },
+];
+const SIZES = ["XS", "S", "M", "L", "XL"];
+
+const REVOLUT_URL = "https://revolut.me/PLACEHOLDER";
+
+function Hero() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
+    <section
+      className="relative min-h-screen w-full flex flex-col items-center justify-center px-6 text-center"
+      style={{
+        backgroundImage: `linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.55)), url(${heroBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+      <h1 className="text-foreground text-7xl sm:text-8xl md:text-[10rem] font-bold tracking-tight leading-none">
+        MATEA
+      </h1>
+      <p className="font-serif-italic mt-6 text-xl sm:text-2xl md:text-3xl text-foreground/90">
+        maillots réversibles &amp; faits main, Marseille
+      </p>
+      <a
+        href="#configurator"
+        className="mt-12 inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-medium text-background transition-transform hover:scale-105"
+      >
+        Crée ton maillot
+      </a>
+    </section>
+  );
+}
+
+function Fabrics() {
+  return (
+    <section id="fabrics" className="py-24 sm:py-32 bg-background">
+      <div className="max-w-6xl mx-auto px-6">
+        <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-12">Nos matières</h2>
+      </div>
+      <div className="overflow-x-auto no-scrollbar">
+        <div className="flex gap-8 px-6 sm:px-12 pb-6 min-w-max">
+          {FABRICS.map((f) => (
+            <div key={f.id} className="flex flex-col items-center group cursor-pointer">
+              <div
+                className="w-44 h-44 sm:w-56 sm:h-56 rounded-full transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.25)]"
+                style={{ backgroundColor: f.color }}
+              />
+              <p className="mt-5 text-base font-medium text-foreground">{f.name}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProgressBar({ step }: { step: number }) {
+  return (
+    <div className="flex items-center gap-2 mb-10">
+      {[1, 2, 3, 4, 5].map((n) => (
+        <div key={n} className="flex-1 flex items-center gap-2">
+          <div
+            className={`h-1 flex-1 rounded-full transition-colors ${
+              n <= step ? "bg-foreground" : "bg-border"
+            }`}
+          />
+        </div>
+      ))}
+      <span className="ml-4 text-xs font-medium text-muted-foreground whitespace-nowrap">
+        Étape {step} / 5
+      </span>
     </div>
   );
 }
 
+function StepNav({
+  step,
+  setStep,
+  canNext,
+  nextLabel = "Suivant",
+}: {
+  step: number;
+  setStep: (n: number) => void;
+  canNext: boolean;
+  nextLabel?: string;
+}) {
+  return (
+    <div className="flex items-center justify-between mt-10 pt-6 border-t border-border">
+      <button
+        onClick={() => setStep(step - 1)}
+        disabled={step === 1}
+        className="text-sm font-medium text-foreground disabled:opacity-30 hover:underline"
+      >
+        ← Retour
+      </button>
+      {step < 5 && (
+        <button
+          onClick={() => setStep(step + 1)}
+          disabled={!canNext}
+          className="inline-flex items-center justify-center rounded-full bg-foreground px-7 py-3 text-sm font-medium text-background disabled:opacity-30 transition-transform hover:scale-105"
+        >
+          {nextLabel} →
+        </button>
+      )}
+    </div>
+  );
+}
+
+function ShapePicker({
+  options,
+  value,
+  onChange,
+}: {
+  options: { id: string; label: string; img: string }[];
+  value: string | null;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="grid grid-cols-2 gap-4 sm:gap-8">
+      {options.map((o) => {
+        const selected = value === o.id;
+        return (
+          <button
+            key={o.id}
+            onClick={() => onChange(o.id)}
+            className={`group relative rounded-2xl border-2 p-4 sm:p-8 transition-all bg-secondary/30 ${
+              selected ? "border-foreground" : "border-transparent hover:border-border"
+            }`}
+          >
+            <img
+              src={o.img}
+              alt={o.label}
+              className="w-full h-48 sm:h-64 object-contain"
+              loading="lazy"
+            />
+            <p className="mt-4 text-sm font-medium">{o.label}</p>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function SizeRow({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string | null;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div>
+      <p className="text-sm font-medium text-muted-foreground mb-3">{label}</p>
+      <div className="flex flex-wrap gap-2">
+        {SIZES.map((s) => {
+          const selected = value === s;
+          return (
+            <button
+              key={s}
+              onClick={() => onChange(s)}
+              className={`px-5 py-2.5 rounded-full text-sm font-medium border transition-all ${
+                selected
+                  ? "bg-foreground text-background border-foreground"
+                  : "bg-background text-foreground border-border hover:border-foreground"
+              }`}
+            >
+              {s}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function FabricPicker({
+  label,
+  value,
+  onChange,
+  disabled,
+}: {
+  label: string;
+  value: string | null;
+  onChange: (v: string) => void;
+  disabled?: string | null;
+}) {
+  return (
+    <div>
+      <p className="text-sm font-medium text-muted-foreground mb-3">{label}</p>
+      <div className="grid grid-cols-3 gap-3">
+        {FABRICS.map((f) => {
+          const selected = value === f.id;
+          const isDisabled = disabled === f.id;
+          return (
+            <button
+              key={f.id}
+              onClick={() => !isDisabled && onChange(f.id)}
+              className={`flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all ${
+                selected ? "border-foreground" : "border-transparent hover:border-border"
+              } ${isDisabled ? "opacity-30 cursor-not-allowed" : ""}`}
+            >
+              <span
+                className="w-12 h-12 rounded-full"
+                style={{ backgroundColor: f.color }}
+              />
+              <span className="text-[11px] font-medium text-center leading-tight">
+                {f.name}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function Configurator() {
+  const [step, setStep] = useState(1);
+  const [top, setTop] = useState<string | null>(null);
+  const [bottom, setBottom] = useState<string | null>(null);
+  const [sizeTop, setSizeTop] = useState<string | null>(null);
+  const [sizeBottom, setSizeBottom] = useState<string | null>(null);
+  const [fabricA, setFabricA] = useState<string | null>(null);
+  const [fabricB, setFabricB] = useState<string | null>(null);
+  const [warning, setWarning] = useState<string | null>(null);
+
+  const setFabricBSafe = (v: string) => {
+    if (v === fabricA) {
+      setWarning("Les deux côtés doivent être différents.");
+      return;
+    }
+    setWarning(null);
+    setFabricB(v);
+  };
+  const setFabricASafe = (v: string) => {
+    if (v === fabricB) {
+      setWarning("Les deux côtés doivent être différents.");
+      return;
+    }
+    setWarning(null);
+    setFabricA(v);
+  };
+
+  const canNext =
+    (step === 1 && !!top) ||
+    (step === 2 && !!bottom) ||
+    (step === 3 && !!sizeTop && !!sizeBottom) ||
+    (step === 4 && !!fabricA && !!fabricB);
+
+  const selectedTop = TOPS.find((t) => t.id === top);
+  const selectedBottom = BOTTOMS.find((b) => b.id === bottom);
+  const colorA = FABRICS.find((f) => f.id === fabricA)?.color;
+  const colorB = FABRICS.find((f) => f.id === fabricB)?.color;
+
+  const titles: Record<number, string> = {
+    1: "Choisis ton haut",
+    2: "Choisis ton bas",
+    3: "Choisis ta taille",
+    4: "Choisis tes matières",
+    5: "Récapitulatif",
+  };
+
+  return (
+    <section id="configurator" className="py-24 sm:py-32 bg-secondary/40">
+      <div className="max-w-3xl mx-auto px-6">
+        <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-center mb-12">
+          Crée ton maillot
+        </h2>
+        <div className="bg-background rounded-3xl shadow-[0_30px_80px_-30px_rgba(0,0,0,0.15)] p-6 sm:p-12">
+          <ProgressBar step={step} />
+          <h3 className="text-2xl sm:text-3xl font-semibold mb-8">{titles[step]}</h3>
+
+          {step === 1 && <ShapePicker options={TOPS} value={top} onChange={setTop} />}
+          {step === 2 && (
+            <ShapePicker options={BOTTOMS} value={bottom} onChange={setBottom} />
+          )}
+          {step === 3 && (
+            <div className="space-y-8">
+              <SizeRow label="Haut" value={sizeTop} onChange={setSizeTop} />
+              <SizeRow label="Bas" value={sizeBottom} onChange={setSizeBottom} />
+            </div>
+          )}
+          {step === 4 && (
+            <div className="space-y-8">
+              <FabricPicker
+                label="Côté A"
+                value={fabricA}
+                onChange={setFabricASafe}
+                disabled={fabricB}
+              />
+              <FabricPicker
+                label="Côté B"
+                value={fabricB}
+                onChange={setFabricBSafe}
+                disabled={fabricA}
+              />
+              {warning && (
+                <p className="text-sm text-destructive font-medium">{warning}</p>
+              )}
+            </div>
+          )}
+          {step === 5 && (
+            <div className="space-y-8">
+              <div className="rounded-2xl bg-secondary/50 p-6 sm:p-8">
+                <div className="grid sm:grid-cols-2 gap-6 items-center">
+                  <div className="flex justify-center gap-2">
+                    {selectedTop && (
+                      <img
+                        src={selectedTop.img}
+                        alt={selectedTop.label}
+                        className="h-32 object-contain"
+                      />
+                    )}
+                    {selectedBottom && (
+                      <img
+                        src={selectedBottom.img}
+                        alt={selectedBottom.label}
+                        className="h-32 object-contain"
+                      />
+                    )}
+                  </div>
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Taille haut</span>
+                      <span className="font-medium">{sizeTop ?? "—"}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Taille bas</span>
+                      <span className="font-medium">{sizeBottom ?? "—"}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-muted-foreground">Côté A</span>
+                      <span
+                        className="w-6 h-6 rounded-full border border-border"
+                        style={{ backgroundColor: colorA }}
+                      />
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-muted-foreground">Côté B</span>
+                      <span
+                        className="w-6 h-6 rounded-full border border-border"
+                        style={{ backgroundColor: colorB }}
+                      />
+                    </div>
+                    <div className="pt-4 border-t border-border flex justify-between text-lg">
+                      <span className="font-medium">Prix</span>
+                      <span className="font-bold">85€</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                href={REVOLUT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-center rounded-full bg-foreground px-8 py-5 text-base font-medium text-background transition-transform hover:scale-[1.02]"
+              >
+                Commander
+              </a>
+            </div>
+          )}
+
+          {step < 5 && <StepNav step={step} setStep={setStep} canNext={canNext} />}
+          {step === 5 && (
+            <div className="flex items-center justify-between mt-10 pt-6 border-t border-border">
+              <button
+                onClick={() => setStep(step - 1)}
+                className="text-sm font-medium text-foreground hover:underline"
+              >
+                ← Retour
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="py-12 px-6 text-center text-sm text-muted-foreground border-t border-border">
+      <p className="font-serif-italic text-base">
+        MATEA — fait main à Marseille
+      </p>
+      <p className="mt-2">© {new Date().getFullYear()} MATEA</p>
+    </footer>
+  );
+}
+
 function Index() {
-  return <PlaceholderIndex />;
+  return (
+    <main className="bg-background text-foreground">
+      <Hero />
+      <Fabrics />
+      <Configurator />
+      <Footer />
+    </main>
+  );
 }
