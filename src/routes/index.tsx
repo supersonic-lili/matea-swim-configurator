@@ -564,8 +564,11 @@ function CartOverlay({
   items: CartItem[];
   onClose: () => void;
   onRemove: (id: string) => void;
-  onCheckout: () => void;
+  onCheckout: (email: string) => void;
 }) {
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
@@ -578,6 +581,16 @@ function CartOverlay({
   }, [onClose]);
 
   const total = items.reduce((s, i) => s + i.price, 0);
+
+  const handleClick = () => {
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    if (!ok) {
+      setEmailError(true);
+      return;
+    }
+    setEmailError(false);
+    onCheckout(email.trim());
+  };
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm overflow-y-auto">
