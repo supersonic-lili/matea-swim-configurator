@@ -65,9 +65,6 @@ function Editorial() {
   return (
     <section className="py-24 sm:py-40 bg-background">
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-center mb-16 sm:mb-24">
-          Le maillot MATEA
-        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
           <div className="md:row-span-2">
             <img
