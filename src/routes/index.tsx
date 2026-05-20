@@ -47,23 +47,19 @@ function Hero({ onOpen }: { onOpen: () => void }) {
       }}
     >
       <div className="relative">
-        <div
-          aria-hidden
-          className="absolute inset-0 -m-8 sm:-m-12 rounded-full bg-white/40 blur-2xl"
-        />
         <h1 className="sr-only">MATEA</h1>
         <img
           src={mateaLogo}
           alt="MATEA"
-          className="relative w-[80vw] max-w-3xl h-auto"
+          className="relative w-[260px] sm:w-[320px] h-auto"
         />
       </div>
-      <p className="font-serif-italic mt-6 text-xl sm:text-2xl md:text-3xl text-foreground/90">
+      <p className="mt-3 text-base sm:text-lg md:text-xl text-foreground/90 font-light">
         maillots réversibles &amp; faits main, Marseille
       </p>
       <button
         onClick={onOpen}
-        className="mt-12 inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-medium text-background transition-transform hover:scale-105"
+        className="mt-16 sm:mt-24 inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-light text-background transition-transform hover:scale-105"
       >
         Crée ton maillot
       </button>

@@ -161,9 +161,9 @@
 }
 
 .font-serif-italic {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 300;
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
