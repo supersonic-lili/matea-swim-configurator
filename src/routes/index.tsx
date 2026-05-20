@@ -747,8 +747,9 @@ function Index() {
     setConfigOpen(false);
   };
 
-  const handleCheckout = () => {
-    // TODO: replaced once Stripe is wired up
+  const handleCheckout = (email: string) => {
+    // TODO: replaced once Stripe is wired up. Email captured: `email`.
+    console.log("Checkout requested for", email);
     window.open(REVOLUT_URL, "_blank", "noopener,noreferrer");
   };
 
