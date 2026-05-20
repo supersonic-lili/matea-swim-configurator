@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { X, Instagram } from "lucide-react";
+import { X, Instagram, ShoppingBag } from "lucide-react";
 import mateaLogo from "@/assets/matea-logo.png";
 import heroBg from "@/assets/hero-background.jpg";
 import top1 from "@/assets/top-shape-1.png";
@@ -35,6 +35,35 @@ const BOTTOMS = [
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
 const REVOLUT_URL = "https://revolut.me/PLACEHOLDER";
+const PRICE = 85;
+
+type CartItem = {
+  id: string;
+  topId: string;
+  bottomId: string;
+  sizeTop: string;
+  sizeBottom: string;
+  fabricA: string;
+  fabricB: string;
+  price: number;
+};
+
+function CartIcon({ count, onClick }: { count: number; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      aria-label="Panier"
+      className="fixed top-5 right-5 sm:top-6 sm:right-6 z-40 w-11 h-11 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background flex items-center justify-center transition-colors shadow-sm"
+    >
+      <ShoppingBag size={22} className="text-foreground" strokeWidth={1.5} />
+      {count > 0 && (
+        <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-foreground text-background text-[11px] font-medium flex items-center justify-center">
+          {count}
+        </span>
+      )}
+    </button>
+  );
+}
 
 function Hero({ onOpen }: { onOpen: () => void }) {
   return (
@@ -95,7 +124,7 @@ function Editorial() {
             />
           </div>
         </div>
-        <p className="font-serif-italic text-center text-xl sm:text-2xl text-foreground/80 mt-16 sm:mt-24 max-w-2xl mx-auto">
+        <p className="font-light italic text-center text-xl sm:text-2xl text-foreground/80 mt-16 sm:mt-24 max-w-2xl mx-auto">
           Chaque maillot est unique, cousu à la main à Marseille.
         </p>
         <div className="flex justify-center mt-8">
@@ -126,7 +155,7 @@ function ProgressBar({ step }: { step: number }) {
           />
         </div>
       ))}
-      <span className="ml-4 text-xs font-medium text-muted-foreground whitespace-nowrap">
+      <span className="ml-4 text-xs font-light text-muted-foreground whitespace-nowrap">
         Étape {step} / 5
       </span>
     </div>
@@ -149,7 +178,7 @@ function StepNav({
       <button
         onClick={() => setStep(step - 1)}
         disabled={step === 1}
-        className="text-sm font-medium text-foreground disabled:opacity-30 hover:underline"
+        className="text-sm font-light text-foreground disabled:opacity-30 hover:underline"
       >
         ← Retour
       </button>
@@ -157,7 +186,7 @@ function StepNav({
         <button
           onClick={() => setStep(step + 1)}
           disabled={!canNext}
-          className="inline-flex items-center justify-center rounded-full bg-foreground px-7 py-3 text-sm font-medium text-background disabled:opacity-30 transition-transform hover:scale-105"
+          className="inline-flex items-center justify-center rounded-full bg-foreground px-7 py-3 text-sm font-light text-background disabled:opacity-30 transition-transform hover:scale-105"
         >
           {nextLabel} →
         </button>
@@ -193,7 +222,7 @@ function ShapePicker({
               className="w-full h-48 sm:h-64 object-contain"
               loading="lazy"
             />
-            <p className="mt-4 text-sm font-medium">{o.label}</p>
+            <p className="mt-4 text-sm font-light">{o.label}</p>
           </button>
         );
       })}
@@ -212,7 +241,7 @@ function SizeRow({
 }) {
   return (
     <div>
-      <p className="text-sm font-medium text-muted-foreground mb-3">{label}</p>
+      <p className="text-sm font-light text-muted-foreground mb-3">{label}</p>
       <div className="flex flex-wrap gap-2">
         {SIZES.map((s) => {
           const selected = value === s;
@@ -220,7 +249,7 @@ function SizeRow({
             <button
               key={s}
               onClick={() => onChange(s)}
-              className={`px-5 py-2.5 rounded-full text-sm font-medium border transition-all ${
+              className={`px-5 py-2.5 rounded-full text-sm font-light border transition-all ${
                 selected
                   ? "bg-foreground text-background border-foreground"
                   : "bg-background text-foreground border-border hover:border-foreground"
@@ -248,7 +277,7 @@ function FabricPicker({
 }) {
   return (
     <div>
-      <p className="text-sm font-medium text-muted-foreground mb-3">{label}</p>
+      <p className="text-sm font-light text-muted-foreground mb-3">{label}</p>
       <div className="grid grid-cols-3 gap-3">
         {FABRICS.map((f) => {
           const selected = value === f.id;
@@ -265,7 +294,7 @@ function FabricPicker({
                 className="w-12 h-12 rounded-full"
                 style={{ backgroundColor: f.color }}
               />
-              <span className="text-[11px] font-medium text-center leading-tight">
+              <span className="text-[11px] font-light text-center leading-tight">
                 {f.name}
               </span>
             </button>
@@ -323,7 +352,13 @@ function ReversiblePreview({
   );
 }
 
-function ConfiguratorOverlay({ onClose }: { onClose: () => void }) {
+function ConfiguratorOverlay({
+  onClose,
+  onAddToCart,
+}: {
+  onClose: () => void;
+  onAddToCart: (item: CartItem) => void;
+}) {
   const [step, setStep] = useState(1);
   const [top, setTop] = useState<string | null>(null);
   const [bottom, setBottom] = useState<string | null>(null);
@@ -380,6 +415,20 @@ function ConfiguratorOverlay({ onClose }: { onClose: () => void }) {
     5: "Récapitulatif",
   };
 
+  const handleAddToCart = () => {
+    if (!top || !bottom || !sizeTop || !sizeBottom || !fabricA || !fabricB) return;
+    onAddToCart({
+      id: crypto.randomUUID(),
+      topId: top,
+      bottomId: bottom,
+      sizeTop,
+      sizeBottom,
+      fabricA,
+      fabricB,
+      price: PRICE,
+    });
+  };
+
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm overflow-y-auto">
       <div className="min-h-full w-full flex items-start sm:items-center justify-center p-4 sm:p-8">
@@ -393,7 +442,7 @@ function ConfiguratorOverlay({ onClose }: { onClose: () => void }) {
           </button>
 
           <ProgressBar step={step} />
-          <h3 className="text-2xl sm:text-3xl font-semibold mb-8 pr-12">{titles[step]}</h3>
+          <h3 className="text-2xl sm:text-3xl font-light mb-8 pr-12">{titles[step]}</h3>
 
           {step === 1 && <ShapePicker options={TOPS} value={top} onChange={setTop} />}
           {step === 2 && (
@@ -426,7 +475,7 @@ function ConfiguratorOverlay({ onClose }: { onClose: () => void }) {
                 disabled={fabricA}
               />
               {warning && (
-                <p className="text-sm text-destructive font-medium">{warning}</p>
+                <p className="text-sm text-destructive font-light">{warning}</p>
               )}
             </div>
           )}
@@ -450,14 +499,14 @@ function ConfiguratorOverlay({ onClose }: { onClose: () => void }) {
                       />
                     )}
                   </div>
-                  <div className="space-y-3 text-sm">
+                  <div className="space-y-3 text-sm font-light">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Taille haut</span>
-                      <span className="font-medium">{sizeTop ?? "—"}</span>
+                      <span>{sizeTop ?? "—"}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Taille bas</span>
-                      <span className="font-medium">{sizeBottom ?? "—"}</span>
+                      <span>{sizeBottom ?? "—"}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-muted-foreground">Côté A</span>
@@ -474,20 +523,18 @@ function ConfiguratorOverlay({ onClose }: { onClose: () => void }) {
                       />
                     </div>
                     <div className="pt-4 border-t border-border flex justify-between text-lg">
-                      <span className="font-medium">Prix</span>
-                      <span className="font-bold">85€</span>
+                      <span>Prix</span>
+                      <span>85€</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <a
-                href={REVOLUT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full text-center rounded-full bg-foreground px-8 py-5 text-base font-medium text-background transition-transform hover:scale-[1.02]"
+              <button
+                onClick={handleAddToCart}
+                className="block w-full text-center rounded-full bg-foreground px-8 py-5 text-base font-light text-background transition-transform hover:scale-[1.02]"
               >
-                Commander
-              </a>
+                Add to cart
+              </button>
             </div>
           )}
 
@@ -496,7 +543,7 @@ function ConfiguratorOverlay({ onClose }: { onClose: () => void }) {
             <div className="flex items-center justify-between mt-10 pt-6 border-t border-border">
               <button
                 onClick={() => setStep(step - 1)}
-                className="text-sm font-medium text-foreground hover:underline"
+                className="text-sm font-light text-foreground hover:underline"
               >
                 ← Retour
               </button>
@@ -508,10 +555,131 @@ function ConfiguratorOverlay({ onClose }: { onClose: () => void }) {
   );
 }
 
+function CartOverlay({
+  items,
+  onClose,
+  onRemove,
+  onCheckout,
+}: {
+  items: CartItem[];
+  onClose: () => void;
+  onRemove: (id: string) => void;
+  onCheckout: () => void;
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+
+  const total = items.reduce((s, i) => s + i.price, 0);
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm overflow-y-auto">
+      <div className="min-h-full w-full flex items-start sm:items-center justify-center p-4 sm:p-8">
+        <div className="relative w-full max-w-2xl bg-background rounded-3xl shadow-2xl p-6 sm:p-10 my-8">
+          <button
+            onClick={onClose}
+            aria-label="Fermer"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 rounded-full bg-secondary hover:bg-foreground hover:text-background flex items-center justify-center transition-colors z-10"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
+          <h3 className="text-2xl sm:text-3xl font-light mb-8">Panier</h3>
+
+          {items.length === 0 ? (
+            <p className="text-center text-muted-foreground font-light py-12">
+              Ton panier est vide.
+            </p>
+          ) : (
+            <>
+              <div className="space-y-4">
+                {items.map((item) => {
+                  const t = TOPS.find((x) => x.id === item.topId);
+                  const b = BOTTOMS.find((x) => x.id === item.bottomId);
+                  const a = FABRICS.find((f) => f.id === item.fabricA);
+                  const bc = FABRICS.find((f) => f.id === item.fabricB);
+                  return (
+                    <div
+                      key={item.id}
+                      className="flex items-center gap-4 p-4 rounded-2xl bg-secondary/40"
+                    >
+                      <div className="flex shrink-0 -space-x-2">
+                        {t && (
+                          <img
+                            src={t.img}
+                            alt=""
+                            className="w-14 h-14 object-contain"
+                          />
+                        )}
+                        {b && (
+                          <img
+                            src={b.img}
+                            alt=""
+                            className="w-14 h-14 object-contain"
+                          />
+                        )}
+                      </div>
+                      <div className="flex-1 text-sm font-light space-y-1">
+                        <div className="flex items-center gap-3">
+                          <span className="text-muted-foreground text-xs">Côté A</span>
+                          <span
+                            className="w-4 h-4 rounded-full border border-border"
+                            style={{ backgroundColor: a?.color }}
+                          />
+                          <span className="text-muted-foreground text-xs">Côté B</span>
+                          <span
+                            className="w-4 h-4 rounded-full border border-border"
+                            style={{ backgroundColor: bc?.color }}
+                          />
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          Haut {item.sizeTop} · Bas {item.sizeBottom}
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end gap-1">
+                        <span className="text-sm font-light">{item.price}€</span>
+                        <button
+                          onClick={() => onRemove(item.id)}
+                          className="text-xs text-muted-foreground hover:text-foreground underline"
+                        >
+                          Retirer
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="flex justify-between items-center mt-8 pt-6 border-t border-border">
+                <span className="text-base font-light">Total</span>
+                <span className="text-lg font-light">{total}€</span>
+              </div>
+
+              <button
+                onClick={onCheckout}
+                className="block w-full text-center rounded-full bg-foreground px-8 py-5 mt-6 text-base font-light text-background transition-transform hover:scale-[1.02]"
+              >
+                Commander
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Footer() {
   return (
-    <footer className="py-12 px-6 text-center text-sm text-muted-foreground border-t border-border">
-      <p className="font-serif-italic text-base">
+    <footer className="py-12 px-6 text-center text-sm font-light text-muted-foreground border-t border-border">
+      <p className="text-base italic">
         MATEA — fait main à Marseille
       </p>
       <p className="mt-2">© {new Date().getFullYear()} MATEA</p>
@@ -520,13 +688,56 @@ function Footer() {
 }
 
 function Index() {
-  const [open, setOpen] = useState(false);
+  const [configOpen, setConfigOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const raw = localStorage.getItem("matea-cart");
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("matea-cart", JSON.stringify(cart));
+    } catch {
+      /* ignore */
+    }
+  }, [cart]);
+
+  const handleAddToCart = (item: CartItem) => {
+    setCart((prev) => [...prev, item]);
+    setConfigOpen(false);
+  };
+
+  const handleCheckout = () => {
+    // TODO: replaced once Stripe is wired up
+    window.open(REVOLUT_URL, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <main className="bg-background text-foreground">
-      <Hero onOpen={() => setOpen(true)} />
+      <CartIcon count={cart.length} onClick={() => setCartOpen(true)} />
+      <Hero onOpen={() => setConfigOpen(true)} />
       <Editorial />
       <Footer />
-      {open && <ConfiguratorOverlay onClose={() => setOpen(false)} />}
+      {configOpen && (
+        <ConfiguratorOverlay
+          onClose={() => setConfigOpen(false)}
+          onAddToCart={handleAddToCart}
+        />
+      )}
+      {cartOpen && (
+        <CartOverlay
+          items={cart}
+          onClose={() => setCartOpen(false)}
+          onRemove={(id) => setCart((prev) => prev.filter((i) => i.id !== id))}
+          onCheckout={handleCheckout}
+        />
+      )}
     </main>
   );
 }
