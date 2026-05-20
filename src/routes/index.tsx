@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { X } from "lucide-react";
+import { X, Instagram } from "lucide-react";
+import mateaLogo from "@/assets/matea-logo.png";
 import heroBg from "@/assets/hero-background.jpg";
 import top1 from "@/assets/top-shape-1.png";
 import top2 from "@/assets/top-shape-2.png";
@@ -45,9 +46,18 @@ function Hero({ onOpen }: { onOpen: () => void }) {
         backgroundPosition: "center",
       }}
     >
-      <h1 className="text-foreground text-7xl sm:text-8xl md:text-[10rem] font-bold tracking-tight leading-none">
-        MATEA
-      </h1>
+      <div className="relative">
+        <div
+          aria-hidden
+          className="absolute inset-0 -m-8 sm:-m-12 rounded-full bg-white/40 blur-2xl"
+        />
+        <h1 className="sr-only">MATEA</h1>
+        <img
+          src={mateaLogo}
+          alt="MATEA"
+          className="relative w-[80vw] max-w-3xl h-auto"
+        />
+      </div>
       <p className="font-serif-italic mt-6 text-xl sm:text-2xl md:text-3xl text-foreground/90">
         maillots réversibles &amp; faits main, Marseille
       </p>
@@ -92,6 +102,17 @@ function Editorial() {
         <p className="font-serif-italic text-center text-xl sm:text-2xl text-foreground/80 mt-16 sm:mt-24 max-w-2xl mx-auto">
           Chaque maillot est unique, cousu à la main à Marseille.
         </p>
+        <div className="flex justify-center mt-8">
+          <a
+            href="https://www.instagram.com/matea.swimwear/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram MATEA"
+            className="text-foreground transition-opacity hover:opacity-60"
+          >
+            <Instagram size={24} />
+          </a>
+        </div>
       </div>
     </section>
   );
