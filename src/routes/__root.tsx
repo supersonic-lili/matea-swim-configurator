@@ -10,6 +10,7 @@ import {
 
 import appCss from "../styles.css?url";
 import { PasswordGate } from "@/components/PasswordGate";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -115,6 +116,7 @@ function RootComponent() {
       <PasswordGate>
         <Outlet />
       </PasswordGate>
+      <Toaster position="top-center" />
     </QueryClientProvider>
   );
 }
