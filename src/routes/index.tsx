@@ -36,7 +36,7 @@ const BOTTOMS = [
 ];
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
-const REVOLUT_URL = "https://revolut.me/PLACEHOLDER";
+
 const PRICE = 85;
 
 type CartItem = {
