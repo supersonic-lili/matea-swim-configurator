@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { X, Instagram, ShoppingBag } from "lucide-react";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import mateaLogo from "@/assets/matea-logo.png";
 import heroBg from "@/assets/hero-background.jpg";
 import top1 from "@/assets/top-shape-1.png";
@@ -34,7 +36,7 @@ const BOTTOMS = [
 ];
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
-const REVOLUT_URL = "https://revolut.me/PLACEHOLDER";
+
 const PRICE = 85;
 
 type CartItem = {
@@ -747,11 +749,58 @@ function Index() {
     setConfigOpen(false);
   };
 
-  const handleCheckout = (email: string) => {
-    // TODO: replaced once Stripe is wired up. Email captured: `email`.
-    console.log("Checkout requested for", email);
-    window.open(REVOLUT_URL, "_blank", "noopener,noreferrer");
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+
+  const handleCheckout = async (email: string) => {
+    if (checkoutLoading) return;
+    setCheckoutLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { items: cart, email, origin: window.location.origin },
+      });
+      if (error) throw error;
+      if (data?.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error("URL Stripe manquante");
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error("Le paiement n'a pas pu démarrer. Réessaie.");
+      setCheckoutLoading(false);
+    }
   };
+
+  // Handle return from Stripe Checkout
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const payment = url.searchParams.get("payment");
+    const sessionId = url.searchParams.get("session_id");
+    if (payment === "success" && sessionId) {
+      (async () => {
+        try {
+          const { data } = await supabase.functions.invoke("verify-payment", {
+            body: { session_id: sessionId },
+          });
+          if (data?.paid) {
+            setCart([]);
+            try { localStorage.removeItem("matea-cart"); } catch { /* ignore */ }
+            toast.success("Paiement confirmé — merci pour ta commande !", { duration: 6000 });
+          }
+        } catch (e) {
+          console.error(e);
+        } finally {
+          url.searchParams.delete("payment");
+          url.searchParams.delete("session_id");
+          window.history.replaceState({}, "", url.pathname + (url.search || ""));
+        }
+      })();
+    } else if (payment === "cancel") {
+      toast("Paiement annulé.");
+      url.searchParams.delete("payment");
+      window.history.replaceState({}, "", url.pathname + (url.search || ""));
+    }
+  }, []);
 
   return (
     <main className="bg-background text-foreground">
