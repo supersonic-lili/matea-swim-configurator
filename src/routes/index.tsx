@@ -5,10 +5,9 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import mateaLogo from "@/assets/matea-logo.png";
 import heroBg from "@/assets/hero-background.jpg";
-import top1 from "@/assets/top-shape-1.png";
-import top2 from "@/assets/top-shape-2.png";
-import bottom1 from "@/assets/bottom-shape-1.png";
-import bottom2 from "@/assets/bottom-shape-2.png";
+import triangleTop from "@/assets/sketch-triangle-top.png";
+import tangaBottom from "@/assets/sketch-tanga.png";
+import culotteBottom from "@/assets/sketch-culotte.png";
 import editorialMain from "@/assets/editorial-main.jpg";
 import editorialSecondary1 from "@/assets/editorial-secondary-1.jpg";
 import editorialSecondary2 from "@/assets/editorial-secondary-2.jpg";
@@ -27,12 +26,11 @@ const FABRICS = [
 ];
 
 const TOPS = [
-  { id: "top1", label: "Haut 1", img: top1 },
-  { id: "top2", label: "Haut 2", img: top2 },
+  { id: "triangle", label: "Le triangle", img: triangleTop },
 ];
 const BOTTOMS = [
-  { id: "bottom1", label: "Bas 1", img: bottom1 },
-  { id: "bottom2", label: "Bas 2", img: bottom2 },
+  { id: "tanga", label: "Le tanga", img: tangaBottom },
+  { id: "culotte", label: "La culotte", img: culotteBottom },
 ];
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
@@ -413,7 +411,7 @@ function ConfiguratorOverlay({
     1: "Choisis ton haut",
     2: "Choisis ton bas",
     3: "Choisis ta taille",
-    4: "Choisis tes matières",
+    4: "Choisis tes tissus",
     5: "Récapitulatif",
   };
 
@@ -484,51 +482,27 @@ function ConfiguratorOverlay({
           {step === 5 && (
             <div className="space-y-8">
               <div className="rounded-2xl bg-secondary/50 p-6 sm:p-8">
-                <div className="grid sm:grid-cols-2 gap-6 items-center">
-                  <div className="flex justify-center gap-2">
-                    {selectedTop && (
-                      <img
-                        src={selectedTop.img}
-                        alt={selectedTop.label}
-                        className="h-32 object-contain"
-                      />
-                    )}
-                    {selectedBottom && (
-                      <img
-                        src={selectedBottom.img}
-                        alt={selectedBottom.label}
-                        className="h-32 object-contain"
-                      />
-                    )}
-                  </div>
-                  <div className="space-y-3 text-sm font-light">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Taille haut</span>
-                      <span>{sizeTop ?? "—"}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Taille bas</span>
-                      <span>{sizeBottom ?? "—"}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-muted-foreground">Côté A</span>
-                      <span
-                        className="w-6 h-6 rounded-full border border-border"
-                        style={{ backgroundColor: colorA }}
-                      />
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-muted-foreground">Côté B</span>
-                      <span
-                        className="w-6 h-6 rounded-full border border-border"
-                        style={{ backgroundColor: colorB }}
-                      />
-                    </div>
-                    <div className="pt-4 border-t border-border flex justify-between text-lg">
-                      <span>Prix</span>
-                      <span>85€</span>
-                    </div>
-                  </div>
+                <div className="space-y-3 text-sm sm:text-base font-light">
+                  <p>
+                    <span className="text-muted-foreground">Haut : </span>
+                    {selectedTop?.label ?? "—"}, taille {sizeTop ?? "—"}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Bas : </span>
+                    {selectedBottom?.label ?? "—"}, taille {sizeBottom ?? "—"}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Tissu côté A : </span>
+                    {FABRICS.find((f) => f.id === fabricA)?.name ?? "—"}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Tissu côté B : </span>
+                    {FABRICS.find((f) => f.id === fabricB)?.name ?? "—"}
+                  </p>
+                  <p className="pt-3 border-t border-border">
+                    <span className="text-muted-foreground">Prix : </span>
+                    {PRICE}€
+                  </p>
                 </div>
               </div>
               <button
@@ -614,7 +588,7 @@ function CartOverlay({
             </p>
           ) : (
             <>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {items.map((item) => {
                   const t = TOPS.find((x) => x.id === item.topId);
                   const b = BOTTOMS.find((x) => x.id === item.bottomId);
@@ -623,50 +597,17 @@ function CartOverlay({
                   return (
                     <div
                       key={item.id}
-                      className="flex items-center gap-4 p-4 rounded-2xl bg-secondary/40"
+                      className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-secondary/40"
                     >
-                      <div className="flex shrink-0 -space-x-2">
-                        {t && (
-                          <img
-                            src={t.img}
-                            alt=""
-                            className="w-14 h-14 object-contain"
-                          />
-                        )}
-                        {b && (
-                          <img
-                            src={b.img}
-                            alt=""
-                            className="w-14 h-14 object-contain"
-                          />
-                        )}
-                      </div>
-                      <div className="flex-1 text-sm font-light space-y-1">
-                        <div className="flex items-center gap-3">
-                          <span className="text-muted-foreground text-xs">Côté A</span>
-                          <span
-                            className="w-4 h-4 rounded-full border border-border"
-                            style={{ backgroundColor: a?.color }}
-                          />
-                          <span className="text-muted-foreground text-xs">Côté B</span>
-                          <span
-                            className="w-4 h-4 rounded-full border border-border"
-                            style={{ backgroundColor: bc?.color }}
-                          />
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          Haut {item.sizeTop} · Bas {item.sizeBottom}
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-end gap-1">
-                        <span className="text-sm font-light">{item.price}€</span>
-                        <button
-                          onClick={() => onRemove(item.id)}
-                          className="text-xs text-muted-foreground hover:text-foreground underline"
-                        >
-                          Retirer
-                        </button>
-                      </div>
+                      <p className="flex-1 text-sm font-light">
+                        {t?.label} ({item.sizeTop}) + {b?.label} ({item.sizeBottom}) — {a?.name} / {bc?.name} — {item.price}€
+                      </p>
+                      <button
+                        onClick={() => onRemove(item.id)}
+                        className="shrink-0 text-xs text-muted-foreground hover:text-foreground underline"
+                      >
+                        Retirer
+                      </button>
                     </div>
                   );
                 })}
