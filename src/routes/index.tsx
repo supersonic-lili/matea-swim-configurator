@@ -5,10 +5,9 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import mateaLogo from "@/assets/matea-logo.png";
 import heroBg from "@/assets/hero-background.jpg";
-import top1 from "@/assets/top-shape-1.png";
-import top2 from "@/assets/top-shape-2.png";
-import bottom1 from "@/assets/bottom-shape-1.png";
-import bottom2 from "@/assets/bottom-shape-2.png";
+import triangleTop from "@/assets/sketch-triangle-top.png";
+import tangaBottom from "@/assets/sketch-tanga.png";
+import culotteBottom from "@/assets/sketch-culotte.png";
 import editorialMain from "@/assets/editorial-main.jpg";
 import editorialSecondary1 from "@/assets/editorial-secondary-1.jpg";
 import editorialSecondary2 from "@/assets/editorial-secondary-2.jpg";
@@ -27,12 +26,11 @@ const FABRICS = [
 ];
 
 const TOPS = [
-  { id: "top1", label: "Haut 1", img: top1 },
-  { id: "top2", label: "Haut 2", img: top2 },
+  { id: "triangle", label: "Le triangle", img: triangleTop },
 ];
 const BOTTOMS = [
-  { id: "bottom1", label: "Bas 1", img: bottom1 },
-  { id: "bottom2", label: "Bas 2", img: bottom2 },
+  { id: "tanga", label: "Le tanga", img: tangaBottom },
+  { id: "culotte", label: "La culotte", img: culotteBottom },
 ];
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
@@ -413,7 +411,7 @@ function ConfiguratorOverlay({
     1: "Choisis ton haut",
     2: "Choisis ton bas",
     3: "Choisis ta taille",
-    4: "Choisis tes matières",
+    4: "Choisis tes tissus",
     5: "Récapitulatif",
   };
 
