@@ -482,51 +482,27 @@ function ConfiguratorOverlay({
           {step === 5 && (
             <div className="space-y-8">
               <div className="rounded-2xl bg-secondary/50 p-6 sm:p-8">
-                <div className="grid sm:grid-cols-2 gap-6 items-center">
-                  <div className="flex justify-center gap-2">
-                    {selectedTop && (
-                      <img
-                        src={selectedTop.img}
-                        alt={selectedTop.label}
-                        className="h-32 object-contain"
-                      />
-                    )}
-                    {selectedBottom && (
-                      <img
-                        src={selectedBottom.img}
-                        alt={selectedBottom.label}
-                        className="h-32 object-contain"
-                      />
-                    )}
-                  </div>
-                  <div className="space-y-3 text-sm font-light">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Taille haut</span>
-                      <span>{sizeTop ?? "—"}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Taille bas</span>
-                      <span>{sizeBottom ?? "—"}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-muted-foreground">Côté A</span>
-                      <span
-                        className="w-6 h-6 rounded-full border border-border"
-                        style={{ backgroundColor: colorA }}
-                      />
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-muted-foreground">Côté B</span>
-                      <span
-                        className="w-6 h-6 rounded-full border border-border"
-                        style={{ backgroundColor: colorB }}
-                      />
-                    </div>
-                    <div className="pt-4 border-t border-border flex justify-between text-lg">
-                      <span>Prix</span>
-                      <span>85€</span>
-                    </div>
-                  </div>
+                <div className="space-y-3 text-sm sm:text-base font-light">
+                  <p>
+                    <span className="text-muted-foreground">Haut : </span>
+                    {selectedTop?.label ?? "—"}, taille {sizeTop ?? "—"}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Bas : </span>
+                    {selectedBottom?.label ?? "—"}, taille {sizeBottom ?? "—"}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Tissu côté A : </span>
+                    {FABRICS.find((f) => f.id === fabricA)?.name ?? "—"}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Tissu côté B : </span>
+                    {FABRICS.find((f) => f.id === fabricB)?.name ?? "—"}
+                  </p>
+                  <p className="pt-3 border-t border-border">
+                    <span className="text-muted-foreground">Prix : </span>
+                    {PRICE}€
+                  </p>
                 </div>
               </div>
               <button
