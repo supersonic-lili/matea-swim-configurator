@@ -588,7 +588,7 @@ function CartOverlay({
             </p>
           ) : (
             <>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {items.map((item) => {
                   const t = TOPS.find((x) => x.id === item.topId);
                   const b = BOTTOMS.find((x) => x.id === item.bottomId);
@@ -597,50 +597,17 @@ function CartOverlay({
                   return (
                     <div
                       key={item.id}
-                      className="flex items-center gap-4 p-4 rounded-2xl bg-secondary/40"
+                      className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-secondary/40"
                     >
-                      <div className="flex shrink-0 -space-x-2">
-                        {t && (
-                          <img
-                            src={t.img}
-                            alt=""
-                            className="w-14 h-14 object-contain"
-                          />
-                        )}
-                        {b && (
-                          <img
-                            src={b.img}
-                            alt=""
-                            className="w-14 h-14 object-contain"
-                          />
-                        )}
-                      </div>
-                      <div className="flex-1 text-sm font-light space-y-1">
-                        <div className="flex items-center gap-3">
-                          <span className="text-muted-foreground text-xs">Côté A</span>
-                          <span
-                            className="w-4 h-4 rounded-full border border-border"
-                            style={{ backgroundColor: a?.color }}
-                          />
-                          <span className="text-muted-foreground text-xs">Côté B</span>
-                          <span
-                            className="w-4 h-4 rounded-full border border-border"
-                            style={{ backgroundColor: bc?.color }}
-                          />
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          Haut {item.sizeTop} · Bas {item.sizeBottom}
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-end gap-1">
-                        <span className="text-sm font-light">{item.price}€</span>
-                        <button
-                          onClick={() => onRemove(item.id)}
-                          className="text-xs text-muted-foreground hover:text-foreground underline"
-                        >
-                          Retirer
-                        </button>
-                      </div>
+                      <p className="flex-1 text-sm font-light">
+                        {t?.label} ({item.sizeTop}) + {b?.label} ({item.sizeBottom}) — {a?.name} / {bc?.name} — {item.price}€
+                      </p>
+                      <button
+                        onClick={() => onRemove(item.id)}
+                        className="shrink-0 text-xs text-muted-foreground hover:text-foreground underline"
+                      >
+                        Retirer
+                      </button>
                     </div>
                   );
                 })}
