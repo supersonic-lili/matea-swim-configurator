@@ -62,7 +62,16 @@ Deno.serve(async (req) => {
       payment_method_types: ["card"],
       customer_email: email,
       line_items,
-      shipping_address_collection: { allowed_countries: ["FR", "BE", "CH", "LU", "MC", "ES", "IT", "DE", "GB"] },
+      shipping_address_collection: { allowed_countries: ["FR"] },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: { amount: 600, currency: "eur" },
+            display_name: "Livraison France Standard",
+          },
+        },
+      ],
       success_url: `${origin}/?payment=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/?payment=cancel`,
       metadata: {
