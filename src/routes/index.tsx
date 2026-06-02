@@ -130,7 +130,7 @@ function Editorial() {
           {photos.map((p, i) => (
             <img
               key={i}
-              src={p.url}
+              src={assetUrl(p)}
               alt={`MATEA ${i + 1}`}
               loading="lazy"
               className="w-full aspect-square object-cover"
