@@ -119,7 +119,9 @@ function Hero({ onOpen }: { onOpen: () => void }) {
 }
 
 function Editorial() {
-  const photos = [editorial1, editorial2, editorial3, editorial4];
+  // Grid order: top-left, top-right, bottom-left, bottom-right.
+  // Swap top-right (was editorial2) with bottom-right (was editorial4).
+  const photos = [editorial1, editorial4, editorial3, editorial2];
   return (
     <section className="py-16 sm:py-24 bg-background">
       <div className="w-full">
@@ -227,7 +229,7 @@ function FabricPicker({
   disabled?: string | null;
 }) {
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
       {FABRICS.map((f) => {
         const selected = value === f.id;
         const isDisabled = disabled === f.id;
@@ -235,7 +237,7 @@ function FabricPicker({
           <button
             key={f.id}
             onClick={() => !isDisabled && onChange(f.id)}
-            className={`flex flex-col items-center gap-1 p-1.5 rounded-lg border-2 transition-all ${
+            className={`flex flex-col items-center gap-1 p-1.5 rounded-lg border-2 transition-all md:max-w-[80px] mx-auto w-full ${
               selected ? "border-foreground" : "border-transparent hover:border-border"
             } ${isDisabled ? "opacity-30 cursor-not-allowed" : ""}`}
           >
@@ -251,6 +253,50 @@ function FabricPicker({
           </button>
         );
       })}
+    </div>
+  );
+}
+
+function SwimsuitPreview({
+  topImg,
+  bottomImg,
+  fabAImg,
+  fabBImg,
+}: {
+  topImg?: string;
+  bottomImg?: string;
+  fabAImg?: string;
+  fabBImg?: string;
+}) {
+  const Piece = ({ src, label }: { src?: string; label: string }) => (
+    <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-border bg-secondary/30">
+      <div className="absolute inset-0 flex">
+        <div
+          className="w-1/2 h-full bg-cover bg-center"
+          style={fabAImg ? { backgroundImage: `url(${fabAImg})` } : undefined}
+        />
+        <div
+          className="w-1/2 h-full bg-cover bg-center"
+          style={fabBImg ? { backgroundImage: `url(${fabBImg})` } : undefined}
+        />
+      </div>
+      {src && (
+        <img
+          src={src}
+          alt={label}
+          className="relative w-full h-full object-contain mix-blend-multiply opacity-80"
+        />
+      )}
+    </div>
+  );
+  return (
+    <div className="mx-auto w-40 sm:w-48 space-y-2">
+      <Piece src={topImg} label="Haut" />
+      <Piece src={bottomImg} label="Bas" />
+      <div className="flex items-center justify-between text-[10px] font-light text-muted-foreground uppercase tracking-wide px-1">
+        <span>Côté A</span>
+        <span>Côté B</span>
+      </div>
     </div>
   );
 }
@@ -376,12 +422,13 @@ function ConfiguratorOverlay({
   };
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-background flex flex-col"
-      style={{ height: "100dvh" }}
-    >
+    <div className="fixed inset-0 z-50 bg-black/40 md:flex md:items-center md:justify-center md:p-4">
+      <div
+        className="fixed inset-0 md:static md:inset-auto bg-background flex flex-col md:rounded-2xl md:shadow-2xl md:w-full md:max-w-[600px] md:max-h-[90vh]"
+        style={{ height: "100dvh" }}
+      >
       {/* Fixed header */}
-      <header className="flex-shrink-0 px-4 pt-4 pb-3 border-b border-border bg-background">
+      <header className="flex-shrink-0 px-4 pt-4 pb-3 border-b border-border bg-background md:rounded-t-2xl">
         <div className="flex items-center justify-between gap-3 mb-3">
           <span className="text-xs font-light text-muted-foreground">
             Étape {step} / 3
@@ -453,21 +500,29 @@ function ConfiguratorOverlay({
         )}
 
         {step === 3 && (
-          <OrderRecap
-            selectedTop={selectedTop}
-            selectedBottom={selectedBottom}
-            sizeTop={sizeTop}
-            sizeBottom={sizeBottom}
-            fabA={fabA}
-            fabB={fabB}
-            total={PRICE + SHIPPING}
-          />
+          <div className="space-y-4">
+            <SwimsuitPreview
+              topImg={selectedTop?.img}
+              bottomImg={selectedBottom?.img}
+              fabAImg={fabA?.img}
+              fabBImg={fabB?.img}
+            />
+            <OrderRecap
+              selectedTop={selectedTop}
+              selectedBottom={selectedBottom}
+              sizeTop={sizeTop}
+              sizeBottom={sizeBottom}
+              fabA={fabA}
+              fabB={fabB}
+              total={PRICE + SHIPPING}
+            />
+          </div>
         )}
       </div>
 
       {/* Fixed footer */}
       <footer
-        className="flex-shrink-0 flex items-center justify-between gap-3 px-4 py-3 border-t border-border bg-background"
+        className="flex-shrink-0 flex items-center justify-between gap-3 px-4 py-3 border-t border-border bg-background md:rounded-b-2xl"
         style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}
       >
         <button
@@ -490,10 +545,11 @@ function ConfiguratorOverlay({
             onClick={handleAddToCart}
             className="min-h-[44px] inline-flex items-center justify-center rounded-full bg-foreground px-6 text-sm font-light text-background transition-transform hover:scale-[1.02]"
           >
-            Commander
+            Ajouter au panier
           </button>
         )}
       </footer>
+      </div>
     </div>
   );
 }
