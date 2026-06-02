@@ -8,21 +8,40 @@ import heroBg from "@/assets/hero-background.jpg";
 import triangleTop from "@/assets/sketch-triangle-top.png";
 import tangaBottom from "@/assets/sketch-tanga.png";
 import culotteBottom from "@/assets/sketch-culotte.png";
-import editorialMain from "@/assets/editorial-main.jpg";
-import editorialSecondary1 from "@/assets/editorial-secondary-1.jpg";
-import editorialSecondary2 from "@/assets/editorial-secondary-2.jpg";
+
+import fabNoir from "@/assets/fabrics/noir.jpg.asset.json";
+import fabBleu from "@/assets/fabrics/bleu.jpg.asset.json";
+import fabBleuRaye from "@/assets/fabrics/bleu-raye.jpg.asset.json";
+import fabCorail from "@/assets/fabrics/corail.jpg.asset.json";
+import fabGalactic from "@/assets/fabrics/galactic.jpg.asset.json";
+import fabJaune from "@/assets/fabrics/jaune.jpg.asset.json";
+import fabMarron from "@/assets/fabrics/marron-satine.jpg.asset.json";
+import fabRouge from "@/assets/fabrics/rouge-satine.jpg.asset.json";
+import fabShego from "@/assets/fabrics/shego.jpg.asset.json";
+import fabVert from "@/assets/fabrics/vert.jpg.asset.json";
+import fabAbeille from "@/assets/fabrics/abeille.jpg.asset.json";
+
+import editorial1 from "@/assets/editorial/editorial-1.jpg.asset.json";
+import editorial2 from "@/assets/editorial/editorial-2.jpg.asset.json";
+import editorial3 from "@/assets/editorial/editorial-3.jpg.asset.json";
+import editorial4 from "@/assets/editorial/editorial-4.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
 const FABRICS = [
-  { id: "yuzu", name: "Yuzu Yellow", color: "#F5C518" },
-  { id: "brazil", name: "Brazil Green", color: "#2E8B57" },
-  { id: "chili", name: "Chili Red", color: "#C0392B" },
-  { id: "tutti", name: "Tutti Frutti", color: "#FF6F91" },
-  { id: "ocean", name: "Ocean Blue", color: "#1A6E9E" },
-  { id: "fire", name: "Fire Orange", color: "#E8610A" },
+  { id: "noir", name: "Noir", img: fabNoir.url },
+  { id: "bleu", name: "Bleu", img: fabBleu.url },
+  { id: "bleu-raye", name: "Bleu Rayé", img: fabBleuRaye.url },
+  { id: "corail", name: "Corail", img: fabCorail.url },
+  { id: "galactic", name: "Galactic", img: fabGalactic.url },
+  { id: "jaune", name: "Jaune", img: fabJaune.url },
+  { id: "marron-satine", name: "Marron Satiné", img: fabMarron.url },
+  { id: "rouge-satine", name: "Rouge Satiné", img: fabRouge.url },
+  { id: "shego", name: "Shego", img: fabShego.url },
+  { id: "vert", name: "Vert", img: fabVert.url },
+  { id: "abeille", name: "Abeille", img: fabAbeille.url },
 ];
 
 const TOPS = [
@@ -34,8 +53,8 @@ const BOTTOMS = [
 ];
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
-
 const PRICE = 85;
+const SHIPPING = 6;
 
 type CartItem = {
   id: string;
@@ -97,37 +116,25 @@ function Hero({ onOpen }: { onOpen: () => void }) {
 }
 
 function Editorial() {
+  const photos = [editorial1, editorial2, editorial3, editorial4];
   return (
-    <section className="py-24 sm:py-40 bg-background">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
-          <div className="md:row-span-2">
+    <section className="py-16 sm:py-24 bg-background">
+      <div className="w-full">
+        <div className="grid grid-cols-2 gap-0.5">
+          {photos.map((p, i) => (
             <img
-              src={editorialMain}
-              alt="Maillot MATEA"
+              key={i}
+              src={p.url}
+              alt={`MATEA ${i + 1}`}
               loading="lazy"
-              className="w-full h-full object-cover aspect-[3/4] rounded-sm"
+              className="w-full aspect-square object-cover"
             />
-          </div>
-          <div className="flex flex-col gap-6 sm:gap-10">
-            <img
-              src={editorialSecondary1}
-              alt="Détail tissu MATEA"
-              loading="lazy"
-              className="w-full object-cover aspect-[4/3] rounded-sm"
-            />
-            <img
-              src={editorialSecondary2}
-              alt="MATEA à Marseille"
-              loading="lazy"
-              className="w-full object-cover aspect-[4/3] rounded-sm"
-            />
-          </div>
+          ))}
         </div>
-        <p className="font-light italic text-center text-xl sm:text-2xl text-foreground/80 mt-16 sm:mt-24 max-w-2xl mx-auto">
+        <p className="font-light italic text-center text-lg sm:text-xl text-foreground/80 mt-12 sm:mt-16 max-w-2xl mx-auto px-6">
           Chaque maillot est unique, cousu à la main à Marseille.
         </p>
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-6">
           <a
             href="https://www.instagram.com/matea.swimwear/"
             target="_blank"
@@ -145,7 +152,7 @@ function Editorial() {
 
 function ProgressBar({ step }: { step: number }) {
   return (
-    <div className="flex items-center gap-2 mb-10">
+    <div className="flex items-center gap-2 mb-6">
       {[1, 2, 3, 4, 5].map((n) => (
         <div key={n} className="flex-1 flex items-center gap-2">
           <div
@@ -155,8 +162,8 @@ function ProgressBar({ step }: { step: number }) {
           />
         </div>
       ))}
-      <span className="ml-4 text-xs font-light text-muted-foreground whitespace-nowrap">
-        Étape {step} / 5
+      <span className="ml-3 text-xs font-light text-muted-foreground whitespace-nowrap">
+        {step} / 5
       </span>
     </div>
   );
@@ -174,7 +181,7 @@ function StepNav({
   nextLabel?: string;
 }) {
   return (
-    <div className="flex items-center justify-between mt-10 pt-6 border-t border-border">
+    <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
       <button
         onClick={() => setStep(step - 1)}
         disabled={step === 1}
@@ -186,7 +193,7 @@ function StepNav({
         <button
           onClick={() => setStep(step + 1)}
           disabled={!canNext}
-          className="inline-flex items-center justify-center rounded-full bg-foreground px-7 py-3 text-sm font-light text-background disabled:opacity-30 transition-transform hover:scale-105"
+          className="inline-flex items-center justify-center rounded-full bg-foreground px-6 py-2.5 text-sm font-light text-background disabled:opacity-30 transition-transform hover:scale-105"
         >
           {nextLabel} →
         </button>
@@ -205,24 +212,24 @@ function ShapePicker({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="grid grid-cols-2 gap-4 sm:gap-8">
+    <div className="grid grid-cols-2 gap-3 sm:gap-4">
       {options.map((o) => {
         const selected = value === o.id;
         return (
           <button
             key={o.id}
             onClick={() => onChange(o.id)}
-            className={`group relative rounded-2xl border-2 p-4 sm:p-8 transition-all bg-secondary/30 ${
+            className={`group relative rounded-xl border-2 p-3 sm:p-5 transition-all bg-secondary/30 ${
               selected ? "border-foreground" : "border-transparent hover:border-border"
             }`}
           >
             <img
               src={o.img}
               alt={o.label}
-              className="w-full h-48 sm:h-64 object-contain"
+              className="w-full h-36 sm:h-48 object-contain"
               loading="lazy"
             />
-            <p className="mt-4 text-sm font-light">{o.label}</p>
+            <p className="mt-2 text-sm font-light">{o.label}</p>
           </button>
         );
       })}
@@ -241,7 +248,7 @@ function SizeRow({
 }) {
   return (
     <div>
-      <p className="text-sm font-light text-muted-foreground mb-3">{label}</p>
+      <p className="text-sm font-light text-muted-foreground mb-2">{label}</p>
       <div className="flex flex-wrap gap-2">
         {SIZES.map((s) => {
           const selected = value === s;
@@ -249,7 +256,7 @@ function SizeRow({
             <button
               key={s}
               onClick={() => onChange(s)}
-              className={`px-5 py-2.5 rounded-full text-sm font-light border transition-all ${
+              className={`px-4 py-2 rounded-full text-sm font-light border transition-all ${
                 selected
                   ? "bg-foreground text-background border-foreground"
                   : "bg-background text-foreground border-border hover:border-foreground"
@@ -277,8 +284,8 @@ function FabricPicker({
 }) {
   return (
     <div>
-      <p className="text-sm font-light text-muted-foreground mb-3">{label}</p>
-      <div className="grid grid-cols-3 gap-3">
+      <p className="text-sm font-light text-muted-foreground mb-2">{label}</p>
+      <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
         {FABRICS.map((f) => {
           const selected = value === f.id;
           const isDisabled = disabled === f.id;
@@ -286,15 +293,17 @@ function FabricPicker({
             <button
               key={f.id}
               onClick={() => !isDisabled && onChange(f.id)}
-              className={`flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all ${
+              className={`flex flex-col items-center gap-1 p-1.5 rounded-lg border-2 transition-all ${
                 selected ? "border-foreground" : "border-transparent hover:border-border"
               } ${isDisabled ? "opacity-30 cursor-not-allowed" : ""}`}
             >
-              <span
-                className="w-12 h-12 rounded-full"
-                style={{ backgroundColor: f.color }}
+              <img
+                src={f.img}
+                alt={f.name}
+                loading="lazy"
+                className="w-full aspect-square object-cover rounded-md"
               />
-              <span className="text-[11px] font-light text-center leading-tight">
+              <span className="text-[10px] sm:text-[11px] font-light text-center leading-tight">
                 {f.name}
               </span>
             </button>
@@ -305,49 +314,49 @@ function FabricPicker({
   );
 }
 
-function ReversiblePreview({
-  topImg,
-  bottomImg,
-  colorA,
-  colorB,
+function OrderRecap({
+  selectedTop,
+  selectedBottom,
+  sizeTop,
+  sizeBottom,
+  fabA,
+  fabB,
+  total,
 }: {
-  topImg?: string;
-  bottomImg?: string;
-  colorA?: string;
-  colorB?: string;
+  selectedTop?: { label: string };
+  selectedBottom?: { label: string };
+  sizeTop: string | null;
+  sizeBottom: string | null;
+  fabA?: { name: string; img: string };
+  fabB?: { name: string; img: string };
+  total: number;
 }) {
-  const Shape = ({ img, color }: { img: string; color: string }) => (
-    <div
-      className="w-28 h-28 sm:w-32 sm:h-32 transition-colors"
-      style={{
-        WebkitMaskImage: `url(${img})`,
-        maskImage: `url(${img})`,
-        WebkitMaskSize: "contain",
-        maskSize: "contain",
-        WebkitMaskRepeat: "no-repeat",
-        maskRepeat: "no-repeat",
-        WebkitMaskPosition: "center",
-        maskPosition: "center",
-        backgroundColor: color,
-      }}
-    />
+  const Row = ({ label, value }: { label: string; value: React.ReactNode }) => (
+    <div className="flex items-center justify-between gap-3 text-sm font-light">
+      <span className="text-muted-foreground">{label}</span>
+      <span className="text-right">{value}</span>
+    </div>
   );
-  const Column = ({ label, color }: { label: string; color?: string }) => {
-    const c = color ?? "#e5e5e5";
-    return (
-      <div className="flex flex-col items-center gap-2">
-        <div className="flex flex-col items-center">
-          {topImg && <Shape img={topImg} color={c} />}
-          {bottomImg && <Shape img={bottomImg} color={c} />}
-        </div>
-        <p className="text-xs font-light text-muted-foreground mt-2">{label}</p>
-      </div>
+  const FabricLine = ({ f }: { f?: { name: string; img: string } }) =>
+    f ? (
+      <span className="inline-flex items-center gap-2">
+        <img src={f.img} alt={f.name} className="w-6 h-6 rounded object-cover" />
+        {f.name}
+      </span>
+    ) : (
+      <span>—</span>
     );
-  };
   return (
-    <div className="flex justify-center items-start gap-10 sm:gap-16 py-6 rounded-2xl bg-secondary/40">
-      <Column label="Côté A" color={colorA} />
-      <Column label="Côté B" color={colorB} />
+    <div className="rounded-xl bg-secondary/50 p-4 sm:p-5 space-y-2">
+      <Row label="Haut" value={`${selectedTop?.label ?? "—"}, taille ${sizeTop ?? "—"}`} />
+      <Row label="Bas" value={`${selectedBottom?.label ?? "—"}, taille ${sizeBottom ?? "—"}`} />
+      <Row label="Côté A" value={<FabricLine f={fabA} />} />
+      <Row label="Côté B" value={<FabricLine f={fabB} />} />
+      <Row label="Livraison France Standard" value={`${SHIPPING}€`} />
+      <div className="pt-2 mt-2 border-t border-border flex items-center justify-between text-base font-light">
+        <span>Total</span>
+        <span>{total}€</span>
+      </div>
     </div>
   );
 }
@@ -404,8 +413,8 @@ function ConfiguratorOverlay({
 
   const selectedTop = TOPS.find((t) => t.id === top);
   const selectedBottom = BOTTOMS.find((b) => b.id === bottom);
-  const colorA = FABRICS.find((f) => f.id === fabricA)?.color;
-  const colorB = FABRICS.find((f) => f.id === fabricB)?.color;
+  const fabA = FABRICS.find((f) => f.id === fabricA);
+  const fabB = FABRICS.find((f) => f.id === fabricB);
 
   const titles: Record<number, string> = {
     1: "Choisis ton haut",
@@ -431,37 +440,31 @@ function ConfiguratorOverlay({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm overflow-y-auto">
-      <div className="min-h-full w-full flex items-start sm:items-center justify-center p-4 sm:p-8">
-        <div className="relative w-full max-w-3xl bg-background rounded-3xl shadow-2xl p-6 sm:p-12 my-8">
+      <div className="min-h-full w-full flex items-start sm:items-center justify-center p-2 sm:p-6">
+        <div className="relative w-full max-w-3xl bg-background rounded-2xl shadow-2xl p-4 sm:p-8 my-4">
           <button
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 rounded-full bg-secondary hover:bg-foreground hover:text-background flex items-center justify-center transition-colors z-10"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 rounded-full bg-secondary hover:bg-foreground hover:text-background flex items-center justify-center transition-colors z-10"
           >
             <X className="w-5 h-5" />
           </button>
 
           <ProgressBar step={step} />
-          <h3 className="text-2xl sm:text-3xl font-light mb-8 pr-12">{titles[step]}</h3>
+          <h3 className="text-xl sm:text-2xl font-light mb-5 pr-10">{titles[step]}</h3>
 
           {step === 1 && <ShapePicker options={TOPS} value={top} onChange={setTop} />}
           {step === 2 && (
             <ShapePicker options={BOTTOMS} value={bottom} onChange={setBottom} />
           )}
           {step === 3 && (
-            <div className="space-y-8">
+            <div className="space-y-5">
               <SizeRow label="Haut" value={sizeTop} onChange={setSizeTop} />
               <SizeRow label="Bas" value={sizeBottom} onChange={setSizeBottom} />
             </div>
           )}
           {step === 4 && (
-            <div className="space-y-8">
-              <ReversiblePreview
-                topImg={selectedTop?.img}
-                bottomImg={selectedBottom?.img}
-                colorA={colorA}
-                colorB={colorB}
-              />
+            <div className="space-y-5">
               <FabricPicker
                 label="Côté A"
                 value={fabricA}
@@ -480,43 +483,28 @@ function ConfiguratorOverlay({
             </div>
           )}
           {step === 5 && (
-            <div className="space-y-8">
-              <div className="rounded-2xl bg-secondary/50 p-6 sm:p-8">
-                <div className="space-y-3 text-sm sm:text-base font-light">
-                  <p>
-                    <span className="text-muted-foreground">Haut : </span>
-                    {selectedTop?.label ?? "—"}, taille {sizeTop ?? "—"}
-                  </p>
-                  <p>
-                    <span className="text-muted-foreground">Bas : </span>
-                    {selectedBottom?.label ?? "—"}, taille {sizeBottom ?? "—"}
-                  </p>
-                  <p>
-                    <span className="text-muted-foreground">Tissu côté A : </span>
-                    {FABRICS.find((f) => f.id === fabricA)?.name ?? "—"}
-                  </p>
-                  <p>
-                    <span className="text-muted-foreground">Tissu côté B : </span>
-                    {FABRICS.find((f) => f.id === fabricB)?.name ?? "—"}
-                  </p>
-                  <p className="pt-3 border-t border-border">
-                    <span className="text-muted-foreground">Prix : </span>
-                    {PRICE}€
-                  </p>
-                </div>
-              </div>
+            <div className="space-y-5">
+              <OrderRecap
+                selectedTop={selectedTop}
+                selectedBottom={selectedBottom}
+                sizeTop={sizeTop}
+                sizeBottom={sizeBottom}
+                fabA={fabA}
+                fabB={fabB}
+                total={PRICE + SHIPPING}
+              />
               <button
                 onClick={handleAddToCart}
-                className="block w-full text-center rounded-full bg-foreground px-8 py-5 text-base font-light text-background transition-transform hover:scale-[1.02]"
+                className="block w-full text-center rounded-full bg-foreground px-8 py-4 text-base font-light text-background transition-transform hover:scale-[1.02]"
               >
-                Add to cart
+                Ajouter au panier
               </button>
             </div>
           )}
 
           {step < 5 && <StepNav step={step} setStep={setStep} canNext={canNext} />}
           {step === 5 && (
-            <div className="flex items-center justify-between mt-10 pt-6 border-t border-border">
+            <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
               <button
                 onClick={() => setStep(step - 1)}
                 className="text-sm font-light text-foreground hover:underline"
@@ -556,7 +544,9 @@ function CartOverlay({
     };
   }, [onClose]);
 
-  const total = items.reduce((s, i) => s + i.price, 0);
+  const subtotal = items.reduce((s, i) => s + i.price, 0);
+  const shipping = items.length > 0 ? SHIPPING : 0;
+  const total = subtotal + shipping;
 
   const handleClick = () => {
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -570,17 +560,17 @@ function CartOverlay({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm overflow-y-auto">
-      <div className="min-h-full w-full flex items-start sm:items-center justify-center p-4 sm:p-8">
-        <div className="relative w-full max-w-2xl bg-background rounded-3xl shadow-2xl p-6 sm:p-10 my-8">
+      <div className="min-h-full w-full flex items-start sm:items-center justify-center p-2 sm:p-6">
+        <div className="relative w-full max-w-2xl bg-background rounded-2xl shadow-2xl p-4 sm:p-8 my-4">
           <button
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 rounded-full bg-secondary hover:bg-foreground hover:text-background flex items-center justify-center transition-colors z-10"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 rounded-full bg-secondary hover:bg-foreground hover:text-background flex items-center justify-center transition-colors z-10"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <h3 className="text-2xl sm:text-3xl font-light mb-8">Panier</h3>
+          <h3 className="text-xl sm:text-2xl font-light mb-5">Panier</h3>
 
           {items.length === 0 ? (
             <p className="text-center text-muted-foreground font-light py-12">
@@ -597,28 +587,63 @@ function CartOverlay({
                   return (
                     <div
                       key={item.id}
-                      className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-secondary/40"
+                      className="relative p-4 rounded-xl bg-secondary/40"
                     >
-                      <p className="flex-1 text-sm font-light">
-                        {t?.label} ({item.sizeTop}) + {b?.label} ({item.sizeBottom}) — {a?.name} / {bc?.name} — {item.price}€
-                      </p>
                       <button
                         onClick={() => onRemove(item.id)}
-                        className="shrink-0 text-xs text-muted-foreground hover:text-foreground underline"
+                        className="absolute top-3 right-3 text-xs text-muted-foreground hover:text-foreground underline"
                       >
                         Retirer
                       </button>
+                      <div className="space-y-1.5 text-sm font-light pr-16">
+                        <div className="flex justify-between gap-3">
+                          <span className="text-muted-foreground">Haut</span>
+                          <span>{t?.label}, taille {item.sizeTop}</span>
+                        </div>
+                        <div className="flex justify-between gap-3">
+                          <span className="text-muted-foreground">Bas</span>
+                          <span>{b?.label}, taille {item.sizeBottom}</span>
+                        </div>
+                        <div className="flex justify-between gap-3 items-center">
+                          <span className="text-muted-foreground">Côté A</span>
+                          <span className="inline-flex items-center gap-2">
+                            {a && <img src={a.img} alt={a.name} className="w-5 h-5 rounded object-cover" />}
+                            {a?.name ?? "—"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between gap-3 items-center">
+                          <span className="text-muted-foreground">Côté B</span>
+                          <span className="inline-flex items-center gap-2">
+                            {bc && <img src={bc.img} alt={bc.name} className="w-5 h-5 rounded object-cover" />}
+                            {bc?.name ?? "—"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between gap-3 pt-1.5 border-t border-border">
+                          <span className="text-muted-foreground">Prix</span>
+                          <span>{item.price}€</span>
+                        </div>
+                      </div>
                     </div>
                   );
                 })}
               </div>
 
-              <div className="flex justify-between items-center mt-8 pt-6 border-t border-border">
-                <span className="text-base font-light">Total</span>
-                <span className="text-lg font-light">{total}€</span>
+              <div className="mt-5 pt-4 border-t border-border space-y-1.5 text-sm font-light">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Sous-total</span>
+                  <span>{subtotal}€</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Livraison France Standard</span>
+                  <span>{shipping}€</span>
+                </div>
+                <div className="flex justify-between text-base pt-2 border-t border-border">
+                  <span>Total</span>
+                  <span>{total}€</span>
+                </div>
               </div>
 
-              <div className="mt-6">
+              <div className="mt-5">
                 <label className="block text-xs font-light text-muted-foreground mb-2">
                   Email pour la confirmation
                 </label>
@@ -641,7 +666,7 @@ function CartOverlay({
 
               <button
                 onClick={handleClick}
-                className="block w-full text-center rounded-full bg-foreground px-8 py-5 mt-6 text-base font-light text-background transition-transform hover:scale-[1.02]"
+                className="block w-full text-center rounded-full bg-foreground px-8 py-4 mt-5 text-base font-light text-background transition-transform hover:scale-[1.02]"
               >
                 Commander
               </button>
