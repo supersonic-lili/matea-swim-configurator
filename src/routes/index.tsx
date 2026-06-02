@@ -422,12 +422,13 @@ function ConfiguratorOverlay({
   };
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-background flex flex-col"
-      style={{ height: "100dvh" }}
-    >
+    <div className="fixed inset-0 z-50 bg-black/40 md:flex md:items-center md:justify-center md:p-4">
+      <div
+        className="fixed inset-0 md:static md:inset-auto bg-background flex flex-col md:rounded-2xl md:shadow-2xl md:w-full md:max-w-[600px] md:max-h-[90vh]"
+        style={{ height: "100dvh" }}
+      >
       {/* Fixed header */}
-      <header className="flex-shrink-0 px-4 pt-4 pb-3 border-b border-border bg-background">
+      <header className="flex-shrink-0 px-4 pt-4 pb-3 border-b border-border bg-background md:rounded-t-2xl">
         <div className="flex items-center justify-between gap-3 mb-3">
           <span className="text-xs font-light text-muted-foreground">
             Étape {step} / 3
@@ -499,21 +500,29 @@ function ConfiguratorOverlay({
         )}
 
         {step === 3 && (
-          <OrderRecap
-            selectedTop={selectedTop}
-            selectedBottom={selectedBottom}
-            sizeTop={sizeTop}
-            sizeBottom={sizeBottom}
-            fabA={fabA}
-            fabB={fabB}
-            total={PRICE + SHIPPING}
-          />
+          <div className="space-y-4">
+            <SwimsuitPreview
+              topImg={selectedTop?.img}
+              bottomImg={selectedBottom?.img}
+              fabAImg={fabA?.img}
+              fabBImg={fabB?.img}
+            />
+            <OrderRecap
+              selectedTop={selectedTop}
+              selectedBottom={selectedBottom}
+              sizeTop={sizeTop}
+              sizeBottom={sizeBottom}
+              fabA={fabA}
+              fabB={fabB}
+              total={PRICE + SHIPPING}
+            />
+          </div>
         )}
       </div>
 
       {/* Fixed footer */}
       <footer
-        className="flex-shrink-0 flex items-center justify-between gap-3 px-4 py-3 border-t border-border bg-background"
+        className="flex-shrink-0 flex items-center justify-between gap-3 px-4 py-3 border-t border-border bg-background md:rounded-b-2xl"
         style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}
       >
         <button
@@ -536,10 +545,11 @@ function ConfiguratorOverlay({
             onClick={handleAddToCart}
             className="min-h-[44px] inline-flex items-center justify-center rounded-full bg-foreground px-6 text-sm font-light text-background transition-transform hover:scale-[1.02]"
           >
-            Commander
+            Ajouter au panier
           </button>
         )}
       </footer>
+      </div>
     </div>
   );
 }
