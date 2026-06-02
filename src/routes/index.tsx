@@ -172,17 +172,17 @@ function ShapePicker({
           <button
             key={o.id}
             onClick={() => onChange(o.id)}
-            className={`group relative rounded-xl border-2 p-3 transition-all bg-secondary/30 min-h-[44px] ${
+            className={`group relative rounded-lg border-2 p-2 transition-all bg-secondary/30 min-h-[44px] ${
               selected ? "border-foreground" : "border-transparent hover:border-border"
             }`}
           >
             <img
               src={o.img}
               alt={o.label}
-              className="w-full h-28 sm:h-36 object-contain"
+              className="w-full h-20 sm:h-32 object-contain"
               loading="lazy"
             />
-            <p className="mt-1 text-sm font-light">{o.label}</p>
+            <p className="mt-0.5 text-sm font-light">{o.label}</p>
           </button>
         );
       })}
@@ -229,7 +229,7 @@ function FabricPicker({
   disabled?: string | null;
 }) {
   return (
-    <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+    <div className="grid grid-cols-4 md:grid-cols-6 gap-1.5">
       {FABRICS.map((f) => {
         const selected = value === f.id;
         const isDisabled = disabled === f.id;
@@ -237,7 +237,7 @@ function FabricPicker({
           <button
             key={f.id}
             onClick={() => !isDisabled && onChange(f.id)}
-            className={`flex flex-col items-center gap-1 p-1.5 rounded-lg border-2 transition-all md:max-w-[80px] mx-auto w-full ${
+            className={`flex flex-col items-center gap-0.5 p-1 rounded-md border-2 transition-all md:max-w-[80px] mx-auto w-full ${
               selected ? "border-foreground" : "border-transparent hover:border-border"
             } ${isDisabled ? "opacity-30 cursor-not-allowed" : ""}`}
           >
@@ -245,9 +245,9 @@ function FabricPicker({
               src={f.img}
               alt={f.name}
               loading="lazy"
-              className="w-full aspect-square object-cover rounded-md"
+              className="w-full aspect-square object-cover rounded"
             />
-            <span className="text-[11px] font-light text-center leading-tight">
+            <span className="text-[10px] font-light text-center leading-tight">
               {f.name}
             </span>
           </button>
@@ -268,35 +268,37 @@ function SwimsuitPreview({
   fabAImg?: string;
   fabBImg?: string;
 }) {
-  const Piece = ({ src, label }: { src?: string; label: string }) => (
-    <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-border bg-secondary/30">
-      <div className="absolute inset-0 flex">
+  const Side = ({ fab, label }: { fab?: string; label: string }) => (
+    <div className="flex-1 flex flex-col items-center gap-1.5">
+      <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden border border-border bg-secondary/30">
         <div
-          className="w-1/2 h-full bg-cover bg-center"
-          style={fabAImg ? { backgroundImage: `url(${fabAImg})` } : undefined}
+          className="absolute inset-0 bg-cover bg-center"
+          style={fab ? { backgroundImage: `url(${fab})` } : undefined}
         />
-        <div
-          className="w-1/2 h-full bg-cover bg-center"
-          style={fabBImg ? { backgroundImage: `url(${fabBImg})` } : undefined}
-        />
+        {topImg && (
+          <img
+            src={topImg}
+            alt=""
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[85%] h-1/2 object-contain mix-blend-multiply opacity-90"
+          />
+        )}
+        {bottomImg && (
+          <img
+            src={bottomImg}
+            alt=""
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[75%] h-1/2 object-contain mix-blend-multiply opacity-90"
+          />
+        )}
       </div>
-      {src && (
-        <img
-          src={src}
-          alt={label}
-          className="relative w-full h-full object-contain mix-blend-multiply opacity-80"
-        />
-      )}
+      <span className="text-[11px] font-light text-muted-foreground uppercase tracking-wide">
+        {label}
+      </span>
     </div>
   );
   return (
-    <div className="mx-auto w-40 sm:w-48 space-y-2">
-      <Piece src={topImg} label="Haut" />
-      <Piece src={bottomImg} label="Bas" />
-      <div className="flex items-center justify-between text-[10px] font-light text-muted-foreground uppercase tracking-wide px-1">
-        <span>Côté A</span>
-        <span>Côté B</span>
-      </div>
+    <div className="flex gap-3 mx-auto max-w-sm">
+      <Side fab={fabAImg} label="Côté A" />
+      <Side fab={fabBImg} label="Côté B" />
     </div>
   );
 }
@@ -424,19 +426,19 @@ function ConfiguratorOverlay({
   return (
     <div className="fixed inset-0 z-50 bg-black/40 md:flex md:items-center md:justify-center md:p-4">
       <div
-        className="fixed inset-0 md:static md:inset-auto bg-background flex flex-col md:rounded-2xl md:shadow-2xl md:w-full md:max-w-[600px] md:max-h-[90vh]"
+        className="fixed inset-0 md:static md:inset-auto bg-background flex flex-col md:rounded-2xl md:shadow-2xl md:w-full md:max-w-[860px] md:max-h-[90vh]"
         style={{ height: "100dvh" }}
       >
       {/* Fixed header */}
-      <header className="flex-shrink-0 px-4 pt-4 pb-3 border-b border-border bg-background md:rounded-t-2xl">
-        <div className="flex items-center justify-between gap-3 mb-3">
+      <header className="flex-shrink-0 px-3 pt-3 pb-2 md:px-5 md:pt-4 md:pb-3 border-b border-border bg-background md:rounded-t-2xl">
+        <div className="flex items-center justify-between gap-3 mb-2">
           <span className="text-xs font-light text-muted-foreground">
             Étape {step} / 3
           </span>
           <button
             onClick={onClose}
             aria-label="Fermer"
-            className="w-10 h-10 -mr-2 rounded-full hover:bg-secondary flex items-center justify-center transition-colors"
+            className="w-9 h-9 -mr-1.5 rounded-full hover:bg-secondary flex items-center justify-center transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -451,28 +453,28 @@ function ConfiguratorOverlay({
             />
           ))}
         </div>
-        <h3 className="mt-3 text-lg font-light">{STEP_TITLES[step]}</h3>
+        <h3 className="mt-2 text-base md:text-lg font-light">{STEP_TITLES[step]}</h3>
       </header>
 
       {/* Scrollable middle */}
-      <div className="flex-1 overflow-y-auto px-4 py-4">
+      <div className="flex-1 overflow-y-auto px-3 py-3 md:px-5 md:py-4">
         {step === 1 && (
-          <div className="space-y-5 pb-2">
+          <div className="space-y-3 md:space-y-5 pb-1">
             <div>
-              <p className="text-xs font-light text-muted-foreground mb-2 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
                 Haut
               </p>
               <ShapePicker options={TOPS} value={top} onChange={setTop} />
-              <div className="mt-3">
+              <div className="mt-2">
                 <SizeRow value={sizeTop} onChange={setSizeTop} />
               </div>
             </div>
             <div>
-              <p className="text-xs font-light text-muted-foreground mb-2 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
                 Bas
               </p>
               <ShapePicker options={BOTTOMS} value={bottom} onChange={setBottom} />
-              <div className="mt-3">
+              <div className="mt-2">
                 <SizeRow value={sizeBottom} onChange={setSizeBottom} />
               </div>
             </div>
@@ -480,15 +482,15 @@ function ConfiguratorOverlay({
         )}
 
         {step === 2 && (
-          <div className="space-y-5 pb-2">
+          <div className="space-y-3 md:space-y-5 pb-1">
             <div>
-              <p className="text-xs font-light text-muted-foreground mb-2 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
                 Côté A
               </p>
               <FabricPicker value={fabricA} onChange={setFabricASafe} disabled={fabricB} />
             </div>
             <div>
-              <p className="text-xs font-light text-muted-foreground mb-2 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
                 Côté B
               </p>
               <FabricPicker value={fabricB} onChange={setFabricBSafe} disabled={fabricA} />
@@ -500,7 +502,7 @@ function ConfiguratorOverlay({
         )}
 
         {step === 3 && (
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             <SwimsuitPreview
               topImg={selectedTop?.img}
               bottomImg={selectedBottom?.img}
@@ -519,6 +521,7 @@ function ConfiguratorOverlay({
           </div>
         )}
       </div>
+
 
       {/* Fixed footer */}
       <footer
