@@ -9,45 +9,42 @@ import triangleTop from "@/assets/sketch-triangle-top.png";
 import tangaBottom from "@/assets/sketch-tanga.png";
 import culotteBottom from "@/assets/sketch-culotte.png";
 
-import fabNoir from "@/assets/fabrics/noir.jpg.asset.json";
-import fabBleu from "@/assets/fabrics/bleu.jpg.asset.json";
-import fabBleuRaye from "@/assets/fabrics/bleu-raye.jpg.asset.json";
-import fabCorail from "@/assets/fabrics/corail.jpg.asset.json";
-import fabGalactic from "@/assets/fabrics/galactic.jpg.asset.json";
-import fabJaune from "@/assets/fabrics/jaune.jpg.asset.json";
-import fabMarron from "@/assets/fabrics/marron-satine.jpg.asset.json";
-import fabRouge from "@/assets/fabrics/rouge-satine.jpg.asset.json";
-import fabShego from "@/assets/fabrics/shego.jpg.asset.json";
-import fabVert from "@/assets/fabrics/vert.jpg.asset.json";
-import fabAbeille from "@/assets/fabrics/abeille.jpg.asset.json";
+// Bundled fabric swatches (real binary files; Vite will hash + ship them).
+import fabNoir from "@/assets/fabrics-bundled/noir.jpg";
+import fabBleu from "@/assets/fabrics-bundled/bleu.jpg";
+import fabBleuRaye from "@/assets/fabrics-bundled/bleu-raye.jpg";
+import fabCorail from "@/assets/fabrics-bundled/corail.jpg";
+import fabGalactic from "@/assets/fabrics-bundled/galactic.jpg";
+import fabJaune from "@/assets/fabrics-bundled/jaune.jpg";
+import fabMarron from "@/assets/fabrics-bundled/marron-satine.jpg";
+import fabRouge from "@/assets/fabrics-bundled/rouge-satine.jpg";
+import fabShego from "@/assets/fabrics-bundled/shego.jpg";
+import fabVert from "@/assets/fabrics-bundled/vert.jpg";
+import fabAbeille from "@/assets/fabrics-bundled/abeille.jpg";
 
-import editorial1 from "@/assets/editorial/editorial-1.jpg.asset.json";
-import editorial2 from "@/assets/editorial/editorial-2.jpg.asset.json";
-import editorial3 from "@/assets/editorial/editorial-3.jpg.asset.json";
-import editorial4 from "@/assets/editorial/editorial-4.jpg.asset.json";
+import editorial1 from "@/assets/editorial-bundled/editorial-1.jpg";
+import editorial2 from "@/assets/editorial-bundled/editorial-2.jpg";
+import editorial3 from "@/assets/editorial-bundled/editorial-3.jpg";
+import editorial4 from "@/assets/editorial-bundled/editorial-4.jpg";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// Cache-busting: append a short version derived from the asset's immutable
-// UUID so each new upload produces a fresh URL the browser won't serve from
-// stale cache. Asset IDs change on every re-upload.
-const assetUrl = (a: { url: string; asset_id: string }) =>
-  `${a.url}?v=${a.asset_id.slice(0, 8)}`;
-
+// Order required: Noir, Bleu, Corail, Jaune, Vert, Marron Satiné, Rouge Satiné,
+// Bleu Rayé, Abeille, Shego, Galactic.
 const FABRICS = [
-  { id: "noir", name: "Noir", img: assetUrl(fabNoir) },
-  { id: "bleu", name: "Bleu", img: assetUrl(fabBleu) },
-  { id: "bleu-raye", name: "Bleu Rayé", img: assetUrl(fabBleuRaye) },
-  { id: "corail", name: "Corail", img: assetUrl(fabCorail) },
-  { id: "galactic", name: "Galactic", img: assetUrl(fabGalactic) },
-  { id: "jaune", name: "Jaune", img: assetUrl(fabJaune) },
-  { id: "marron-satine", name: "Marron Satiné", img: assetUrl(fabMarron) },
-  { id: "rouge-satine", name: "Rouge Satiné", img: assetUrl(fabRouge) },
-  { id: "shego", name: "Shego", img: assetUrl(fabShego) },
-  { id: "vert", name: "Vert", img: assetUrl(fabVert) },
-  { id: "abeille", name: "Abeille", img: assetUrl(fabAbeille) },
+  { id: "noir", name: "Noir", img: fabNoir },
+  { id: "bleu", name: "Bleu", img: fabBleu },
+  { id: "corail", name: "Corail", img: fabCorail },
+  { id: "jaune", name: "Jaune", img: fabJaune },
+  { id: "vert", name: "Vert", img: fabVert },
+  { id: "marron-satine", name: "Marron Satiné", img: fabMarron },
+  { id: "rouge-satine", name: "Rouge Satiné", img: fabRouge },
+  { id: "bleu-raye", name: "Bleu Rayé", img: fabBleuRaye },
+  { id: "abeille", name: "Abeille", img: fabAbeille },
+  { id: "shego", name: "Shego", img: fabShego },
+  { id: "galactic", name: "Galactic", img: fabGalactic },
 ];
 
 const TOPS = [
@@ -130,7 +127,7 @@ function Editorial() {
           {photos.map((p, i) => (
             <img
               key={i}
-              src={assetUrl(p)}
+              src={p}
               alt={`MATEA ${i + 1}`}
               loading="lazy"
               className="w-full aspect-square object-cover"
@@ -156,58 +153,6 @@ function Editorial() {
   );
 }
 
-function ProgressBar({ step }: { step: number }) {
-  return (
-    <div className="flex items-center gap-2 mb-6">
-      {[1, 2, 3, 4, 5].map((n) => (
-        <div key={n} className="flex-1 flex items-center gap-2">
-          <div
-            className={`h-1 flex-1 rounded-full transition-colors ${
-              n <= step ? "bg-foreground" : "bg-border"
-            }`}
-          />
-        </div>
-      ))}
-      <span className="ml-3 text-xs font-light text-muted-foreground whitespace-nowrap">
-        {step} / 5
-      </span>
-    </div>
-  );
-}
-
-function StepNav({
-  step,
-  setStep,
-  canNext,
-  nextLabel = "Suivant",
-}: {
-  step: number;
-  setStep: (n: number) => void;
-  canNext: boolean;
-  nextLabel?: string;
-}) {
-  return (
-    <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
-      <button
-        onClick={() => setStep(step - 1)}
-        disabled={step === 1}
-        className="text-sm font-light text-foreground disabled:opacity-30 hover:underline"
-      >
-        ← Retour
-      </button>
-      {step < 5 && (
-        <button
-          onClick={() => setStep(step + 1)}
-          disabled={!canNext}
-          className="inline-flex items-center justify-center rounded-full bg-foreground px-6 py-2.5 text-sm font-light text-background disabled:opacity-30 transition-transform hover:scale-105"
-        >
-          {nextLabel} →
-        </button>
-      )}
-    </div>
-  );
-}
-
 function ShapePicker({
   options,
   value,
@@ -218,24 +163,24 @@ function ShapePicker({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:gap-4">
+    <div className="grid grid-cols-2 gap-3">
       {options.map((o) => {
         const selected = value === o.id;
         return (
           <button
             key={o.id}
             onClick={() => onChange(o.id)}
-            className={`group relative rounded-xl border-2 p-3 sm:p-5 transition-all bg-secondary/30 ${
+            className={`group relative rounded-xl border-2 p-3 transition-all bg-secondary/30 min-h-[44px] ${
               selected ? "border-foreground" : "border-transparent hover:border-border"
             }`}
           >
             <img
               src={o.img}
               alt={o.label}
-              className="w-full h-36 sm:h-48 object-contain"
+              className="w-full h-28 sm:h-36 object-contain"
               loading="lazy"
             />
-            <p className="mt-2 text-sm font-light">{o.label}</p>
+            <p className="mt-1 text-sm font-light">{o.label}</p>
           </button>
         );
       })}
@@ -244,78 +189,68 @@ function ShapePicker({
 }
 
 function SizeRow({
-  label,
   value,
   onChange,
 }: {
-  label: string;
   value: string | null;
   onChange: (v: string) => void;
 }) {
   return (
-    <div>
-      <p className="text-sm font-light text-muted-foreground mb-2">{label}</p>
-      <div className="flex flex-wrap gap-2">
-        {SIZES.map((s) => {
-          const selected = value === s;
-          return (
-            <button
-              key={s}
-              onClick={() => onChange(s)}
-              className={`px-4 py-2 rounded-full text-sm font-light border transition-all ${
-                selected
-                  ? "bg-foreground text-background border-foreground"
-                  : "bg-background text-foreground border-border hover:border-foreground"
-              }`}
-            >
-              {s}
-            </button>
-          );
-        })}
-      </div>
+    <div className="flex flex-wrap gap-2">
+      {SIZES.map((s) => {
+        const selected = value === s;
+        return (
+          <button
+            key={s}
+            onClick={() => onChange(s)}
+            className={`min-w-[44px] min-h-[44px] px-4 rounded-full text-sm font-light border transition-all ${
+              selected
+                ? "bg-foreground text-background border-foreground"
+                : "bg-background text-foreground border-border hover:border-foreground"
+            }`}
+          >
+            {s}
+          </button>
+        );
+      })}
     </div>
   );
 }
 
 function FabricPicker({
-  label,
   value,
   onChange,
   disabled,
 }: {
-  label: string;
   value: string | null;
   onChange: (v: string) => void;
   disabled?: string | null;
 }) {
   return (
-    <div>
-      <p className="text-sm font-light text-muted-foreground mb-2">{label}</p>
-      <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
-        {FABRICS.map((f) => {
-          const selected = value === f.id;
-          const isDisabled = disabled === f.id;
-          return (
-            <button
-              key={f.id}
-              onClick={() => !isDisabled && onChange(f.id)}
-              className={`flex flex-col items-center gap-1 p-1.5 rounded-lg border-2 transition-all ${
-                selected ? "border-foreground" : "border-transparent hover:border-border"
-              } ${isDisabled ? "opacity-30 cursor-not-allowed" : ""}`}
-            >
-              <img
-                src={f.img}
-                alt={f.name}
-                loading="lazy"
-                className="w-full aspect-square object-cover rounded-md"
-              />
-              <span className="text-[10px] sm:text-[11px] font-light text-center leading-tight">
-                {f.name}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+    <div className="grid grid-cols-3 gap-2">
+      {FABRICS.map((f) => {
+        const selected = value === f.id;
+        const isDisabled = disabled === f.id;
+        return (
+          <button
+            key={f.id}
+            onClick={() => !isDisabled && onChange(f.id)}
+            className={`flex flex-col items-center gap-1 p-1.5 rounded-lg border-2 transition-all ${
+              selected ? "border-foreground" : "border-transparent hover:border-border"
+            } ${isDisabled ? "opacity-30 cursor-not-allowed" : ""}`}
+          >
+            <img
+              src={f.img}
+              alt={f.name}
+              loading="lazy"
+              className="w-full aspect-square object-cover rounded-md"
+            />
+            <span className="text-[11px] font-light text-center leading-tight">
+              {f.name}
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -353,7 +288,7 @@ function OrderRecap({
       <span>—</span>
     );
   return (
-    <div className="rounded-xl bg-secondary/50 p-4 sm:p-5 space-y-2">
+    <div className="rounded-xl bg-secondary/50 p-4 space-y-2">
       <Row label="Haut" value={`${selectedTop?.label ?? "—"}, taille ${sizeTop ?? "—"}`} />
       <Row label="Bas" value={`${selectedBottom?.label ?? "—"}, taille ${sizeBottom ?? "—"}`} />
       <Row label="Côté A" value={<FabricLine f={fabA} />} />
@@ -367,6 +302,12 @@ function OrderRecap({
   );
 }
 
+const STEP_TITLES: Record<number, string> = {
+  1: "Ton maillot",
+  2: "Tes tissus",
+  3: "Récapitulatif",
+};
+
 function ConfiguratorOverlay({
   onClose,
   onAddToCart,
@@ -375,7 +316,7 @@ function ConfiguratorOverlay({
   onAddToCart: (item: CartItem) => void;
 }) {
   const [step, setStep] = useState(1);
-  const [top, setTop] = useState<string | null>(null);
+  const [top, setTop] = useState<string | null>(TOPS[0]?.id ?? null);
   const [bottom, setBottom] = useState<string | null>(null);
   const [sizeTop, setSizeTop] = useState<string | null>(null);
   const [sizeBottom, setSizeBottom] = useState<string | null>(null);
@@ -412,23 +353,13 @@ function ConfiguratorOverlay({
   };
 
   const canNext =
-    (step === 1 && !!top) ||
-    (step === 2 && !!bottom) ||
-    (step === 3 && !!sizeTop && !!sizeBottom) ||
-    (step === 4 && !!fabricA && !!fabricB);
+    (step === 1 && !!top && !!bottom && !!sizeTop && !!sizeBottom) ||
+    (step === 2 && !!fabricA && !!fabricB);
 
   const selectedTop = TOPS.find((t) => t.id === top);
   const selectedBottom = BOTTOMS.find((b) => b.id === bottom);
   const fabA = FABRICS.find((f) => f.id === fabricA);
   const fabB = FABRICS.find((f) => f.id === fabricB);
-
-  const titles: Record<number, string> = {
-    1: "Choisis ton haut",
-    2: "Choisis ton bas",
-    3: "Choisis ta taille",
-    4: "Choisis tes tissus",
-    5: "Récapitulatif",
-  };
 
   const handleAddToCart = () => {
     if (!top || !bottom || !sizeTop || !sizeBottom || !fabricA || !fabricB) return;
@@ -445,82 +376,124 @@ function ConfiguratorOverlay({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm overflow-y-auto">
-      <div className="min-h-full w-full flex items-start sm:items-center justify-center p-2 sm:p-6">
-        <div className="relative w-full max-w-3xl bg-background rounded-2xl shadow-2xl p-4 sm:p-8 my-4">
+    <div
+      className="fixed inset-0 z-50 bg-background flex flex-col"
+      style={{ height: "100dvh" }}
+    >
+      {/* Fixed header */}
+      <header className="flex-shrink-0 px-4 pt-4 pb-3 border-b border-border bg-background">
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <span className="text-xs font-light text-muted-foreground">
+            Étape {step} / 3
+          </span>
           <button
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 rounded-full bg-secondary hover:bg-foreground hover:text-background flex items-center justify-center transition-colors z-10"
+            className="w-10 h-10 -mr-2 rounded-full hover:bg-secondary flex items-center justify-center transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
-
-          <ProgressBar step={step} />
-          <h3 className="text-xl sm:text-2xl font-light mb-5 pr-10">{titles[step]}</h3>
-
-          {step === 1 && <ShapePicker options={TOPS} value={top} onChange={setTop} />}
-          {step === 2 && (
-            <ShapePicker options={BOTTOMS} value={bottom} onChange={setBottom} />
-          )}
-          {step === 3 && (
-            <div className="space-y-5">
-              <SizeRow label="Haut" value={sizeTop} onChange={setSizeTop} />
-              <SizeRow label="Bas" value={sizeBottom} onChange={setSizeBottom} />
-            </div>
-          )}
-          {step === 4 && (
-            <div className="space-y-5">
-              <FabricPicker
-                label="Côté A"
-                value={fabricA}
-                onChange={setFabricASafe}
-                disabled={fabricB}
-              />
-              <FabricPicker
-                label="Côté B"
-                value={fabricB}
-                onChange={setFabricBSafe}
-                disabled={fabricA}
-              />
-              {warning && (
-                <p className="text-sm text-destructive font-light">{warning}</p>
-              )}
-            </div>
-          )}
-          {step === 5 && (
-            <div className="space-y-5">
-              <OrderRecap
-                selectedTop={selectedTop}
-                selectedBottom={selectedBottom}
-                sizeTop={sizeTop}
-                sizeBottom={sizeBottom}
-                fabA={fabA}
-                fabB={fabB}
-                total={PRICE + SHIPPING}
-              />
-              <button
-                onClick={handleAddToCart}
-                className="block w-full text-center rounded-full bg-foreground px-8 py-4 text-base font-light text-background transition-transform hover:scale-[1.02]"
-              >
-                Ajouter au panier
-              </button>
-            </div>
-          )}
-
-          {step < 5 && <StepNav step={step} setStep={setStep} canNext={canNext} />}
-          {step === 5 && (
-            <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
-              <button
-                onClick={() => setStep(step - 1)}
-                className="text-sm font-light text-foreground hover:underline"
-              >
-                ← Retour
-              </button>
-            </div>
-          )}
         </div>
+        <div className="flex items-center gap-1.5">
+          {[1, 2, 3].map((n) => (
+            <div
+              key={n}
+              className={`h-1 flex-1 rounded-full transition-colors ${
+                n <= step ? "bg-foreground" : "bg-border"
+              }`}
+            />
+          ))}
+        </div>
+        <h3 className="mt-3 text-lg font-light">{STEP_TITLES[step]}</h3>
+      </header>
+
+      {/* Scrollable middle */}
+      <div className="flex-1 overflow-y-auto px-4 py-4">
+        {step === 1 && (
+          <div className="space-y-5 pb-2">
+            <div>
+              <p className="text-xs font-light text-muted-foreground mb-2 uppercase tracking-wide">
+                Haut
+              </p>
+              <ShapePicker options={TOPS} value={top} onChange={setTop} />
+              <div className="mt-3">
+                <SizeRow value={sizeTop} onChange={setSizeTop} />
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-light text-muted-foreground mb-2 uppercase tracking-wide">
+                Bas
+              </p>
+              <ShapePicker options={BOTTOMS} value={bottom} onChange={setBottom} />
+              <div className="mt-3">
+                <SizeRow value={sizeBottom} onChange={setSizeBottom} />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div className="space-y-5 pb-2">
+            <div>
+              <p className="text-xs font-light text-muted-foreground mb-2 uppercase tracking-wide">
+                Côté A
+              </p>
+              <FabricPicker value={fabricA} onChange={setFabricASafe} disabled={fabricB} />
+            </div>
+            <div>
+              <p className="text-xs font-light text-muted-foreground mb-2 uppercase tracking-wide">
+                Côté B
+              </p>
+              <FabricPicker value={fabricB} onChange={setFabricBSafe} disabled={fabricA} />
+            </div>
+            {warning && (
+              <p className="text-sm text-destructive font-light">{warning}</p>
+            )}
+          </div>
+        )}
+
+        {step === 3 && (
+          <OrderRecap
+            selectedTop={selectedTop}
+            selectedBottom={selectedBottom}
+            sizeTop={sizeTop}
+            sizeBottom={sizeBottom}
+            fabA={fabA}
+            fabB={fabB}
+            total={PRICE + SHIPPING}
+          />
+        )}
       </div>
+
+      {/* Fixed footer */}
+      <footer
+        className="flex-shrink-0 flex items-center justify-between gap-3 px-4 py-3 border-t border-border bg-background"
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}
+      >
+        <button
+          onClick={() => setStep(step - 1)}
+          disabled={step === 1}
+          className="min-h-[44px] px-4 text-sm font-light text-foreground disabled:opacity-30 hover:underline"
+        >
+          ← Retour
+        </button>
+        {step < 3 ? (
+          <button
+            onClick={() => setStep(step + 1)}
+            disabled={!canNext}
+            className="min-h-[44px] inline-flex items-center justify-center rounded-full bg-foreground px-6 text-sm font-light text-background disabled:opacity-30 transition-transform hover:scale-105"
+          >
+            Suivant →
+          </button>
+        ) : (
+          <button
+            onClick={handleAddToCart}
+            className="min-h-[44px] inline-flex items-center justify-center rounded-full bg-foreground px-6 text-sm font-light text-background transition-transform hover:scale-[1.02]"
+          >
+            Commander
+          </button>
+        )}
+      </footer>
     </div>
   );
 }
@@ -719,6 +692,7 @@ function Index() {
   const handleAddToCart = (item: CartItem) => {
     setCart((prev) => [...prev, item]);
     setConfigOpen(false);
+    setCartOpen(true);
   };
 
   const [checkoutLoading, setCheckoutLoading] = useState(false);
