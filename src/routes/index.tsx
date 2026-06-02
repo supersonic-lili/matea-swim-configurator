@@ -179,7 +179,7 @@ function ShapePicker({
           <button
             key={o.id}
             onClick={() => onChange(o.id)}
-            className={`group relative rounded-lg border-2 px-3 pt-3 pb-2 transition-all bg-secondary/30 min-h-[44px] ${
+            className={`group relative rounded-lg border-2 px-3 pt-3 pb-1 transition-all bg-secondary/30 min-h-[44px] ${
               selected ? "border-foreground" : "border-transparent hover:border-border"
             }`}
           >
