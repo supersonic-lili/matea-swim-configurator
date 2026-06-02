@@ -426,19 +426,19 @@ function ConfiguratorOverlay({
   return (
     <div className="fixed inset-0 z-50 bg-black/40 md:flex md:items-center md:justify-center md:p-4">
       <div
-        className="fixed inset-0 md:static md:inset-auto bg-background flex flex-col md:rounded-2xl md:shadow-2xl md:w-full md:max-w-[600px] md:max-h-[90vh]"
+        className="fixed inset-0 md:static md:inset-auto bg-background flex flex-col md:rounded-2xl md:shadow-2xl md:w-full md:max-w-[860px] md:max-h-[90vh]"
         style={{ height: "100dvh" }}
       >
       {/* Fixed header */}
-      <header className="flex-shrink-0 px-4 pt-4 pb-3 border-b border-border bg-background md:rounded-t-2xl">
-        <div className="flex items-center justify-between gap-3 mb-3">
+      <header className="flex-shrink-0 px-3 pt-3 pb-2 md:px-5 md:pt-4 md:pb-3 border-b border-border bg-background md:rounded-t-2xl">
+        <div className="flex items-center justify-between gap-3 mb-2">
           <span className="text-xs font-light text-muted-foreground">
             Étape {step} / 3
           </span>
           <button
             onClick={onClose}
             aria-label="Fermer"
-            className="w-10 h-10 -mr-2 rounded-full hover:bg-secondary flex items-center justify-center transition-colors"
+            className="w-9 h-9 -mr-1.5 rounded-full hover:bg-secondary flex items-center justify-center transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -453,28 +453,28 @@ function ConfiguratorOverlay({
             />
           ))}
         </div>
-        <h3 className="mt-3 text-lg font-light">{STEP_TITLES[step]}</h3>
+        <h3 className="mt-2 text-base md:text-lg font-light">{STEP_TITLES[step]}</h3>
       </header>
 
       {/* Scrollable middle */}
-      <div className="flex-1 overflow-y-auto px-4 py-4">
+      <div className="flex-1 overflow-y-auto px-3 py-3 md:px-5 md:py-4">
         {step === 1 && (
-          <div className="space-y-5 pb-2">
+          <div className="space-y-3 md:space-y-5 pb-1">
             <div>
-              <p className="text-xs font-light text-muted-foreground mb-2 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
                 Haut
               </p>
               <ShapePicker options={TOPS} value={top} onChange={setTop} />
-              <div className="mt-3">
+              <div className="mt-2">
                 <SizeRow value={sizeTop} onChange={setSizeTop} />
               </div>
             </div>
             <div>
-              <p className="text-xs font-light text-muted-foreground mb-2 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
                 Bas
               </p>
               <ShapePicker options={BOTTOMS} value={bottom} onChange={setBottom} />
-              <div className="mt-3">
+              <div className="mt-2">
                 <SizeRow value={sizeBottom} onChange={setSizeBottom} />
               </div>
             </div>
@@ -482,15 +482,15 @@ function ConfiguratorOverlay({
         )}
 
         {step === 2 && (
-          <div className="space-y-5 pb-2">
+          <div className="space-y-3 md:space-y-5 pb-1">
             <div>
-              <p className="text-xs font-light text-muted-foreground mb-2 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
                 Côté A
               </p>
               <FabricPicker value={fabricA} onChange={setFabricASafe} disabled={fabricB} />
             </div>
             <div>
-              <p className="text-xs font-light text-muted-foreground mb-2 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
                 Côté B
               </p>
               <FabricPicker value={fabricB} onChange={setFabricBSafe} disabled={fabricA} />
@@ -502,7 +502,7 @@ function ConfiguratorOverlay({
         )}
 
         {step === 3 && (
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             <SwimsuitPreview
               topImg={selectedTop?.img}
               bottomImg={selectedBottom?.img}
@@ -521,6 +521,7 @@ function ConfiguratorOverlay({
           </div>
         )}
       </div>
+
 
       {/* Fixed footer */}
       <footer
