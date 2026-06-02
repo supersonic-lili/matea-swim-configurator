@@ -4,7 +4,6 @@ import { X, Instagram, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import mateaLogo from "@/assets/matea-logo.png";
-import heroAsset from "@/assets/hero.jpg.asset.json";
 import triangleTop from "@/assets/sketch-triangle-top.png";
 import tangaBottom from "@/assets/sketch-tanga.png";
 import culotteBottom from "@/assets/sketch-culotte.png";
@@ -22,9 +21,11 @@ import fabShego from "@/assets/fabrics-bundled/shego.jpg";
 import fabVert from "@/assets/fabrics-bundled/vert.jpg";
 import fabAbeille from "@/assets/fabrics-bundled/abeille.jpg";
 
-import editorial5 from "@/assets/editorial/editorial-5.jpg.asset.json";
-import editorial6 from "@/assets/editorial/editorial-6.jpg.asset.json";
-import editorial7 from "@/assets/editorial/editorial-7.jpg.asset.json";
+// Static images served from /public/images so Netlify includes them in the build.
+const heroAsset = { url: "/images/hero.jpg" };
+const editorial5 = { url: "/images/editorial-5.jpg" };
+const editorial6 = { url: "/images/editorial-6.jpg" };
+const editorial7 = { url: "/images/editorial-7.jpg" };
 
 export const Route = createFileRoute("/")({
   component: Index,
