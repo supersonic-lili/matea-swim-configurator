@@ -4,7 +4,7 @@ import { X, Instagram, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import mateaLogo from "@/assets/matea-logo.png";
-import heroBg from "@/assets/hero-background.jpg";
+import heroAsset from "@/assets/hero.jpg.asset.json";
 import triangleTop from "@/assets/sketch-triangle-top.png";
 import tangaBottom from "@/assets/sketch-tanga.png";
 import culotteBottom from "@/assets/sketch-culotte.png";
@@ -22,10 +22,9 @@ import fabShego from "@/assets/fabrics-bundled/shego.jpg";
 import fabVert from "@/assets/fabrics-bundled/vert.jpg";
 import fabAbeille from "@/assets/fabrics-bundled/abeille.jpg";
 
-import editorial1 from "@/assets/editorial-bundled/editorial-1.jpg";
-import editorial2 from "@/assets/editorial-bundled/editorial-2.jpg";
-import editorial3 from "@/assets/editorial-bundled/editorial-3.jpg";
-import editorial4 from "@/assets/editorial-bundled/editorial-4.jpg";
+import editorial5 from "@/assets/editorial/editorial-5.jpg.asset.json";
+import editorial6 from "@/assets/editorial/editorial-6.jpg.asset.json";
+import editorial7 from "@/assets/editorial/editorial-7.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -92,7 +91,7 @@ function Hero({ onOpen }: { onOpen: () => void }) {
     <section
       className="relative min-h-screen w-full flex flex-col items-center justify-center px-6 text-center"
       style={{
-        backgroundImage: `linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.55)), url(${heroBg})`,
+        backgroundImage: `linear-gradient(rgba(255,255,255,0.25), rgba(255,255,255,0.45)), url(${heroAsset.url})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -119,22 +118,30 @@ function Hero({ onOpen }: { onOpen: () => void }) {
 }
 
 function Editorial() {
-  // Grid order: top-left, top-right, bottom-left, bottom-right.
-  // Swap top-right (was editorial2) with bottom-right (was editorial4).
-  const photos = [editorial1, editorial4, editorial3, editorial2];
   return (
     <section className="py-16 sm:py-24 bg-background">
       <div className="w-full">
         <div className="grid grid-cols-2 gap-0.5">
-          {photos.map((p, i) => (
+          <img
+            src={editorial5.url}
+            alt="MATEA 1"
+            loading="lazy"
+            className="w-full h-full object-cover row-span-2 aspect-[3/4]"
+          />
+          <div className="grid grid-rows-2 gap-0.5">
             <img
-              key={i}
-              src={p}
-              alt={`MATEA ${i + 1}`}
+              src={editorial6.url}
+              alt="MATEA 2"
               loading="lazy"
-              className="w-full aspect-square object-cover"
+              className="w-full h-full object-cover aspect-[3/2]"
             />
-          ))}
+            <img
+              src={editorial7.url}
+              alt="MATEA 3"
+              loading="lazy"
+              className="w-full h-full object-cover aspect-[3/2]"
+            />
+          </div>
         </div>
         <p className="font-light italic text-center text-lg sm:text-xl text-foreground/80 mt-12 sm:mt-16 max-w-2xl mx-auto px-6">
           Chaque maillot est unique, cousu à la main à Marseille.
