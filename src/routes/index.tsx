@@ -268,35 +268,37 @@ function SwimsuitPreview({
   fabAImg?: string;
   fabBImg?: string;
 }) {
-  const Piece = ({ src, label }: { src?: string; label: string }) => (
-    <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-border bg-secondary/30">
-      <div className="absolute inset-0 flex">
+  const Side = ({ fab, label }: { fab?: string; label: string }) => (
+    <div className="flex-1 flex flex-col items-center gap-1.5">
+      <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden border border-border bg-secondary/30">
         <div
-          className="w-1/2 h-full bg-cover bg-center"
-          style={fabAImg ? { backgroundImage: `url(${fabAImg})` } : undefined}
+          className="absolute inset-0 bg-cover bg-center"
+          style={fab ? { backgroundImage: `url(${fab})` } : undefined}
         />
-        <div
-          className="w-1/2 h-full bg-cover bg-center"
-          style={fabBImg ? { backgroundImage: `url(${fabBImg})` } : undefined}
-        />
+        {topImg && (
+          <img
+            src={topImg}
+            alt=""
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[85%] h-1/2 object-contain mix-blend-multiply opacity-90"
+          />
+        )}
+        {bottomImg && (
+          <img
+            src={bottomImg}
+            alt=""
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[75%] h-1/2 object-contain mix-blend-multiply opacity-90"
+          />
+        )}
       </div>
-      {src && (
-        <img
-          src={src}
-          alt={label}
-          className="relative w-full h-full object-contain mix-blend-multiply opacity-80"
-        />
-      )}
+      <span className="text-[11px] font-light text-muted-foreground uppercase tracking-wide">
+        {label}
+      </span>
     </div>
   );
   return (
-    <div className="mx-auto w-40 sm:w-48 space-y-2">
-      <Piece src={topImg} label="Haut" />
-      <Piece src={bottomImg} label="Bas" />
-      <div className="flex items-center justify-between text-[10px] font-light text-muted-foreground uppercase tracking-wide px-1">
-        <span>Côté A</span>
-        <span>Côté B</span>
-      </div>
+    <div className="flex gap-3 mx-auto max-w-sm">
+      <Side fab={fabAImg} label="Côté A" />
+      <Side fab={fabBImg} label="Côté B" />
     </div>
   );
 }
