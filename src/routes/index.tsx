@@ -434,8 +434,8 @@ function ConfiguratorOverlay({
         style={{ height: "100dvh" }}
       >
       {/* Fixed header */}
-      <header className="flex-shrink-0 px-3 pt-3 pb-2 md:px-5 md:pt-4 md:pb-3 border-b border-border bg-background md:rounded-t-2xl">
-        <div className="flex items-center justify-between gap-3 mb-2">
+      <header className="flex-shrink-0 px-3 pt-2 pb-1.5 md:px-5 md:pt-3 md:pb-2 border-b border-border bg-background md:rounded-t-2xl">
+        <div className="flex items-center justify-between gap-3 mb-1.5">
           <span className="text-xs font-light text-muted-foreground">
             Étape {step} / 3
           </span>
@@ -457,28 +457,28 @@ function ConfiguratorOverlay({
             />
           ))}
         </div>
-        <h3 className="mt-2 text-base md:text-lg font-light">{STEP_TITLES[step]}</h3>
+        <h3 className="mt-1 text-sm md:text-base font-light">{STEP_TITLES[step]}</h3>
       </header>
 
       {/* Scrollable middle */}
-      <div className="flex-1 overflow-y-auto px-3 py-3 md:px-5 md:py-4">
+      <div className="flex-1 overflow-y-auto px-3 py-2 md:px-5 md:py-3">
         {step === 1 && (
-          <div className="space-y-3 md:space-y-5 pb-1">
+          <div className="space-y-2 md:space-y-3 pb-1">
             <div>
-              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-1 uppercase tracking-wide">
                 Haut
               </p>
               <ShapePicker options={TOPS} value={top} onChange={setTop} />
-              <div className="mt-2">
+              <div className="mt-1.5">
                 <SizeRow value={sizeTop} onChange={setSizeTop} />
               </div>
             </div>
             <div>
-              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-1 uppercase tracking-wide">
                 Bas
               </p>
               <ShapePicker options={BOTTOMS} value={bottom} onChange={setBottom} />
-              <div className="mt-2">
+              <div className="mt-1.5">
                 <SizeRow value={sizeBottom} onChange={setSizeBottom} />
               </div>
             </div>
