@@ -229,7 +229,7 @@ function FabricPicker({
   disabled?: string | null;
 }) {
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
       {FABRICS.map((f) => {
         const selected = value === f.id;
         const isDisabled = disabled === f.id;
@@ -237,7 +237,7 @@ function FabricPicker({
           <button
             key={f.id}
             onClick={() => !isDisabled && onChange(f.id)}
-            className={`flex flex-col items-center gap-1 p-1.5 rounded-lg border-2 transition-all ${
+            className={`flex flex-col items-center gap-1 p-1.5 rounded-lg border-2 transition-all md:max-w-[80px] mx-auto w-full ${
               selected ? "border-foreground" : "border-transparent hover:border-border"
             } ${isDisabled ? "opacity-30 cursor-not-allowed" : ""}`}
           >
@@ -253,6 +253,50 @@ function FabricPicker({
           </button>
         );
       })}
+    </div>
+  );
+}
+
+function SwimsuitPreview({
+  topImg,
+  bottomImg,
+  fabAImg,
+  fabBImg,
+}: {
+  topImg?: string;
+  bottomImg?: string;
+  fabAImg?: string;
+  fabBImg?: string;
+}) {
+  const Piece = ({ src, label }: { src?: string; label: string }) => (
+    <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-border bg-secondary/30">
+      <div className="absolute inset-0 flex">
+        <div
+          className="w-1/2 h-full bg-cover bg-center"
+          style={fabAImg ? { backgroundImage: `url(${fabAImg})` } : undefined}
+        />
+        <div
+          className="w-1/2 h-full bg-cover bg-center"
+          style={fabBImg ? { backgroundImage: `url(${fabBImg})` } : undefined}
+        />
+      </div>
+      {src && (
+        <img
+          src={src}
+          alt={label}
+          className="relative w-full h-full object-contain mix-blend-multiply opacity-80"
+        />
+      )}
+    </div>
+  );
+  return (
+    <div className="mx-auto w-40 sm:w-48 space-y-2">
+      <Piece src={topImg} label="Haut" />
+      <Piece src={bottomImg} label="Bas" />
+      <div className="flex items-center justify-between text-[10px] font-light text-muted-foreground uppercase tracking-wide px-1">
+        <span>Côté A</span>
+        <span>Côté B</span>
+      </div>
     </div>
   );
 }
