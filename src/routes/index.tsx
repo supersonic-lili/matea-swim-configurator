@@ -271,26 +271,30 @@ function SwimsuitPreview({
   const Side = ({ fab, label }: { fab?: string; label: string }) => (
     <div className="flex-1 flex flex-col items-center gap-1.5">
       <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden border border-border bg-secondary/30">
+        {/* Fabric photo fills the card */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={fab ? { backgroundImage: `url(${fab})` } : undefined}
         />
+        {/* Swimsuit outline ON TOP of fabric */}
         {topImg && (
           <img
             src={topImg}
             alt=""
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-[85%] h-1/2 object-contain mix-blend-multiply opacity-90"
+            className="absolute top-1 left-1/2 -translate-x-1/2 w-[85%] h-1/2 object-contain mix-blend-multiply opacity-80"
+            style={{ filter: "brightness(0) contrast(1.2)" }}
           />
         )}
         {bottomImg && (
           <img
             src={bottomImg}
             alt=""
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[75%] h-1/2 object-contain mix-blend-multiply opacity-90"
+            className="absolute bottom-1 left-1/2 -translate-x-1/2 w-[75%] h-1/2 object-contain mix-blend-multiply opacity-80"
+            style={{ filter: "brightness(0) contrast(1.2)" }}
           />
         )}
       </div>
-      <span className="text-[11px] font-light text-muted-foreground uppercase tracking-wide">
+      <span className="text-[11px] font-light text-foreground uppercase tracking-[0.15em]">
         {label}
       </span>
     </div>
