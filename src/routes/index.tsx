@@ -179,10 +179,10 @@ function ShapePicker({
             <img
               src={o.img}
               alt={o.label}
-              className="w-full h-28 sm:h-36 object-contain"
+              className="w-full h-20 sm:h-32 object-contain"
               loading="lazy"
             />
-            <p className="mt-1 text-sm font-light">{o.label}</p>
+            <p className="mt-0.5 text-sm font-light">{o.label}</p>
           </button>
         );
       })}
