@@ -172,17 +172,17 @@ function ShapePicker({
           <button
             key={o.id}
             onClick={() => onChange(o.id)}
-            className={`group relative rounded-lg border-2 p-1.5 transition-all bg-secondary/30 min-h-[44px] ${
+            className={`group relative rounded-lg border-2 p-3 transition-all bg-secondary/30 min-h-[44px] ${
               selected ? "border-foreground" : "border-transparent hover:border-border"
             }`}
           >
             <img
               src={o.img}
               alt={o.label}
-              className="w-full h-14 sm:h-20 object-contain"
+              className="w-full h-24 sm:h-32 object-contain"
               loading="lazy"
             />
-            <p className="mt-0.5 text-xs sm:text-sm font-light leading-tight">{o.label}</p>
+            <p className="mt-1 text-xs sm:text-sm font-light leading-tight">{o.label}</p>
           </button>
         );
       })}
@@ -268,29 +268,39 @@ function SwimsuitPreview({
   fabAImg?: string;
   fabBImg?: string;
 }) {
+  const maskStyle = (img?: string) =>
+    img
+      ? ({
+          WebkitMaskImage: `url(${img})`,
+          maskImage: `url(${img})`,
+          WebkitMaskRepeat: "no-repeat",
+          maskRepeat: "no-repeat",
+          WebkitMaskSize: "contain",
+          maskSize: "contain",
+          WebkitMaskPosition: "center",
+          maskPosition: "center",
+        } as React.CSSProperties)
+      : {};
+
   const Side = ({ fab, label }: { fab?: string; label: string }) => (
-    <div className="flex-1 flex flex-col items-center gap-1.5">
-      <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden border border-border bg-secondary/30">
-        {/* Fabric photo fills the card */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={fab ? { backgroundImage: `url(${fab})` } : undefined}
-        />
-        {/* Swimsuit outline ON TOP of fabric */}
+    <div className="flex-1 flex flex-col items-center gap-2">
+      <div className="relative w-full aspect-[3/4] bg-white">
         {topImg && (
-          <img
-            src={topImg}
-            alt=""
-            className="absolute top-1 left-1/2 -translate-x-1/2 w-[85%] h-1/2 object-contain mix-blend-multiply opacity-80"
-            style={{ filter: "brightness(0) contrast(1.2)" }}
+          <div
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[85%] h-1/2 bg-cover bg-center"
+            style={{
+              backgroundImage: fab ? `url(${fab})` : undefined,
+              ...maskStyle(topImg),
+            }}
           />
         )}
         {bottomImg && (
-          <img
-            src={bottomImg}
-            alt=""
-            className="absolute bottom-1 left-1/2 -translate-x-1/2 w-[75%] h-1/2 object-contain mix-blend-multiply opacity-80"
-            style={{ filter: "brightness(0) contrast(1.2)" }}
+          <div
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[75%] h-1/2 bg-cover bg-center"
+            style={{
+              backgroundImage: fab ? `url(${fab})` : undefined,
+              ...maskStyle(bottomImg),
+            }}
           />
         )}
       </div>
@@ -300,7 +310,7 @@ function SwimsuitPreview({
     </div>
   );
   return (
-    <div className="flex gap-3 mx-auto max-w-sm">
+    <div className="flex gap-4 mx-auto max-w-sm">
       <Side fab={fabAImg} label="Côté A" />
       <Side fab={fabBImg} label="Côté B" />
     </div>
@@ -463,25 +473,25 @@ function ConfiguratorOverlay({
       {/* Scrollable middle */}
       <div className="flex-1 overflow-y-auto px-3 py-2 md:px-5 md:py-3">
         {step === 1 && (
-          <div className="space-y-2 md:space-y-3 pb-1">
-            <div>
-              <p className="text-[11px] font-light text-muted-foreground mb-1 uppercase tracking-wide">
+          <div className="flex flex-col h-full justify-between gap-4 pt-4 pb-6">
+            <section>
+              <h4 className="text-sm sm:text-base font-medium uppercase tracking-wider mb-1">
                 Haut
-              </p>
+              </h4>
               <ShapePicker options={TOPS} value={top} onChange={setTop} />
-              <div className="mt-1.5">
+              <div className="mt-3">
                 <SizeRow value={sizeTop} onChange={setSizeTop} />
               </div>
-            </div>
-            <div>
-              <p className="text-[11px] font-light text-muted-foreground mb-1 uppercase tracking-wide">
+            </section>
+            <section>
+              <h4 className="text-sm sm:text-base font-medium uppercase tracking-wider mb-1">
                 Bas
-              </p>
+              </h4>
               <ShapePicker options={BOTTOMS} value={bottom} onChange={setBottom} />
-              <div className="mt-1.5">
+              <div className="mt-3">
                 <SizeRow value={sizeBottom} onChange={setSizeBottom} />
               </div>
-            </div>
+            </section>
           </div>
         )}
 
