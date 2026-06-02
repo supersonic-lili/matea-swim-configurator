@@ -119,7 +119,9 @@ function Hero({ onOpen }: { onOpen: () => void }) {
 }
 
 function Editorial() {
-  const photos = [editorial1, editorial2, editorial3, editorial4];
+  // Grid order: top-left, top-right, bottom-left, bottom-right.
+  // Swap top-right (was editorial2) with bottom-right (was editorial4).
+  const photos = [editorial1, editorial4, editorial3, editorial2];
   return (
     <section className="py-16 sm:py-24 bg-background">
       <div className="w-full">
