@@ -30,18 +30,24 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+// Cache-busting: append a short version derived from the asset's immutable
+// UUID so each new upload produces a fresh URL the browser won't serve from
+// stale cache. Asset IDs change on every re-upload.
+const assetUrl = (a: { url: string; asset_id: string }) =>
+  `${a.url}?v=${a.asset_id.slice(0, 8)}`;
+
 const FABRICS = [
-  { id: "noir", name: "Noir", img: fabNoir.url },
-  { id: "bleu", name: "Bleu", img: fabBleu.url },
-  { id: "bleu-raye", name: "Bleu Rayé", img: fabBleuRaye.url },
-  { id: "corail", name: "Corail", img: fabCorail.url },
-  { id: "galactic", name: "Galactic", img: fabGalactic.url },
-  { id: "jaune", name: "Jaune", img: fabJaune.url },
-  { id: "marron-satine", name: "Marron Satiné", img: fabMarron.url },
-  { id: "rouge-satine", name: "Rouge Satiné", img: fabRouge.url },
-  { id: "shego", name: "Shego", img: fabShego.url },
-  { id: "vert", name: "Vert", img: fabVert.url },
-  { id: "abeille", name: "Abeille", img: fabAbeille.url },
+  { id: "noir", name: "Noir", img: assetUrl(fabNoir) },
+  { id: "bleu", name: "Bleu", img: assetUrl(fabBleu) },
+  { id: "bleu-raye", name: "Bleu Rayé", img: assetUrl(fabBleuRaye) },
+  { id: "corail", name: "Corail", img: assetUrl(fabCorail) },
+  { id: "galactic", name: "Galactic", img: assetUrl(fabGalactic) },
+  { id: "jaune", name: "Jaune", img: assetUrl(fabJaune) },
+  { id: "marron-satine", name: "Marron Satiné", img: assetUrl(fabMarron) },
+  { id: "rouge-satine", name: "Rouge Satiné", img: assetUrl(fabRouge) },
+  { id: "shego", name: "Shego", img: assetUrl(fabShego) },
+  { id: "vert", name: "Vert", img: assetUrl(fabVert) },
+  { id: "abeille", name: "Abeille", img: assetUrl(fabAbeille) },
 ];
 
 const TOPS = [
@@ -124,7 +130,7 @@ function Editorial() {
           {photos.map((p, i) => (
             <img
               key={i}
-              src={p.url}
+              src={assetUrl(p)}
               alt={`MATEA ${i + 1}`}
               loading="lazy"
               className="w-full aspect-square object-cover"
