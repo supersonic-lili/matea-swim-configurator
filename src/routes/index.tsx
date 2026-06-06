@@ -27,6 +27,8 @@ import fabFog from "@/assets/fabrics-bundled/fog.jpg";
 import fabFruits from "@/assets/fabrics-bundled/fruits.jpg";
 import fabNight from "@/assets/fabrics-bundled/night.jpg";
 import fabPrune from "@/assets/fabrics-bundled/prune.jpg";
+import fabOrange from "@/assets/fabrics-bundled/orange.jpg";
+import fabRose from "@/assets/fabrics-bundled/rose.jpg";
 
 // Static images served from /public/images so Netlify includes them in the build.
 const heroAsset = { url: "/images/hero.jpg" };
@@ -48,9 +50,10 @@ const FABRICS = [
   { id: "vert", name: "Vert", img: fabVert },
   { id: "marron-satine", name: "Marron Satiné", img: fabMarron },
   { id: "rouge-satine", name: "Rouge Satiné", img: fabRouge },
+  { id: "orange", name: "Orange", img: fabOrange },
+  { id: "rose", name: "Rose", img: fabRose },
   { id: "bleu-raye", name: "Bleu Rayé", img: fabBleuRaye },
   { id: "abeille", name: "Abeille", img: fabAbeille },
-  { id: "shego", name: "Shego", img: fabShego },
   { id: "shego", name: "Shego", img: fabShego },
   { id: "galactic", name: "Galactic", img: fabGalactic },
   { id: "fire", name: "Fire", img: fabFire },
