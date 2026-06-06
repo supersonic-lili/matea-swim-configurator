@@ -16,16 +16,17 @@ function FabricPattern({ id, fabricUrl }: { id: string; fabricUrl?: string }) {
     <defs>
       <pattern
         id={id}
-        patternUnits="userSpaceOnUse"
-        width={PATTERN_SIZE}
-        height={PATTERN_SIZE}
+        patternUnits="objectBoundingBox"
+        width={1}
+        height={1}
+        preserveAspectRatio="xMidYMid slice"
       >
         <image
           href={fabricUrl}
           x="0"
           y="0"
-          width={PATTERN_SIZE}
-          height={PATTERN_SIZE}
+          width="1"
+          height="1"
           preserveAspectRatio="xMidYMid slice"
         />
       </pattern>
