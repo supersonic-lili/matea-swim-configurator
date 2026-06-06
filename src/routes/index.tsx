@@ -506,8 +506,7 @@ function ConfiguratorOverlay({
         {step === 3 && (
           <div className="space-y-3 md:space-y-4">
             <SwimsuitPreview
-              topImg={selectedTop?.img}
-              bottomImg={selectedBottom?.img}
+              bottomId={selectedBottom?.id}
               fabAImg={fabA?.img}
               fabBImg={fabB?.img}
             />
