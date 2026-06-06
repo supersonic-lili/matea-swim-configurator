@@ -135,14 +135,14 @@ function Editorial() {
   return (
     <section className="py-16 sm:py-24 bg-background">
       <div className="w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5">
+        <div className="grid grid-cols-2 gap-0.5">
           <img
             src={editorial5.url}
             alt="MATEA 1"
             loading="lazy"
-            className="w-full h-full object-cover md:row-span-2 aspect-[3/4]"
+            className="w-full h-full object-cover row-span-2 aspect-[3/4]"
           />
-          <div className="grid grid-cols-1 md:grid-rows-2 gap-0.5">
+          <div className="grid grid-rows-2 gap-0.5">
             <img
               src={editorial6.url}
               alt="MATEA 2"
@@ -158,7 +158,7 @@ function Editorial() {
           </div>
         </div>
         <p className="font-light italic text-center text-lg sm:text-xl text-foreground/80 mt-12 sm:mt-16 max-w-2xl mx-auto px-6">
-          Chaque maillot est unique, cousu à la main à Marseille.
+          Chaque maillot est unique, cousu à la main, à Marseille.
         </p>
         <div className="flex justify-center mt-6">
           <a
