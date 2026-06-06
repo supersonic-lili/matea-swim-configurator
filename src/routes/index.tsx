@@ -523,15 +523,18 @@ function ConfiguratorOverlay({
         )}
 
         {step === 2 && (
-          <div className="space-y-3 md:space-y-5 pb-1">
+          <div className="space-y-4 md:space-y-6 pb-1">
+            <p className="text-center text-xs sm:text-sm font-light text-foreground/80 tracking-wide">
+              Côté A : {fabA?.name ?? "—"} <span className="mx-1 text-muted-foreground">/</span> Côté B : {fabB?.name ?? "—"}
+            </p>
             <div>
-              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-2 uppercase tracking-wide">
                 Côté A
               </p>
               <FabricPicker value={fabricA} onChange={setFabricASafe} disabled={fabricB} />
             </div>
             <div>
-              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-2 uppercase tracking-wide">
                 Côté B
               </p>
               <FabricPicker value={fabricB} onChange={setFabricBSafe} disabled={fabricA} />
