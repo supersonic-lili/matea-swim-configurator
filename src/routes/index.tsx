@@ -51,7 +51,15 @@ const FABRICS = [
   { id: "bleu-raye", name: "Bleu Rayé", img: fabBleuRaye },
   { id: "abeille", name: "Abeille", img: fabAbeille },
   { id: "shego", name: "Shego", img: fabShego },
+  { id: "shego", name: "Shego", img: fabShego },
   { id: "galactic", name: "Galactic", img: fabGalactic },
+  { id: "fire", name: "Fire", img: fabFire },
+  { id: "fruits", name: "Fruits", img: fabFruits },
+  { id: "night", name: "Night", img: fabNight },
+  { id: "black-water", name: "Black Water", img: fabBlackWater },
+  { id: "fog", name: "Fog", img: fabFog },
+  { id: "disco", name: "Disco", img: fabDisco },
+  { id: "prune", name: "Prune", img: fabPrune },
 ];
 
 const TOPS = [
