@@ -1,13 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { X, Instagram, ShoppingBag } from "lucide-react";
-import { FabricSwimsuit } from "@/components/SwimsuitDisplay";
+import {
+  FabricSwimsuit,
+  TriangleTop,
+  TangaBottom,
+  CulotteBottom,
+} from "@/components/SwimsuitDisplay";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import mateaLogo from "@/assets/matea-logo.png";
-import triangleTop from "@/assets/sketch-triangle-top.png";
-import tangaBottom from "@/assets/sketch-tanga.png";
-import culotteBottom from "@/assets/sketch-culotte.png";
 
 // Bundled fabric swatches (real binary files; Vite will hash + ship them).
 import fabNoir from "@/assets/fabrics-bundled/noir.jpg";
