@@ -200,7 +200,7 @@ function ShapePicker({
             }`}
           >
             <div className="w-full flex items-center justify-center">
-              <div className="w-1/4 max-w-[80px]">
+              <div className="w-1/2 max-w-[160px]">
                 <Shape patternId={`pick-${o.id}`} />
               </div>
             </div>
