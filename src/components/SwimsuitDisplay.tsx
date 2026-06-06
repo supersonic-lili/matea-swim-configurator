@@ -8,7 +8,7 @@ type PieceProps = {
   patternId: string;
 };
 
-const PATTERN_SIZE = 500;
+
 
 function FabricPattern({ id, fabricUrl }: { id: string; fabricUrl?: string }) {
   if (!fabricUrl) return null;
