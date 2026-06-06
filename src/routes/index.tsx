@@ -11,15 +11,13 @@ import culotteBottom from "@/assets/sketch-culotte.png";
 // Bundled fabric swatches (real binary files; Vite will hash + ship them).
 import fabNoir from "@/assets/fabrics-bundled/noir.jpg";
 import fabBleu from "@/assets/fabrics-bundled/bleu.jpg";
-import fabBleuRaye from "@/assets/fabrics-bundled/bleu-raye.jpg";
 import fabCorail from "@/assets/fabrics-bundled/corail.jpg";
-import fabGalactic from "@/assets/fabrics-bundled/galactic.jpg";
 import fabJaune from "@/assets/fabrics-bundled/jaune.jpg";
 import fabMarron from "@/assets/fabrics-bundled/marron-satine.jpg";
 import fabRouge from "@/assets/fabrics-bundled/rouge-satine.jpg";
-import fabShego from "@/assets/fabrics-bundled/shego.jpg";
 import fabVert from "@/assets/fabrics-bundled/vert.jpg";
-import fabAbeille from "@/assets/fabrics-bundled/abeille.jpg";
+import fabOrange from "@/assets/fabrics-bundled/orange.jpg";
+import fabRose from "@/assets/fabrics-bundled/rose.jpg";
 import fabBlackWater from "@/assets/fabrics-bundled/black-water.jpg";
 import fabDisco from "@/assets/fabrics-bundled/disco.jpg";
 import fabFire from "@/assets/fabrics-bundled/fire.jpg";
@@ -27,8 +25,6 @@ import fabFog from "@/assets/fabrics-bundled/fog.jpg";
 import fabFruits from "@/assets/fabrics-bundled/fruits.jpg";
 import fabNight from "@/assets/fabrics-bundled/night.jpg";
 import fabPrune from "@/assets/fabrics-bundled/prune.jpg";
-import fabOrange from "@/assets/fabrics-bundled/orange.jpg";
-import fabRose from "@/assets/fabrics-bundled/rose.jpg";
 
 // Static images served from /public/images so Netlify includes them in the build.
 const heroAsset = { url: "/images/hero.jpg" };
