@@ -255,7 +255,7 @@ function FabricPicker({
   disabled?: string | null;
 }) {
   return (
-    <div className="grid grid-cols-4 md:grid-cols-6 gap-1.5">
+    <div className="grid grid-cols-4 md:grid-cols-6 gap-3">
       {FABRICS.map((f) => {
         const selected = value === f.id;
         const isDisabled = disabled === f.id;
@@ -263,19 +263,20 @@ function FabricPicker({
           <button
             key={f.id}
             onClick={() => !isDisabled && onChange(f.id)}
-            className={`flex flex-col items-center gap-0.5 p-1 rounded-md border-2 transition-all md:max-w-[80px] mx-auto w-full ${
-              selected ? "border-foreground" : "border-transparent hover:border-border"
+            aria-label={f.name}
+            title={f.name}
+            className={`relative aspect-square w-full rounded-full overflow-hidden transition-all ${
+              selected
+                ? "ring-2 ring-background ring-offset-2 ring-offset-foreground shadow-md"
+                : "hover:opacity-90"
             } ${isDisabled ? "opacity-30 cursor-not-allowed" : ""}`}
           >
             <img
               src={f.img}
               alt={f.name}
               loading="lazy"
-              className="w-full aspect-square object-cover rounded"
+              className="w-full h-full object-cover rounded-full"
             />
-            <span className="text-[10px] font-light text-center leading-tight">
-              {f.name}
-            </span>
           </button>
         );
       })}
