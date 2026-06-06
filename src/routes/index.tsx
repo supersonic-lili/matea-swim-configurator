@@ -20,6 +20,13 @@ import fabRouge from "@/assets/fabrics-bundled/rouge-satine.jpg";
 import fabShego from "@/assets/fabrics-bundled/shego.jpg";
 import fabVert from "@/assets/fabrics-bundled/vert.jpg";
 import fabAbeille from "@/assets/fabrics-bundled/abeille.jpg";
+import fabBlackWater from "@/assets/fabrics-bundled/black-water.jpg";
+import fabDisco from "@/assets/fabrics-bundled/disco.jpg";
+import fabFire from "@/assets/fabrics-bundled/fire.jpg";
+import fabFog from "@/assets/fabrics-bundled/fog.jpg";
+import fabFruits from "@/assets/fabrics-bundled/fruits.jpg";
+import fabNight from "@/assets/fabrics-bundled/night.jpg";
+import fabPrune from "@/assets/fabrics-bundled/prune.jpg";
 
 // Static images served from /public/images so Netlify includes them in the build.
 const heroAsset = { url: "/images/hero.jpg" };
