@@ -247,7 +247,7 @@ function FabricPicker({
   disabled?: string | null;
 }) {
   return (
-    <div className="grid grid-cols-4 md:grid-cols-6 gap-3">
+    <div className="grid grid-cols-6 md:grid-cols-10 gap-2">
       {FABRICS.map((f) => {
         const selected = value === f.id;
         const isDisabled = disabled === f.id;
