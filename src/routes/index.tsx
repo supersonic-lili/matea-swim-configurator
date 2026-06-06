@@ -27,6 +27,8 @@ import fabFog from "@/assets/fabrics-bundled/fog.jpg";
 import fabFruits from "@/assets/fabrics-bundled/fruits.jpg";
 import fabNight from "@/assets/fabrics-bundled/night.jpg";
 import fabPrune from "@/assets/fabrics-bundled/prune.jpg";
+import fabOrange from "@/assets/fabrics-bundled/orange.jpg";
+import fabRose from "@/assets/fabrics-bundled/rose.jpg";
 
 // Static images served from /public/images so Netlify includes them in the build.
 const heroAsset = { url: "/images/hero.jpg" };
