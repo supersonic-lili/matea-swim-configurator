@@ -66,11 +66,11 @@ const FABRICS = [
 ];
 
 const TOPS = [
-  { id: "triangle", label: "Le triangle", img: triangleTop },
+  { id: "triangle", label: "Le Triangle", img: triangleTop },
 ];
 const BOTTOMS = [
-  { id: "tanga", label: "Le tanga", img: tangaBottom },
-  { id: "culotte", label: "La culotte", img: culotteBottom },
+  { id: "tanga", label: "Le Tanga", img: tangaBottom },
+  { id: "culotte", label: "La Culotte Échancrée", img: culotteBottom },
 ];
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
@@ -140,14 +140,14 @@ function Editorial() {
   return (
     <section className="py-16 sm:py-24 bg-background">
       <div className="w-full">
-        <div className="grid grid-cols-2 gap-0.5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5">
           <img
             src={editorial5.url}
             alt="MATEA 1"
             loading="lazy"
-            className="w-full h-full object-cover row-span-2 aspect-[3/4]"
+            className="w-full h-full object-cover md:row-span-2 aspect-[3/4]"
           />
-          <div className="grid grid-rows-2 gap-0.5">
+          <div className="grid grid-cols-1 md:grid-rows-2 gap-0.5">
             <img
               src={editorial6.url}
               alt="MATEA 2"
@@ -255,7 +255,7 @@ function FabricPicker({
   disabled?: string | null;
 }) {
   return (
-    <div className="grid grid-cols-4 md:grid-cols-6 gap-1.5">
+    <div className="grid grid-cols-4 md:grid-cols-6 gap-3">
       {FABRICS.map((f) => {
         const selected = value === f.id;
         const isDisabled = disabled === f.id;
@@ -263,19 +263,20 @@ function FabricPicker({
           <button
             key={f.id}
             onClick={() => !isDisabled && onChange(f.id)}
-            className={`flex flex-col items-center gap-0.5 p-1 rounded-md border-2 transition-all md:max-w-[80px] mx-auto w-full ${
-              selected ? "border-foreground" : "border-transparent hover:border-border"
+            aria-label={f.name}
+            title={f.name}
+            className={`relative aspect-square w-full rounded-full overflow-hidden transition-all ${
+              selected
+                ? "ring-2 ring-background ring-offset-2 ring-offset-foreground shadow-md"
+                : "hover:opacity-90"
             } ${isDisabled ? "opacity-30 cursor-not-allowed" : ""}`}
           >
             <img
               src={f.img}
               alt={f.name}
               loading="lazy"
-              className="w-full aspect-square object-cover rounded"
+              className="w-full h-full object-cover rounded-full"
             />
-            <span className="text-[10px] font-light text-center leading-tight">
-              {f.name}
-            </span>
           </button>
         );
       })}
@@ -522,15 +523,18 @@ function ConfiguratorOverlay({
         )}
 
         {step === 2 && (
-          <div className="space-y-3 md:space-y-5 pb-1">
+          <div className="space-y-4 md:space-y-6 pb-1">
+            <p className="text-center text-xs sm:text-sm font-light text-foreground/80 tracking-wide">
+              Côté A : {fabA?.name ?? "—"} <span className="mx-1 text-muted-foreground">/</span> Côté B : {fabB?.name ?? "—"}
+            </p>
             <div>
-              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-2 uppercase tracking-wide">
                 Côté A
               </p>
               <FabricPicker value={fabricA} onChange={setFabricASafe} disabled={fabricB} />
             </div>
             <div>
-              <p className="text-[11px] font-light text-muted-foreground mb-1.5 uppercase tracking-wide">
+              <p className="text-[11px] font-light text-muted-foreground mb-2 uppercase tracking-wide">
                 Côté B
               </p>
               <FabricPicker value={fabricB} onChange={setFabricBSafe} disabled={fabricA} />
