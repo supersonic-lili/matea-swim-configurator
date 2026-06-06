@@ -8,7 +8,7 @@ type PieceProps = {
   patternId: string;
 };
 
-const PATTERN_SIZE = 500;
+
 
 function FabricPattern({ id, fabricUrl }: { id: string; fabricUrl?: string }) {
   if (!fabricUrl) return null;
@@ -16,16 +16,17 @@ function FabricPattern({ id, fabricUrl }: { id: string; fabricUrl?: string }) {
     <defs>
       <pattern
         id={id}
-        patternUnits="userSpaceOnUse"
-        width={PATTERN_SIZE}
-        height={PATTERN_SIZE}
+        patternUnits="objectBoundingBox"
+        width={1}
+        height={1}
+        preserveAspectRatio="xMidYMid slice"
       >
         <image
           href={fabricUrl}
           x="0"
           y="0"
-          width={PATTERN_SIZE}
-          height={PATTERN_SIZE}
+          width="1"
+          height="1"
           preserveAspectRatio="xMidYMid slice"
         />
       </pattern>
@@ -33,7 +34,7 @@ function FabricPattern({ id, fabricUrl }: { id: string; fabricUrl?: string }) {
   );
 }
 
-function TriangleTop({ fabricUrl, patternId }: PieceProps) {
+export function TriangleTop({ fabricUrl, patternId }: PieceProps) {
   const fill = fabricUrl ? `url(#${patternId})` : "#fff";
   return (
     <svg
@@ -73,7 +74,7 @@ function TriangleTop({ fabricUrl, patternId }: PieceProps) {
   );
 }
 
-function TangaBottom({ fabricUrl, patternId }: PieceProps) {
+export function TangaBottom({ fabricUrl, patternId }: PieceProps) {
   const fill = fabricUrl ? `url(#${patternId})` : "#fff";
   return (
     <svg
@@ -91,7 +92,7 @@ function TangaBottom({ fabricUrl, patternId }: PieceProps) {
   );
 }
 
-function CulotteBottom({ fabricUrl, patternId }: PieceProps) {
+export function CulotteBottom({ fabricUrl, patternId }: PieceProps) {
   const fill = fabricUrl ? `url(#${patternId})` : "#fff";
   return (
     <svg

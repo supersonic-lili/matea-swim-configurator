@@ -1,13 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { X, Instagram, ShoppingBag } from "lucide-react";
-import { FabricSwimsuit } from "@/components/SwimsuitDisplay";
+import {
+  FabricSwimsuit,
+  TriangleTop,
+  TangaBottom,
+  CulotteBottom,
+} from "@/components/SwimsuitDisplay";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import mateaLogo from "@/assets/matea-logo.png";
-import triangleTop from "@/assets/sketch-triangle-top.png";
-import tangaBottom from "@/assets/sketch-tanga.png";
-import culotteBottom from "@/assets/sketch-culotte.png";
 
 // Bundled fabric swatches (real binary files; Vite will hash + ship them).
 import fabNoir from "@/assets/fabrics-bundled/noir.jpg";
@@ -59,11 +61,11 @@ const FABRICS = [
 ];
 
 const TOPS = [
-  { id: "triangle", label: "Le Triangle", img: triangleTop },
+  { id: "triangle", label: "Le Triangle", kind: "triangle" as const },
 ];
 const BOTTOMS = [
-  { id: "tanga", label: "Le Tanga", img: tangaBottom },
-  { id: "culotte", label: "La Culotte Échancrée", img: culotteBottom },
+  { id: "tanga", label: "Le Tanga", kind: "tanga" as const },
+  { id: "culotte", label: "La Culotte Échancrée", kind: "culotte" as const },
 ];
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
@@ -179,7 +181,7 @@ function ShapePicker({
   value,
   onChange,
 }: {
-  options: { id: string; label: string; img: string }[];
+  options: { id: string; label: string; kind: "triangle" | "tanga" | "culotte" }[];
   value: string | null;
   onChange: (v: string) => void;
 }) {
@@ -187,6 +189,8 @@ function ShapePicker({
     <div className="grid grid-cols-2 gap-3">
       {options.map((o) => {
         const selected = value === o.id;
+        const Shape =
+          o.kind === "triangle" ? TriangleTop : o.kind === "tanga" ? TangaBottom : CulotteBottom;
         return (
           <button
             key={o.id}
@@ -195,12 +199,9 @@ function ShapePicker({
               selected ? "border-foreground" : "border-transparent hover:border-border"
             }`}
           >
-            <img
-              src={o.img}
-              alt={o.label}
-              className="w-full h-28 sm:h-36 object-contain"
-              loading="lazy"
-            />
+            <div className="w-full h-28 sm:h-36 flex items-center justify-center">
+              <Shape patternId={`pick-${o.id}`} />
+            </div>
             <p className="mt-6 text-xs sm:text-sm font-light leading-tight">{o.label}</p>
           </button>
         );
