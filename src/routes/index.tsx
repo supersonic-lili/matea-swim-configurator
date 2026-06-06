@@ -20,6 +20,13 @@ import fabRouge from "@/assets/fabrics-bundled/rouge-satine.jpg";
 import fabShego from "@/assets/fabrics-bundled/shego.jpg";
 import fabVert from "@/assets/fabrics-bundled/vert.jpg";
 import fabAbeille from "@/assets/fabrics-bundled/abeille.jpg";
+import fabBlackWater from "@/assets/fabrics-bundled/black-water.jpg";
+import fabDisco from "@/assets/fabrics-bundled/disco.jpg";
+import fabFire from "@/assets/fabrics-bundled/fire.jpg";
+import fabFog from "@/assets/fabrics-bundled/fog.jpg";
+import fabFruits from "@/assets/fabrics-bundled/fruits.jpg";
+import fabNight from "@/assets/fabrics-bundled/night.jpg";
+import fabPrune from "@/assets/fabrics-bundled/prune.jpg";
 
 // Static images served from /public/images so Netlify includes them in the build.
 const heroAsset = { url: "/images/hero.jpg" };
@@ -44,7 +51,15 @@ const FABRICS = [
   { id: "bleu-raye", name: "Bleu Rayé", img: fabBleuRaye },
   { id: "abeille", name: "Abeille", img: fabAbeille },
   { id: "shego", name: "Shego", img: fabShego },
+  { id: "shego", name: "Shego", img: fabShego },
   { id: "galactic", name: "Galactic", img: fabGalactic },
+  { id: "fire", name: "Fire", img: fabFire },
+  { id: "fruits", name: "Fruits", img: fabFruits },
+  { id: "night", name: "Night", img: fabNight },
+  { id: "black-water", name: "Black Water", img: fabBlackWater },
+  { id: "fog", name: "Fog", img: fabFog },
+  { id: "disco", name: "Disco", img: fabDisco },
+  { id: "prune", name: "Prune", img: fabPrune },
 ];
 
 const TOPS = [
