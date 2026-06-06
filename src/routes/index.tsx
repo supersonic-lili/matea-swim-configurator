@@ -199,8 +199,10 @@ function ShapePicker({
               selected ? "border-foreground" : "border-transparent hover:border-border"
             }`}
           >
-            <div className="w-full h-28 sm:h-36 flex items-center justify-center">
-              <Shape patternId={`pick-${o.id}`} />
+            <div className="w-full flex items-center justify-center">
+              <div className="w-1/4 max-w-[80px]">
+                <Shape patternId={`pick-${o.id}`} />
+              </div>
             </div>
             <p className="mt-6 text-xs sm:text-sm font-light leading-tight">{o.label}</p>
           </button>
@@ -298,7 +300,7 @@ function SwimsuitPreview({
     </div>
   );
   return (
-    <div className="flex gap-4 mx-auto max-w-md">
+    <div className="flex gap-4 mx-auto max-w-xs">
       <Side fab={fabAImg} label="Côté A" uid="a" />
       <Side fab={fabBImg} label="Côté B" uid="b" />
     </div>

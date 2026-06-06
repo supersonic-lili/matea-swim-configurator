@@ -17,12 +17,13 @@ function FabricPattern({ id, fabricUrl }: { id: string; fabricUrl?: string }) {
       <pattern
         id={id}
         patternUnits="objectBoundingBox"
+        patternContentUnits="objectBoundingBox"
         width={1}
         height={1}
-        preserveAspectRatio="xMidYMid slice"
       >
         <image
           href={fabricUrl}
+          xlinkHref={fabricUrl}
           x="0"
           y="0"
           width="1"
