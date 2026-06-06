@@ -66,11 +66,11 @@ const FABRICS = [
 ];
 
 const TOPS = [
-  { id: "triangle", label: "Le triangle", img: triangleTop },
+  { id: "triangle", label: "Le Triangle", img: triangleTop },
 ];
 const BOTTOMS = [
-  { id: "tanga", label: "Le tanga", img: tangaBottom },
-  { id: "culotte", label: "La culotte", img: culotteBottom },
+  { id: "tanga", label: "Le Tanga", img: tangaBottom },
+  { id: "culotte", label: "La Culotte Échancrée", img: culotteBottom },
 ];
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
