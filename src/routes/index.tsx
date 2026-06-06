@@ -179,7 +179,7 @@ function ShapePicker({
   value,
   onChange,
 }: {
-  options: { id: string; label: string; img: string }[];
+  options: { id: string; label: string; kind: "triangle" | "tanga" | "culotte" }[];
   value: string | null;
   onChange: (v: string) => void;
 }) {
@@ -187,6 +187,8 @@ function ShapePicker({
     <div className="grid grid-cols-2 gap-3">
       {options.map((o) => {
         const selected = value === o.id;
+        const Shape =
+          o.kind === "triangle" ? TriangleTop : o.kind === "tanga" ? TangaBottom : CulotteBottom;
         return (
           <button
             key={o.id}
@@ -195,12 +197,9 @@ function ShapePicker({
               selected ? "border-foreground" : "border-transparent hover:border-border"
             }`}
           >
-            <img
-              src={o.img}
-              alt={o.label}
-              className="w-full h-28 sm:h-36 object-contain"
-              loading="lazy"
-            />
+            <div className="w-full h-28 sm:h-36 flex items-center justify-center">
+              <Shape patternId={`pick-${o.id}`} />
+            </div>
             <p className="mt-6 text-xs sm:text-sm font-light leading-tight">{o.label}</p>
           </button>
         );
