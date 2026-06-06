@@ -277,51 +277,18 @@ function FabricPicker({
 }
 
 function SwimsuitPreview({
-  topImg,
-  bottomImg,
+  bottomId,
   fabAImg,
   fabBImg,
 }: {
-  topImg?: string;
-  bottomImg?: string;
+  bottomId?: string;
   fabAImg?: string;
   fabBImg?: string;
 }) {
-  const maskStyle = (img?: string) =>
-    img
-      ? ({
-          WebkitMaskImage: `url(${img})`,
-          maskImage: `url(${img})`,
-          WebkitMaskRepeat: "no-repeat",
-          maskRepeat: "no-repeat",
-          WebkitMaskSize: "contain",
-          maskSize: "contain",
-          WebkitMaskPosition: "center",
-          maskPosition: "center",
-        } as React.CSSProperties)
-      : {};
-
-  const Side = ({ fab, label }: { fab?: string; label: string }) => (
-    <div className="flex-1 flex flex-col items-center gap-2">
-      <div className="relative w-full aspect-[3/4] bg-white">
-        {topImg && (
-          <div
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-[85%] h-1/2 bg-cover bg-center"
-            style={{
-              backgroundImage: fab ? `url(${fab})` : undefined,
-              ...maskStyle(topImg),
-            }}
-          />
-        )}
-        {bottomImg && (
-          <div
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[75%] h-1/2 bg-cover bg-center"
-            style={{
-              backgroundImage: fab ? `url(${fab})` : undefined,
-              ...maskStyle(bottomImg),
-            }}
-          />
-        )}
+  const Side = ({ fab, label, uid }: { fab?: string; label: string; uid: string }) => (
+    <div className="flex-1 flex flex-col items-center gap-3">
+      <div className="w-full bg-white">
+        <FabricSwimsuit bottomId={bottomId} fabricUrl={fab} uid={uid} />
       </div>
       <span className="text-[11px] font-light text-foreground uppercase tracking-[0.15em]">
         {label}
@@ -329,12 +296,13 @@ function SwimsuitPreview({
     </div>
   );
   return (
-    <div className="flex gap-4 mx-auto max-w-sm">
-      <Side fab={fabAImg} label="Côté A" />
-      <Side fab={fabBImg} label="Côté B" />
+    <div className="flex gap-4 mx-auto max-w-md">
+      <Side fab={fabAImg} label="Côté A" uid="a" />
+      <Side fab={fabBImg} label="Côté B" uid="b" />
     </div>
   );
 }
+
 
 function OrderRecap({
   selectedTop,
