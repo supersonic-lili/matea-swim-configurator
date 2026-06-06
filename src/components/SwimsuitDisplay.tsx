@@ -34,7 +34,7 @@ function FabricPattern({ id, fabricUrl }: { id: string; fabricUrl?: string }) {
   );
 }
 
-function TriangleTop({ fabricUrl, patternId }: PieceProps) {
+export function TriangleTop({ fabricUrl, patternId }: PieceProps) {
   const fill = fabricUrl ? `url(#${patternId})` : "#fff";
   return (
     <svg
@@ -74,7 +74,7 @@ function TriangleTop({ fabricUrl, patternId }: PieceProps) {
   );
 }
 
-function TangaBottom({ fabricUrl, patternId }: PieceProps) {
+export function TangaBottom({ fabricUrl, patternId }: PieceProps) {
   const fill = fabricUrl ? `url(#${patternId})` : "#fff";
   return (
     <svg
@@ -92,7 +92,7 @@ function TangaBottom({ fabricUrl, patternId }: PieceProps) {
   );
 }
 
-function CulotteBottom({ fabricUrl, patternId }: PieceProps) {
+export function CulotteBottom({ fabricUrl, patternId }: PieceProps) {
   const fill = fabricUrl ? `url(#${patternId})` : "#fff";
   return (
     <svg
