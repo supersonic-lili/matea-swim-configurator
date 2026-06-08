@@ -7,7 +7,7 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const NOTIFY_EMAIL = "liot.mathilde@gmail.com";
+const NOTIFY_EMAIL = "bonjour@matea-swimwear.com";
 const FROM_EMAIL = "MATEA <bonjour@matea-swimwear.com>";
 
 async function sendEmail(to: string, subject: string, html: string) {
@@ -72,8 +72,8 @@ Deno.serve(async (req) => {
       });
     }
 
-    // If already paid, return early (idempotency)
-    if (order.status === "paid") {
+    // If already emailed, skip re-sending (idempotency)
+    if (order.emailed_at) {
       return new Response(JSON.stringify({ paid: true, already: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -141,10 +141,33 @@ Deno.serve(async (req) => {
         <p style="text-align:right;font-size:16px;margin-top:16px"><strong>Total : ${total}€</strong></p>
       </div>`;
 
+    // Atomically claim the "emailed" slot before sending to prevent races with the webhook
+    const claimRes = await fetch(
+      `${supabaseUrl}/rest/v1/orders?stripe_session_id=eq.${session_id}&emailed_at=is.null`,
+      {
+        method: "PATCH",
+        headers: {
+          "apikey": serviceKey,
+          "Authorization": `Bearer ${serviceKey}`,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation",
+        },
+        body: JSON.stringify({ emailed_at: new Date().toISOString() }),
+      },
+    );
+    const claimed = await claimRes.json();
+    if (!Array.isArray(claimed) || claimed.length === 0) {
+      // Another process (webhook) already claimed it
+      return new Response(JSON.stringify({ paid: true, already: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     await Promise.all([
       sendEmail(order.email, "Ta commande MATEA est confirmée", customerHtml),
       sendEmail(NOTIFY_EMAIL, `Nouvelle commande MATEA — ${order.email}`, notifyHtml),
     ]);
+
 
     return new Response(JSON.stringify({ paid: true, email: order.email }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
