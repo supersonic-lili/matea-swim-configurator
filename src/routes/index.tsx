@@ -466,6 +466,7 @@ function ConfiguratorOverlay({
       fabricA,
       fabricB,
       price: PRICE,
+      note: note.trim() || undefined,
     });
   };
 
