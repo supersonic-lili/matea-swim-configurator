@@ -93,6 +93,11 @@ async function processPaidSession(stripe: Stripe, sessionId: string) {
       <tr><td style="padding:4px 8px;text-align:right">Livraison France Standard</td><td style="padding:4px 8px;text-align:right">${SHIPPING.toFixed(2)}€</td></tr>
       <tr><td style="padding:8px;text-align:right;border-top:1px solid #111"><strong>Total</strong></td><td style="padding:8px;text-align:right;border-top:1px solid #111"><strong>${total}€</strong></td></tr>
     </table>`;
+  const escapeHtml = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+  const notes = (items as any[]).map((it, i) => it?.note ? `<p style="margin:4px 0;font-weight:300;white-space:pre-wrap">${items.length > 1 ? `<strong>Maillot ${i + 1} :</strong> ` : ""}${escapeHtml(String(it.note))}</p>` : "").join("");
+  const notesHtml = notes
+    ? `<div style="margin-top:20px;padding:12px 16px;background:#f7f5f2;border-radius:8px;font-size:14px;color:#111"><p style="margin:0 0 6px 0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#666">Commentaires</p>${notes}</div>`
+    : "";
 
   const customerHtml = `
     <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:24px;color:#111">
@@ -108,6 +113,7 @@ async function processPaidSession(stripe: Stripe, sessionId: string) {
         <tbody>${rows}</tbody>
       </table>
       ${totalsHtml}
+      ${notesHtml}
       <p style="font-weight:300;margin-top:24px">Matea te recontactera très vite pour la confection et la livraison.</p>
       <p style="font-style:italic;font-weight:300">MATEA — fait main à Marseille</p>
     </div>`;
@@ -132,6 +138,7 @@ async function processPaidSession(stripe: Stripe, sessionId: string) {
         <tbody>${rows}</tbody>
       </table>
       ${totalsHtml}
+      ${notesHtml}
     </div>`;
 
 
