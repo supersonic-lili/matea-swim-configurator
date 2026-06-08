@@ -374,6 +374,14 @@ function OrderRecap({
         <Row label="Bas" value={`${selectedBottom?.label ?? "—"}, taille ${sizeBottom ?? "—"}`} />
         <Row label="Côté A" value={<FabricLine f={fabA} />} />
         <Row label="Côté B" value={<FabricLine f={fabB} />} />
+        <Row
+          label="Couleur des fils"
+          value={
+            threadColor
+              ? <FabricLine f={threadColor === "A" ? fabA : fabB} />
+              : <span>—</span>
+          }
+        />
         <Row label="Maillot" value={`${price}€`} />
         <Row label="Livraison France Standard" value={`${SHIPPING}€`} />
         <div className="pt-2 mt-2 border-t border-border flex items-center justify-between text-base font-light">
