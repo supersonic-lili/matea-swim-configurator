@@ -84,7 +84,7 @@ type CartItem = {
   sizeBottom: string;
   fabricA: string;
   fabricB: string;
-  threadColor: "A" | "B";
+  threadColor: string; // fabric id
   price: number;
   note?: string;
 };
