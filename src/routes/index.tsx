@@ -556,41 +556,30 @@ function ConfiguratorOverlay({
             )}
 
             <div>
-              <h4 className="text-sm sm:text-base font-medium uppercase tracking-wider mb-2">
-                Couleur des liens/bretelles
-              </h4>
-              <p className="text-[11px] font-light text-muted-foreground mb-3 uppercase tracking-wide">
-                {threadColor
-                  ? `Côté ${threadColor}${
-                      threadColor === "A" ? (fabA ? ` : ${fabA.name}` : "") : fabB ? ` : ${fabB.name}` : ""
-                    }`
-                  : "Choisis la couleur"}
+              <p className="text-[11px] font-light text-muted-foreground mb-2 uppercase tracking-wide">
+                Liens/Bretelles{threadFabric ? ` : ${threadFabric.name}` : ""}
               </p>
-              <div className="flex items-center gap-4">
-                {(["A", "B"] as const).map((side) => {
-                  const fab = side === "A" ? fabA : fabB;
-                  const selected = threadColor === side;
+              <div className="grid grid-cols-9 md:grid-cols-[repeat(18,minmax(0,1fr))] gap-1.5">
+                {FABRICS.map((f) => {
+                  const selected = threadColor === f.id;
                   return (
                     <button
-                      key={side}
-                      onClick={() => fab && setThreadColor(side)}
-                      disabled={!fab}
-                      aria-label={`Couleur des liens/bretelles côté ${side}`}
-                      className={`relative w-14 h-14 rounded-full overflow-hidden border transition-all ${
+                      key={f.id}
+                      onClick={() => setThreadColor(f.id)}
+                      aria-label={f.name}
+                      title={f.name}
+                      className={`relative aspect-square w-full rounded-full overflow-hidden transition-all ${
                         selected
-                          ? "ring-2 ring-background ring-offset-2 ring-offset-foreground border-transparent shadow-md"
-                          : "border-border hover:border-foreground"
-                      } ${!fab ? "opacity-40 cursor-not-allowed" : ""}`}
+                          ? "ring-2 ring-background ring-offset-2 ring-offset-foreground shadow-md"
+                          : "hover:opacity-90"
+                      }`}
                     >
-                      {fab ? (
-                        <img
-                          src={fab.img}
-                          alt={fab.name}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <span className="block w-full h-full bg-background" />
-                      )}
+                      <img
+                        src={f.img}
+                        alt={f.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover rounded-full"
+                      />
                     </button>
                   );
                 })}
@@ -605,6 +594,7 @@ function ConfiguratorOverlay({
               bottomId={selectedBottom?.id}
               fabAImg={fabA?.img}
               fabBImg={fabB?.img}
+              threadFabricUrl={threadFabric?.img}
             />
             <OrderRecap
               selectedTop={selectedTop}
@@ -613,7 +603,7 @@ function ConfiguratorOverlay({
               sizeBottom={sizeBottom}
               fabA={fabA}
               fabB={fabB}
-              threadColor={threadColor}
+              threadFabric={threadFabric}
               price={PRICE}
               note={note}
               onNoteChange={setNote}
