@@ -147,7 +147,7 @@ function Editorial() {
   return (
     <section className="py-16 sm:py-24 bg-background">
       <div className="w-full">
-        <div className="grid grid-cols-2 gap-0.5">
+        <div className="grid grid-cols-2 gap-0.5 items-start">
           <div className="aspect-[3/4] overflow-hidden">
             <img
               src={editorial5.url}
@@ -156,8 +156,8 @@ function Editorial() {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="grid grid-rows-2 gap-0.5">
-            <div className="overflow-hidden">
+          <div className="flex flex-col gap-0.5">
+            <div className="aspect-[3/4] overflow-hidden">
               <img
                 src={editorial6.url}
                 alt="MATEA 2"
@@ -165,7 +165,7 @@ function Editorial() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="overflow-hidden">
+            <div className="aspect-[3/4] overflow-hidden">
               <img
                 src={editorial7.url}
                 alt="MATEA 3"
