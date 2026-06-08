@@ -24,13 +24,19 @@ async function sendEmail(to: string, subject: string, html: string) {
 }
 
 function orderRows(items: any[]) {
-  return items.map((it) => `
+  return items.map((it) => {
+    const threadFabric = it.threadColor === "A" ? it.fabricA : it.threadColor === "B" ? it.fabricB : null;
+    const threadLine = it.threadColor
+      ? `<br/><span style="color:#666">Fils : côté ${it.threadColor}${threadFabric ? ` (${threadFabric})` : ""}</span>`
+      : "";
+    return `
     <tr>
       <td style="padding:8px;border-bottom:1px solid #eee">${it.topId} / ${it.bottomId}</td>
       <td style="padding:8px;border-bottom:1px solid #eee">${it.sizeTop} / ${it.sizeBottom}</td>
-      <td style="padding:8px;border-bottom:1px solid #eee">A: ${it.fabricA} · B: ${it.fabricB}</td>
+      <td style="padding:8px;border-bottom:1px solid #eee">A: ${it.fabricA} · B: ${it.fabricB}${threadLine}</td>
       <td style="padding:8px;border-bottom:1px solid #eee;text-align:right">${it.price}€</td>
-    </tr>`).join("");
+    </tr>`;
+  }).join("");
 }
 
 async function processPaidSession(stripe: Stripe, sessionId: string) {
