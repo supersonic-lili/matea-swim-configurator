@@ -416,6 +416,7 @@ function ConfiguratorOverlay({
   const [sizeBottom, setSizeBottom] = useState<string | null>(null);
   const [fabricA, setFabricA] = useState<string | null>(null);
   const [fabricB, setFabricB] = useState<string | null>(null);
+  const [threadColor, setThreadColor] = useState<"A" | "B" | null>(null);
   const [warning, setWarning] = useState<string | null>(null);
   const [note, setNote] = useState("");
 
