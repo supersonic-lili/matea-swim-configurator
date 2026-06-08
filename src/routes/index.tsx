@@ -416,6 +416,7 @@ function ConfiguratorOverlay({
   const [fabricA, setFabricA] = useState<string | null>(null);
   const [fabricB, setFabricB] = useState<string | null>(null);
   const [warning, setWarning] = useState<string | null>(null);
+  const [note, setNote] = useState("");
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
