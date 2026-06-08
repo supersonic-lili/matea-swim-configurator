@@ -215,16 +215,16 @@ function ShapePicker({
           <button
             key={o.id}
             onClick={() => onChange(o.id)}
-            className={`group relative rounded-lg border-2 px-3 pt-3 pb-6 transition-all bg-secondary/30 min-h-[44px] ${
+            className={`group relative rounded-lg border-2 px-3 pt-2 pb-4 transition-all bg-secondary/30 min-h-[44px] ${
               selected ? "border-foreground" : "border-transparent hover:border-border"
             }`}
           >
             <div className="w-full flex items-center justify-center">
-              <div className="w-1/2 max-w-[160px] md:max-w-[112px]">
+              <div className="w-1/2 max-w-[120px] md:max-w-[88px]">
                 <Shape patternId={`pick-${o.id}`} />
               </div>
             </div>
-            <p className="mt-6 text-xs sm:text-sm font-light leading-tight">{o.label}</p>
+            <p className="mt-3 text-xs sm:text-sm font-light leading-tight">{o.label}</p>
           </button>
         );
       })}
@@ -392,7 +392,7 @@ function OrderRecap({
           id="recap-note"
           value={note}
           onChange={(e) => onNoteChange(e.target.value)}
-          placeholder="un commentaire ?"
+          placeholder="Un commentaire ?"
           rows={3}
           className="w-full rounded-xl border border-input bg-transparent px-3 py-2 text-sm font-light placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none"
         />
