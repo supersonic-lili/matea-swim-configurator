@@ -152,6 +152,7 @@ Deno.serve(async (req) => {
           <tbody>${rows}</tbody>
         </table>
         ${totalsHtml}
+        ${notesHtml}
       </div>`;
 
 
