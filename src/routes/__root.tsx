@@ -116,7 +116,7 @@ function RootComponent() {
       <PasswordGate>
         <Outlet />
       </PasswordGate>
-      <Toaster position="top-center" />
+      <Toaster position="bottom-center" />
     </QueryClientProvider>
   );
 }
