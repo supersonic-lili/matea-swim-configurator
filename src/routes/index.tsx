@@ -335,6 +335,7 @@ function OrderRecap({
   sizeBottom,
   fabA,
   fabB,
+  threadColor,
   price,
   note,
   onNoteChange,
@@ -345,6 +346,7 @@ function OrderRecap({
   sizeBottom: string | null;
   fabA?: { name: string; img: string };
   fabB?: { name: string; img: string };
+  threadColor: "A" | "B" | null;
   price: number;
   note: string;
   onNoteChange: (v: string) => void;
