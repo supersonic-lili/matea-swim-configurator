@@ -69,7 +69,7 @@ const TOPS = [
 ];
 const BOTTOMS = [
   { id: "tanga", label: "Le Tanga", kind: "tanga" as const },
-  { id: "culotte", label: "Bas Échancré", kind: "culotte" as const },
+  { id: "culotte", label: "Le Bas Échancré", kind: "culotte" as const },
 ];
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
