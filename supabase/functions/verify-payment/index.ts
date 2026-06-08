@@ -98,8 +98,16 @@ Deno.serve(async (req) => {
     );
 
     const items = order.items as any[];
-    const total = (order.total_amount / 100).toFixed(2);
+    const subtotal = (order.total_amount / 100).toFixed(2);
+    const SHIPPING = 6;
+    const total = (order.total_amount / 100 + SHIPPING).toFixed(2);
     const rows = orderRows(items);
+    const totalsHtml = `
+      <table style="width:100%;font-size:14px;margin-top:16px">
+        <tr><td style="padding:4px 8px;text-align:right">Maillot MATEA</td><td style="padding:4px 8px;text-align:right;width:80px">${subtotal}€</td></tr>
+        <tr><td style="padding:4px 8px;text-align:right">Livraison France Standard</td><td style="padding:4px 8px;text-align:right">${SHIPPING.toFixed(2)}€</td></tr>
+        <tr><td style="padding:8px;text-align:right;border-top:1px solid #111"><strong>Total</strong></td><td style="padding:8px;text-align:right;border-top:1px solid #111"><strong>${total}€</strong></td></tr>
+      </table>`;
 
     const customerHtml = `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:24px;color:#111">
@@ -114,7 +122,7 @@ Deno.serve(async (req) => {
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>
-        <p style="text-align:right;font-size:16px;margin-top:16px"><strong>Total : ${total}€</strong></p>
+        ${totalsHtml}
         <p style="font-weight:300;margin-top:24px">Matea te recontactera très vite pour la confection et la livraison.</p>
         <p style="font-style:italic;font-weight:300">MATEA — fait main à Marseille</p>
       </div>`;
@@ -138,8 +146,9 @@ Deno.serve(async (req) => {
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>
-        <p style="text-align:right;font-size:16px;margin-top:16px"><strong>Total : ${total}€</strong></p>
+        ${totalsHtml}
       </div>`;
+
 
     // Atomically claim the "emailed" slot before sending to prevent races with the webhook
     const claimRes = await fetch(
