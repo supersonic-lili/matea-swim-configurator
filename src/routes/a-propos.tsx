@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Instagram } from "lucide-react";
 import mateaLogo from "@/assets/matea-logo.png";
 
 export const Route = createFileRoute("/a-propos")({
@@ -22,18 +23,6 @@ function AProposPage() {
         </Link>
       </header>
 
-      <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-muted">
-        <img
-          src="/images/apropos-photo.jpg"
-          alt="Atelier MATEA"
-          loading="lazy"
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = "none";
-          }}
-        />
-      </div>
-
       <div className="max-w-3xl mx-auto px-6 py-20 sm:py-28 text-center">
         <h1 className="sr-only">À propos</h1>
         <p className="text-base sm:text-lg font-light leading-relaxed text-foreground/90">
@@ -46,13 +35,28 @@ function AProposPage() {
           >
             Contactez-moi
           </a>
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-full border border-foreground px-8 py-4 text-sm sm:text-base font-light text-foreground transition-transform hover:scale-105"
+          <a
+            href="https://www.instagram.com/matea.swimwear/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram MATEA"
+            className="inline-flex items-center justify-center rounded-full border border-foreground w-14 h-14 text-foreground transition-transform hover:scale-105"
           >
-            Retour
-          </Link>
+            <Instagram size={20} />
+          </a>
         </div>
+      </div>
+
+      <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-muted">
+        <img
+          src="/images/apropos-photo.jpg"
+          alt="Atelier MATEA"
+          loading="lazy"
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            (e.target as HTMLImageElement).style.display = "none";
+          }}
+        />
       </div>
     </main>
   );
