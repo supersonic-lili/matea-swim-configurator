@@ -120,16 +120,18 @@ export function CulotteBottom({ fabricUrl, patternId }: PieceProps) {
 export function FabricSwimsuit({
   bottomId,
   fabricUrl,
+  threadFabricUrl,
   uid,
 }: {
   bottomId?: string;
   fabricUrl?: string;
+  threadFabricUrl?: string;
   uid: string;
 }) {
   return (
     <div className="w-full flex flex-col items-center gap-1">
       <div className="w-full max-w-[180px]">
-        <TriangleTop fabricUrl={fabricUrl} patternId={`pat-top-${uid}`} />
+        <TriangleTop fabricUrl={fabricUrl} threadFabricUrl={threadFabricUrl} patternId={`pat-top-${uid}`} />
       </div>
       <div className="w-full max-w-[200px] -mt-2">
         {bottomId === "culotte" ? (
