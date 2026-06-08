@@ -9,7 +9,6 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
-import { PasswordGate } from "@/components/PasswordGate";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -113,9 +112,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <PasswordGate>
-        <Outlet />
-      </PasswordGate>
+      <Outlet />
       <Toaster position="bottom-center" />
     </QueryClientProvider>
   );
