@@ -43,11 +43,11 @@ export const Route = createFileRoute("/")({
 
 // 18 fabrics: 9 solids then 9 prints (alphabetical within each group).
 const FABRICS = [
+  { id: "noir", name: "Noir", img: fabNoir },
   { id: "bleu", name: "Bleu", img: fabBleu },
   { id: "corail", name: "Corail", img: fabCorail },
   { id: "jaune", name: "Jaune", img: fabJaune },
   { id: "marron-satine", name: "Marron Satiné", img: fabMarron },
-  { id: "noir", name: "Noir", img: fabNoir },
   { id: "orange", name: "Orange", img: fabOrange },
   { id: "rose", name: "Rose", img: fabRose },
   { id: "rouge-satine", name: "Rouge Satiné", img: fabRouge },
