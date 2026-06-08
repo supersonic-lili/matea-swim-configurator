@@ -559,7 +559,7 @@ function ConfiguratorOverlay({
               <p className="text-[11px] font-light text-muted-foreground mb-2 uppercase tracking-wide">
                 Liens/Bretelles{threadFabric ? ` : ${threadFabric.name}` : ""}
               </p>
-              <div className="grid grid-cols-12 md:grid-cols-[repeat(18,minmax(0,1fr))] gap-1 md:gap-1.5 md:max-w-[580px] md:mx-auto">
+              <div className="grid grid-cols-9 md:grid-cols-[repeat(18,minmax(0,1fr))] gap-1.5">
                 {FABRICS.map((f) => {
                   const selected = threadColor === f.id;
                   return (
