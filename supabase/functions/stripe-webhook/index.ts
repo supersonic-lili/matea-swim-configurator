@@ -138,6 +138,7 @@ async function processPaidSession(stripe: Stripe, sessionId: string) {
         <tbody>${rows}</tbody>
       </table>
       ${totalsHtml}
+      ${notesHtml}
     </div>`;
 
 
