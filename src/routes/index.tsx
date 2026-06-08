@@ -561,7 +561,9 @@ function ConfiguratorOverlay({
               sizeBottom={sizeBottom}
               fabA={fabA}
               fabB={fabB}
-              total={PRICE}
+              price={PRICE}
+              note={note}
+              onNoteChange={setNote}
             />
           </div>
         )}
