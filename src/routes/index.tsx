@@ -617,6 +617,7 @@ function ConfiguratorOverlay({
               sizeBottom={sizeBottom}
               fabA={fabA}
               fabB={fabB}
+              threadColor={threadColor}
               price={PRICE}
               note={note}
               onNoteChange={setNote}
