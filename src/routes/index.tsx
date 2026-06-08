@@ -760,6 +760,20 @@ function CartOverlay({
                             {bc?.name ?? "—"}
                           </span>
                         </div>
+                        <div className="flex justify-between gap-3 items-center">
+                          <span className="text-muted-foreground">Couleur des fils</span>
+                          <span className="inline-flex items-center gap-2">
+                            {(() => {
+                              const tc = item.threadColor === "A" ? a : bc;
+                              return (
+                                <>
+                                  {tc && <img src={tc.img} alt={tc.name} className="w-5 h-5 rounded object-cover" />}
+                                  Côté {item.threadColor}{tc ? ` — ${tc.name}` : ""}
+                                </>
+                              );
+                            })()}
+                          </span>
+                        </div>
                         <div className="flex justify-between gap-3 pt-1.5 border-t border-border">
                           <span className="text-muted-foreground">Prix</span>
                           <span>{item.price}€</span>
