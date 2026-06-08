@@ -85,6 +85,7 @@ type CartItem = {
   fabricA: string;
   fabricB: string;
   price: number;
+  note?: string;
 };
 
 function CartIcon({ count, onClick }: { count: number; onClick: () => void }) {
