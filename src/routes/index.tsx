@@ -421,7 +421,7 @@ function ConfiguratorOverlay({
   const [sizeBottom, setSizeBottom] = useState<string | null>(null);
   const [fabricA, setFabricA] = useState<string | null>(null);
   const [fabricB, setFabricB] = useState<string | null>(null);
-  const [threadColor, setThreadColor] = useState<"A" | "B" | null>(null);
+  const [threadColor, setThreadColor] = useState<string | null>(null);
   const [warning, setWarning] = useState<string | null>(null);
   const [note, setNote] = useState("");
 
@@ -461,6 +461,7 @@ function ConfiguratorOverlay({
   const selectedBottom = BOTTOMS.find((b) => b.id === bottom);
   const fabA = FABRICS.find((f) => f.id === fabricA);
   const fabB = FABRICS.find((f) => f.id === fabricB);
+  const threadFabric = FABRICS.find((f) => f.id === threadColor);
 
   const handleAddToCart = () => {
     if (!top || !bottom || !sizeTop || !sizeBottom || !fabricA || !fabricB || !threadColor) return;
