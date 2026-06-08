@@ -708,6 +708,12 @@ function CartOverlay({
                           <span className="text-muted-foreground">Prix</span>
                           <span>{item.price}€</span>
                         </div>
+                        {item.note && (
+                          <div className="pt-1.5">
+                            <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Commentaires</p>
+                            <p className="text-sm text-foreground whitespace-pre-wrap">{item.note}</p>
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
