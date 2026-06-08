@@ -392,7 +392,7 @@ function OrderRecap({
           id="recap-note"
           value={note}
           onChange={(e) => onNoteChange(e.target.value)}
-          placeholder="Une préférence particulière ? Demande moi ici et je ferai de mon mieux pour t'accommoder."
+          placeholder="un commentaire ?"
           rows={3}
           className="w-full rounded-xl border border-input bg-transparent px-3 py-2 text-sm font-light placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none"
         />
@@ -559,7 +559,7 @@ function ConfiguratorOverlay({
               <p className="text-[11px] font-light text-muted-foreground mb-2 uppercase tracking-wide">
                 Liens/Bretelles{threadFabric ? ` : ${threadFabric.name}` : ""}
               </p>
-              <div className="grid grid-cols-9 md:grid-cols-[repeat(18,minmax(0,1fr))] gap-1.5">
+              <div className="grid grid-cols-12 md:grid-cols-[repeat(18,minmax(0,1fr))] gap-1 md:gap-1.5 md:max-w-[580px] md:mx-auto">
                 {FABRICS.map((f) => {
                   const selected = threadColor === f.id;
                   return (
