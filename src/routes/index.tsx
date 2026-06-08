@@ -742,6 +742,11 @@ function CartOverlay({
 function Footer() {
   return (
     <footer className="py-12 px-6 text-center text-sm font-light text-muted-foreground border-t border-border">
+      <p className="mb-4">
+        <a href="mailto:bonjour@matea-swimwear.com" className="underline">
+          Contactez-moi
+        </a>
+      </p>
       <p className="text-base italic">
         MATEA — fait main à Marseille
       </p>
