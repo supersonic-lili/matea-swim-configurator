@@ -774,7 +774,7 @@ function Index() {
   const handleAddToCart = (item: CartItem) => {
     setCart((prev) => [...prev, item]);
     setConfigOpen(false);
-    setCartOpen(true);
+    toast.success("Ajouté au panier !", { duration: 3000 });
   };
 
   const [checkoutLoading, setCheckoutLoading] = useState(false);
