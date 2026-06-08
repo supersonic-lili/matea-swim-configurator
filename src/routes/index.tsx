@@ -304,15 +304,17 @@ function SwimsuitPreview({
   bottomId,
   fabAImg,
   fabBImg,
+  threadFabricUrl,
 }: {
   bottomId?: string;
   fabAImg?: string;
   fabBImg?: string;
+  threadFabricUrl?: string;
 }) {
   const Side = ({ fab, label, uid }: { fab?: string; label: string; uid: string }) => (
     <div className="flex-1 flex flex-col items-center gap-3">
       <div className="w-full bg-white">
-        <FabricSwimsuit bottomId={bottomId} fabricUrl={fab} uid={uid} />
+        <FabricSwimsuit bottomId={bottomId} fabricUrl={fab} threadFabricUrl={threadFabricUrl} uid={uid} />
       </div>
       <span className="text-[11px] font-light text-foreground uppercase tracking-[0.15em]">
         {label}
