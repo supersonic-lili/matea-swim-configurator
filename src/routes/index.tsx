@@ -548,6 +548,48 @@ function ConfiguratorOverlay({
             {warning && (
               <p className="text-sm text-destructive font-light">{warning}</p>
             )}
+
+            <div>
+              <h4 className="text-sm sm:text-base font-medium uppercase tracking-wider mb-2">
+                Couleur des fils
+              </h4>
+              <p className="text-[11px] font-light text-muted-foreground mb-3 uppercase tracking-wide">
+                {threadColor
+                  ? `Côté ${threadColor}${
+                      threadColor === "A" ? (fabA ? ` : ${fabA.name}` : "") : fabB ? ` : ${fabB.name}` : ""
+                    }`
+                  : "Choisis la couleur"}
+              </p>
+              <div className="flex items-center gap-4">
+                {(["A", "B"] as const).map((side) => {
+                  const fab = side === "A" ? fabA : fabB;
+                  const selected = threadColor === side;
+                  return (
+                    <button
+                      key={side}
+                      onClick={() => fab && setThreadColor(side)}
+                      disabled={!fab}
+                      aria-label={`Couleur des fils côté ${side}`}
+                      className={`relative w-14 h-14 rounded-full overflow-hidden border transition-all ${
+                        selected
+                          ? "ring-2 ring-background ring-offset-2 ring-offset-foreground border-transparent shadow-md"
+                          : "border-border hover:border-foreground"
+                      } ${!fab ? "opacity-40 cursor-not-allowed" : ""}`}
+                    >
+                      {fab ? (
+                        <img
+                          src={fab.img}
+                          alt={fab.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="block w-full h-full bg-background" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         )}
 
