@@ -43,11 +43,11 @@ export const Route = createFileRoute("/")({
 
 // 18 fabrics: 9 solids then 9 prints (alphabetical within each group).
 const FABRICS = [
+  { id: "noir", name: "Noir", img: fabNoir },
   { id: "bleu", name: "Bleu", img: fabBleu },
   { id: "corail", name: "Corail", img: fabCorail },
   { id: "jaune", name: "Jaune", img: fabJaune },
   { id: "marron-satine", name: "Marron Satiné", img: fabMarron },
-  { id: "noir", name: "Noir", img: fabNoir },
   { id: "orange", name: "Orange", img: fabOrange },
   { id: "rose", name: "Rose", img: fabRose },
   { id: "rouge-satine", name: "Rouge Satiné", img: fabRouge },
@@ -69,7 +69,7 @@ const TOPS = [
 ];
 const BOTTOMS = [
   { id: "tanga", label: "Le Tanga", kind: "tanga" as const },
-  { id: "culotte", label: "Bas Échancré", kind: "culotte" as const },
+  { id: "culotte", label: "Le Bas Échancré", kind: "culotte" as const },
 ];
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
@@ -364,6 +364,7 @@ function OrderRecap({
       <Row label="Bas" value={`${selectedBottom?.label ?? "—"}, taille ${sizeBottom ?? "—"}`} />
       <Row label="Côté A" value={<FabricLine f={fabA} />} />
       <Row label="Côté B" value={<FabricLine f={fabB} />} />
+      <Row label="Maillot" value={`${total - SHIPPING}€`} />
       <Row label="Livraison France Standard" value={`${SHIPPING}€`} />
       <div className="pt-2 mt-2 border-t border-border flex items-center justify-between text-base font-light">
         <span>Total</span>
@@ -773,7 +774,7 @@ function Index() {
   const handleAddToCart = (item: CartItem) => {
     setCart((prev) => [...prev, item]);
     setConfigOpen(false);
-    setCartOpen(true);
+    toast.success("Ajouté au panier !", { duration: 3000 });
   };
 
   const [checkoutLoading, setCheckoutLoading] = useState(false);
