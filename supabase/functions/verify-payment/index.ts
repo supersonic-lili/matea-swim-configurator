@@ -128,6 +128,7 @@ Deno.serve(async (req) => {
           <tbody>${rows}</tbody>
         </table>
         ${totalsHtml}
+        ${notesHtml}
         <p style="font-weight:300;margin-top:24px">Matea te recontactera très vite pour la confection et la livraison.</p>
         <p style="font-style:italic;font-weight:300">MATEA — fait main à Marseille</p>
       </div>`;
