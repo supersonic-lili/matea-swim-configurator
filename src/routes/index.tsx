@@ -125,12 +125,53 @@ function Hero({ onOpen }: { onOpen: () => void }) {
       <p className="mt-3 text-base sm:text-lg md:text-xl text-foreground/90 font-light">
         maillots réversibles &amp; faits main, Marseille
       </p>
-      <button
-        onClick={onOpen}
-        className="mt-16 sm:mt-24 inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-light text-background transition-transform hover:scale-105"
-      >
-        Crée ton maillot
-      </button>
+      <div className="mt-16 sm:mt-24 flex items-center gap-4">
+        <button
+          onClick={onOpen}
+          className="inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-light text-background transition-transform hover:scale-105"
+        >
+          Crée ton maillot
+        </button>
+        <a
+          href="#a-propos"
+          className="inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-light text-background transition-transform hover:scale-105"
+        >
+          À propos
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function AboutSection() {
+  return (
+    <section id="a-propos" className="bg-background">
+      <div className="w-full">
+        <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-muted">
+          <img
+            src="/images/apropos-photo.jpg"
+            alt="Atelier MATEA"
+            loading="lazy"
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = "none";
+            }}
+          />
+        </div>
+      </div>
+      <div className="max-w-3xl mx-auto px-6 py-20 sm:py-28 text-center">
+        <p className="text-base sm:text-lg font-light leading-relaxed text-foreground/90">
+          Dans mon atelier à Marseille, je confectionne à la main des maillots de bain personnalisables et réversibles, pensés pour s'adapter à vos envies et à votre style. Choisissez vos tissus, sélectionnez la forme qui vous met le plus en valeur, et créez une pièce unique qui vous ressemble. Je réalise votre maillot spécialement pour vous, avec soin et attention à chaque détail.
+        </p>
+        <div className="mt-12">
+          <a
+            href="mailto:bonjour@matea-swimwear.com"
+            className="inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-light text-background transition-transform hover:scale-105"
+          >
+            Contactez-moi
+          </a>
+        </div>
+      </div>
     </section>
   );
 }
@@ -820,6 +861,7 @@ function Index() {
       <CartIcon count={cart.length} onClick={() => setCartOpen(true)} />
       <Hero onOpen={() => setConfigOpen(true)} />
       <Editorial />
+      <AboutSection />
       <Footer />
       {configOpen && (
         <ConfiguratorOverlay
