@@ -12,15 +12,16 @@ import { supabase } from "@/integrations/supabase/client";
 import mateaLogo from "@/assets/matea-logo.png";
 
 // Bundled fabric swatches (real binary files; Vite will hash + ship them).
-import fabNoir from "@/assets/fabrics-bundled/noir.jpg";
 import fabBleu from "@/assets/fabrics-bundled/bleu.jpg";
 import fabCorail from "@/assets/fabrics-bundled/corail.jpg";
 import fabJaune from "@/assets/fabrics-bundled/jaune.jpg";
 import fabMarron from "@/assets/fabrics-bundled/marron-satine.jpg";
-import fabRouge from "@/assets/fabrics-bundled/rouge-satine.jpg";
-import fabVert from "@/assets/fabrics-bundled/vert.jpg";
+import fabNoir from "@/assets/fabrics-bundled/noir.jpg";
 import fabOrange from "@/assets/fabrics-bundled/orange.jpg";
 import fabRose from "@/assets/fabrics-bundled/rose.jpg";
+import fabRouge from "@/assets/fabrics-bundled/rouge-satine.jpg";
+import fabVert from "@/assets/fabrics-bundled/vert.jpg";
+import fabBee from "@/assets/fabrics-bundled/bee.jpg";
 import fabBlackWater from "@/assets/fabrics-bundled/black-water.jpg";
 import fabDisco from "@/assets/fabrics-bundled/disco.jpg";
 import fabFire from "@/assets/fabrics-bundled/fire.jpg";
@@ -28,6 +29,7 @@ import fabFog from "@/assets/fabrics-bundled/fog.jpg";
 import fabFruits from "@/assets/fabrics-bundled/fruits.jpg";
 import fabNight from "@/assets/fabrics-bundled/night.jpg";
 import fabPrune from "@/assets/fabrics-bundled/prune.jpg";
+import fabShego from "@/assets/fabrics-bundled/shego.jpg";
 
 // Static images served from /public/images so Netlify includes them in the build.
 const heroAsset = { url: "/images/hero.jpg" };
@@ -39,37 +41,39 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// Order required: Noir, Bleu, Corail, Jaune, Vert, Marron Satiné, Rouge Satiné,
-// Bleu Rayé, Abeille, Shego, Galactic.
+// 18 fabrics: 9 solids then 9 prints (alphabetical within each group).
 const FABRICS = [
-  { id: "noir", name: "Noir", img: fabNoir },
   { id: "bleu", name: "Bleu", img: fabBleu },
   { id: "corail", name: "Corail", img: fabCorail },
   { id: "jaune", name: "Jaune", img: fabJaune },
-  { id: "vert", name: "Vert", img: fabVert },
   { id: "marron-satine", name: "Marron Satiné", img: fabMarron },
-  { id: "rouge-satine", name: "Rouge Satiné", img: fabRouge },
+  { id: "noir", name: "Noir", img: fabNoir },
   { id: "orange", name: "Orange", img: fabOrange },
   { id: "rose", name: "Rose", img: fabRose },
+  { id: "rouge-satine", name: "Rouge Satiné", img: fabRouge },
+  { id: "vert", name: "Vert", img: fabVert },
+  { id: "bee", name: "Bee", img: fabBee },
+  { id: "black-water", name: "Blackwater", img: fabBlackWater },
+  { id: "disco", name: "Disco", img: fabDisco },
   { id: "fire", name: "Fire", img: fabFire },
+  { id: "fog", name: "Fog", img: fabFog },
   { id: "fruits", name: "Fruits", img: fabFruits },
   { id: "night", name: "Night", img: fabNight },
-  { id: "black-water", name: "Black Water", img: fabBlackWater },
-  { id: "fog", name: "Fog", img: fabFog },
-  { id: "disco", name: "Disco", img: fabDisco },
   { id: "prune", name: "Prune", img: fabPrune },
+  { id: "shego", name: "Shego", img: fabShego },
 ];
+
 
 const TOPS = [
   { id: "triangle", label: "Le Triangle", kind: "triangle" as const },
 ];
 const BOTTOMS = [
   { id: "tanga", label: "Le Tanga", kind: "tanga" as const },
-  { id: "culotte", label: "La Culotte Échancrée", kind: "culotte" as const },
+  { id: "culotte", label: "Bas Échancré", kind: "culotte" as const },
 ];
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
-const PRICE = 85;
+const PRICE = 89;
 const SHIPPING = 6;
 
 type CartItem = {
@@ -520,7 +524,7 @@ function ConfiguratorOverlay({
               sizeBottom={sizeBottom}
               fabA={fabA}
               fabB={fabB}
-              total={PRICE + SHIPPING}
+              total={PRICE}
             />
           </div>
         )}
