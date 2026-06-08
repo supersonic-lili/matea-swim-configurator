@@ -27,7 +27,7 @@ function orderRows(items: any[]) {
   return items.map((it) => {
     const threadFabric = it.threadColor === "A" ? it.fabricA : it.threadColor === "B" ? it.fabricB : null;
     const threadLine = it.threadColor
-      ? `<br/><span style="color:#666">Fils : côté ${it.threadColor}${threadFabric ? ` (${threadFabric})` : ""}</span>`
+      ? `<br/><span style="color:#666">Liens/bretelles : côté ${it.threadColor}${threadFabric ? ` (${threadFabric})` : ""}</span>`
       : "";
     return `
     <tr>

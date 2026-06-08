@@ -375,7 +375,7 @@ function OrderRecap({
         <Row label="Côté A" value={<FabricLine f={fabA} />} />
         <Row label="Côté B" value={<FabricLine f={fabB} />} />
         <Row
-          label="Couleur des fils"
+          label="Couleur des liens/bretelles"
           value={
             threadColor
               ? <FabricLine f={threadColor === "A" ? fabA : fabB} />
@@ -397,7 +397,7 @@ function OrderRecap({
           id="recap-note"
           value={note}
           onChange={(e) => onNoteChange(e.target.value)}
-          placeholder="Une idée de couleurs de fils ? Une préférence particulière ? Demande moi ici et je ferai de mon mieux pour t'accommoder."
+          placeholder="Une idée de couleurs de liens/bretelles ? Une préférence particulière ? Demande moi ici et je ferai de mon mieux pour t'accommoder."
           rows={3}
           className="w-full rounded-xl border border-input bg-transparent px-3 py-2 text-sm font-light placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none"
         />
@@ -561,7 +561,7 @@ function ConfiguratorOverlay({
 
             <div>
               <h4 className="text-sm sm:text-base font-medium uppercase tracking-wider mb-2">
-                Couleur des fils
+                Couleur des liens/bretelles
               </h4>
               <p className="text-[11px] font-light text-muted-foreground mb-3 uppercase tracking-wide">
                 {threadColor
@@ -579,7 +579,7 @@ function ConfiguratorOverlay({
                       key={side}
                       onClick={() => fab && setThreadColor(side)}
                       disabled={!fab}
-                      aria-label={`Couleur des fils côté ${side}`}
+                      aria-label={`Couleur des liens/bretelles côté ${side}`}
                       className={`relative w-14 h-14 rounded-full overflow-hidden border transition-all ${
                         selected
                           ? "ring-2 ring-background ring-offset-2 ring-offset-foreground border-transparent shadow-md"
@@ -761,7 +761,7 @@ function CartOverlay({
                           </span>
                         </div>
                         <div className="flex justify-between gap-3 items-center">
-                          <span className="text-muted-foreground">Couleur des fils</span>
+                          <span className="text-muted-foreground">Couleur des liens/bretelles</span>
                           <span className="inline-flex items-center gap-2">
                             {(() => {
                               const tc = item.threadColor === "A" ? a : bc;
