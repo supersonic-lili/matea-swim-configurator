@@ -834,8 +834,8 @@ function Index() {
       <CartIcon count={cart.length} onClick={() => setCartOpen(true)} />
       <Hero onOpen={() => setConfigOpen(true)} />
       <Editorial />
-      <AboutSection />
       <Footer />
+
       {configOpen && (
         <ConfiguratorOverlay
           onClose={() => setConfigOpen(false)}
