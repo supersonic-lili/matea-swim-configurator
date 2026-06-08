@@ -6,6 +6,7 @@
 type PieceProps = {
   fabricUrl?: string;
   patternId: string;
+  threadFabricUrl?: string;
 };
 
 
