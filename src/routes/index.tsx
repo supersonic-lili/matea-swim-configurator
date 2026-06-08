@@ -337,7 +337,7 @@ function OrderRecap({
   sizeBottom,
   fabA,
   fabB,
-  threadColor,
+  threadFabric,
   price,
   note,
   onNoteChange,
@@ -348,7 +348,7 @@ function OrderRecap({
   sizeBottom: string | null;
   fabA?: { name: string; img: string };
   fabB?: { name: string; img: string };
-  threadColor: "A" | "B" | null;
+  threadFabric?: { name: string; img: string };
   price: number;
   note: string;
   onNoteChange: (v: string) => void;
@@ -376,14 +376,7 @@ function OrderRecap({
         <Row label="Bas" value={`${selectedBottom?.label ?? "—"}, taille ${sizeBottom ?? "—"}`} />
         <Row label="Côté A" value={<FabricLine f={fabA} />} />
         <Row label="Côté B" value={<FabricLine f={fabB} />} />
-        <Row
-          label="Couleur des liens/bretelles"
-          value={
-            threadColor
-              ? <FabricLine f={threadColor === "A" ? fabA : fabB} />
-              : <span>—</span>
-          }
-        />
+        <Row label="Liens/Bretelles" value={<FabricLine f={threadFabric} />} />
         <Row label="Maillot" value={`${price}€`} />
         <Row label="Livraison France Standard" value={`${SHIPPING}€`} />
         <div className="pt-2 mt-2 border-t border-border flex items-center justify-between text-base font-light">
@@ -399,7 +392,7 @@ function OrderRecap({
           id="recap-note"
           value={note}
           onChange={(e) => onNoteChange(e.target.value)}
-          placeholder="Une idée de couleurs de liens/bretelles ? Une préférence particulière ? Demande moi ici et je ferai de mon mieux pour t'accommoder."
+          placeholder="Une préférence particulière ? Demande moi ici et je ferai de mon mieux pour t'accommoder."
           rows={3}
           className="w-full rounded-xl border border-input bg-transparent px-3 py-2 text-sm font-light placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none"
         />
