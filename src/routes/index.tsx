@@ -84,7 +84,7 @@ type CartItem = {
   sizeBottom: string;
   fabricA: string;
   fabricB: string;
-  threadColor: "A" | "B";
+  threadColor: string; // fabric id
   price: number;
   note?: string;
 };
@@ -304,15 +304,17 @@ function SwimsuitPreview({
   bottomId,
   fabAImg,
   fabBImg,
+  threadFabricUrl,
 }: {
   bottomId?: string;
   fabAImg?: string;
   fabBImg?: string;
+  threadFabricUrl?: string;
 }) {
   const Side = ({ fab, label, uid }: { fab?: string; label: string; uid: string }) => (
     <div className="flex-1 flex flex-col items-center gap-3">
       <div className="w-full bg-white">
-        <FabricSwimsuit bottomId={bottomId} fabricUrl={fab} uid={uid} />
+        <FabricSwimsuit bottomId={bottomId} fabricUrl={fab} threadFabricUrl={threadFabricUrl} uid={uid} />
       </div>
       <span className="text-[11px] font-light text-foreground uppercase tracking-[0.15em]">
         {label}
@@ -335,7 +337,7 @@ function OrderRecap({
   sizeBottom,
   fabA,
   fabB,
-  threadColor,
+  threadFabric,
   price,
   note,
   onNoteChange,
@@ -346,7 +348,7 @@ function OrderRecap({
   sizeBottom: string | null;
   fabA?: { name: string; img: string };
   fabB?: { name: string; img: string };
-  threadColor: "A" | "B" | null;
+  threadFabric?: { name: string; img: string };
   price: number;
   note: string;
   onNoteChange: (v: string) => void;
@@ -374,14 +376,7 @@ function OrderRecap({
         <Row label="Bas" value={`${selectedBottom?.label ?? "—"}, taille ${sizeBottom ?? "—"}`} />
         <Row label="Côté A" value={<FabricLine f={fabA} />} />
         <Row label="Côté B" value={<FabricLine f={fabB} />} />
-        <Row
-          label="Couleur des liens/bretelles"
-          value={
-            threadColor
-              ? <FabricLine f={threadColor === "A" ? fabA : fabB} />
-              : <span>—</span>
-          }
-        />
+        <Row label="Liens/Bretelles" value={<FabricLine f={threadFabric} />} />
         <Row label="Maillot" value={`${price}€`} />
         <Row label="Livraison France Standard" value={`${SHIPPING}€`} />
         <div className="pt-2 mt-2 border-t border-border flex items-center justify-between text-base font-light">
@@ -397,7 +392,7 @@ function OrderRecap({
           id="recap-note"
           value={note}
           onChange={(e) => onNoteChange(e.target.value)}
-          placeholder="Une idée de couleurs de liens/bretelles ? Une préférence particulière ? Demande moi ici et je ferai de mon mieux pour t'accommoder."
+          placeholder="Une préférence particulière ? Demande moi ici et je ferai de mon mieux pour t'accommoder."
           rows={3}
           className="w-full rounded-xl border border-input bg-transparent px-3 py-2 text-sm font-light placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none"
         />
@@ -426,7 +421,7 @@ function ConfiguratorOverlay({
   const [sizeBottom, setSizeBottom] = useState<string | null>(null);
   const [fabricA, setFabricA] = useState<string | null>(null);
   const [fabricB, setFabricB] = useState<string | null>(null);
-  const [threadColor, setThreadColor] = useState<"A" | "B" | null>(null);
+  const [threadColor, setThreadColor] = useState<string | null>(null);
   const [warning, setWarning] = useState<string | null>(null);
   const [note, setNote] = useState("");
 
@@ -466,6 +461,7 @@ function ConfiguratorOverlay({
   const selectedBottom = BOTTOMS.find((b) => b.id === bottom);
   const fabA = FABRICS.find((f) => f.id === fabricA);
   const fabB = FABRICS.find((f) => f.id === fabricB);
+  const threadFabric = FABRICS.find((f) => f.id === threadColor);
 
   const handleAddToCart = () => {
     if (!top || !bottom || !sizeTop || !sizeBottom || !fabricA || !fabricB || !threadColor) return;
@@ -560,41 +556,30 @@ function ConfiguratorOverlay({
             )}
 
             <div>
-              <h4 className="text-sm sm:text-base font-medium uppercase tracking-wider mb-2">
-                Couleur des liens/bretelles
-              </h4>
-              <p className="text-[11px] font-light text-muted-foreground mb-3 uppercase tracking-wide">
-                {threadColor
-                  ? `Côté ${threadColor}${
-                      threadColor === "A" ? (fabA ? ` : ${fabA.name}` : "") : fabB ? ` : ${fabB.name}` : ""
-                    }`
-                  : "Choisis la couleur"}
+              <p className="text-[11px] font-light text-muted-foreground mb-2 uppercase tracking-wide">
+                Liens/Bretelles{threadFabric ? ` : ${threadFabric.name}` : ""}
               </p>
-              <div className="flex items-center gap-4">
-                {(["A", "B"] as const).map((side) => {
-                  const fab = side === "A" ? fabA : fabB;
-                  const selected = threadColor === side;
+              <div className="grid grid-cols-9 md:grid-cols-[repeat(18,minmax(0,1fr))] gap-1.5">
+                {FABRICS.map((f) => {
+                  const selected = threadColor === f.id;
                   return (
                     <button
-                      key={side}
-                      onClick={() => fab && setThreadColor(side)}
-                      disabled={!fab}
-                      aria-label={`Couleur des liens/bretelles côté ${side}`}
-                      className={`relative w-14 h-14 rounded-full overflow-hidden border transition-all ${
+                      key={f.id}
+                      onClick={() => setThreadColor(f.id)}
+                      aria-label={f.name}
+                      title={f.name}
+                      className={`relative aspect-square w-full rounded-full overflow-hidden transition-all ${
                         selected
-                          ? "ring-2 ring-background ring-offset-2 ring-offset-foreground border-transparent shadow-md"
-                          : "border-border hover:border-foreground"
-                      } ${!fab ? "opacity-40 cursor-not-allowed" : ""}`}
+                          ? "ring-2 ring-background ring-offset-2 ring-offset-foreground shadow-md"
+                          : "hover:opacity-90"
+                      }`}
                     >
-                      {fab ? (
-                        <img
-                          src={fab.img}
-                          alt={fab.name}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <span className="block w-full h-full bg-background" />
-                      )}
+                      <img
+                        src={f.img}
+                        alt={f.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover rounded-full"
+                      />
                     </button>
                   );
                 })}
@@ -609,6 +594,7 @@ function ConfiguratorOverlay({
               bottomId={selectedBottom?.id}
               fabAImg={fabA?.img}
               fabBImg={fabB?.img}
+              threadFabricUrl={threadFabric?.img}
             />
             <OrderRecap
               selectedTop={selectedTop}
@@ -617,7 +603,7 @@ function ConfiguratorOverlay({
               sizeBottom={sizeBottom}
               fabA={fabA}
               fabB={fabB}
-              threadColor={threadColor}
+              threadFabric={threadFabric}
               price={PRICE}
               note={note}
               onNoteChange={setNote}
@@ -761,14 +747,14 @@ function CartOverlay({
                           </span>
                         </div>
                         <div className="flex justify-between gap-3 items-center">
-                          <span className="text-muted-foreground">Couleur des liens/bretelles</span>
+                          <span className="text-muted-foreground">Liens/Bretelles</span>
                           <span className="inline-flex items-center gap-2">
                             {(() => {
-                              const tc = item.threadColor === "A" ? a : bc;
+                              const tc = FABRICS.find((f) => f.id === item.threadColor);
                               return (
                                 <>
                                   {tc && <img src={tc.img} alt={tc.name} className="w-5 h-5 rounded object-cover" />}
-                                  Côté {item.threadColor}{tc ? ` — ${tc.name}` : ""}
+                                  {tc?.name ?? "—"}
                                 </>
                               );
                             })()}
