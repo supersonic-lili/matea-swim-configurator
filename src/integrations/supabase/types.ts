@@ -19,6 +19,7 @@ export type Database = {
           created_at: string
           currency: string
           email: string
+          emailed_at: string | null
           id: string
           items: Json
           shipping_address: Json | null
@@ -31,6 +32,7 @@ export type Database = {
           created_at?: string
           currency?: string
           email: string
+          emailed_at?: string | null
           id?: string
           items: Json
           shipping_address?: Json | null
@@ -43,6 +45,7 @@ export type Database = {
           created_at?: string
           currency?: string
           email?: string
+          emailed_at?: string | null
           id?: string
           items?: Json
           shipping_address?: Json | null
