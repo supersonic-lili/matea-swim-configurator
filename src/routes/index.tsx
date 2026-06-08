@@ -157,7 +157,7 @@ function Editorial() {
             />
           </div>
           <div className="flex flex-col gap-0.5">
-            <div className="aspect-[3/4] overflow-hidden">
+            <div className="aspect-[3/2] overflow-hidden">
               <img
                 src={editorial6.url}
                 alt="MATEA 2"
@@ -165,7 +165,7 @@ function Editorial() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="aspect-[3/4] overflow-hidden">
+            <div className="aspect-[3/2] overflow-hidden">
               <img
                 src={editorial7.url}
                 alt="MATEA 3"
