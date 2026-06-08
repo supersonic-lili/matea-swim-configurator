@@ -7,7 +7,7 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const NOTIFY_EMAIL = "liot.mathilde@gmail.com";
+const NOTIFY_EMAIL = "bonjour@matea-swimwear.com";
 const FROM_EMAIL = "MATEA <bonjour@matea-swimwear.com>";
 
 async function sendEmail(to: string, subject: string, html: string) {
