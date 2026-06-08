@@ -84,6 +84,7 @@ type CartItem = {
   sizeBottom: string;
   fabricA: string;
   fabricB: string;
+  threadColor: "A" | "B";
   price: number;
   note?: string;
 };
@@ -334,6 +335,7 @@ function OrderRecap({
   sizeBottom,
   fabA,
   fabB,
+  threadColor,
   price,
   note,
   onNoteChange,
@@ -344,6 +346,7 @@ function OrderRecap({
   sizeBottom: string | null;
   fabA?: { name: string; img: string };
   fabB?: { name: string; img: string };
+  threadColor: "A" | "B" | null;
   price: number;
   note: string;
   onNoteChange: (v: string) => void;
@@ -371,6 +374,14 @@ function OrderRecap({
         <Row label="Bas" value={`${selectedBottom?.label ?? "—"}, taille ${sizeBottom ?? "—"}`} />
         <Row label="Côté A" value={<FabricLine f={fabA} />} />
         <Row label="Côté B" value={<FabricLine f={fabB} />} />
+        <Row
+          label="Couleur des fils"
+          value={
+            threadColor
+              ? <FabricLine f={threadColor === "A" ? fabA : fabB} />
+              : <span>—</span>
+          }
+        />
         <Row label="Maillot" value={`${price}€`} />
         <Row label="Livraison France Standard" value={`${SHIPPING}€`} />
         <div className="pt-2 mt-2 border-t border-border flex items-center justify-between text-base font-light">
@@ -415,6 +426,7 @@ function ConfiguratorOverlay({
   const [sizeBottom, setSizeBottom] = useState<string | null>(null);
   const [fabricA, setFabricA] = useState<string | null>(null);
   const [fabricB, setFabricB] = useState<string | null>(null);
+  const [threadColor, setThreadColor] = useState<"A" | "B" | null>(null);
   const [warning, setWarning] = useState<string | null>(null);
   const [note, setNote] = useState("");
 
@@ -448,7 +460,7 @@ function ConfiguratorOverlay({
 
   const canNext =
     (step === 1 && !!top && !!bottom && !!sizeTop && !!sizeBottom) ||
-    (step === 2 && !!fabricA && !!fabricB);
+    (step === 2 && !!fabricA && !!fabricB && !!threadColor);
 
   const selectedTop = TOPS.find((t) => t.id === top);
   const selectedBottom = BOTTOMS.find((b) => b.id === bottom);
@@ -456,7 +468,7 @@ function ConfiguratorOverlay({
   const fabB = FABRICS.find((f) => f.id === fabricB);
 
   const handleAddToCart = () => {
-    if (!top || !bottom || !sizeTop || !sizeBottom || !fabricA || !fabricB) return;
+    if (!top || !bottom || !sizeTop || !sizeBottom || !fabricA || !fabricB || !threadColor) return;
     onAddToCart({
       id: crypto.randomUUID(),
       topId: top,
@@ -465,6 +477,7 @@ function ConfiguratorOverlay({
       sizeBottom,
       fabricA,
       fabricB,
+      threadColor,
       price: PRICE,
       note: note.trim() || undefined,
     });
@@ -545,6 +558,48 @@ function ConfiguratorOverlay({
             {warning && (
               <p className="text-sm text-destructive font-light">{warning}</p>
             )}
+
+            <div>
+              <h4 className="text-sm sm:text-base font-medium uppercase tracking-wider mb-2">
+                Couleur des fils
+              </h4>
+              <p className="text-[11px] font-light text-muted-foreground mb-3 uppercase tracking-wide">
+                {threadColor
+                  ? `Côté ${threadColor}${
+                      threadColor === "A" ? (fabA ? ` : ${fabA.name}` : "") : fabB ? ` : ${fabB.name}` : ""
+                    }`
+                  : "Choisis la couleur"}
+              </p>
+              <div className="flex items-center gap-4">
+                {(["A", "B"] as const).map((side) => {
+                  const fab = side === "A" ? fabA : fabB;
+                  const selected = threadColor === side;
+                  return (
+                    <button
+                      key={side}
+                      onClick={() => fab && setThreadColor(side)}
+                      disabled={!fab}
+                      aria-label={`Couleur des fils côté ${side}`}
+                      className={`relative w-14 h-14 rounded-full overflow-hidden border transition-all ${
+                        selected
+                          ? "ring-2 ring-background ring-offset-2 ring-offset-foreground border-transparent shadow-md"
+                          : "border-border hover:border-foreground"
+                      } ${!fab ? "opacity-40 cursor-not-allowed" : ""}`}
+                    >
+                      {fab ? (
+                        <img
+                          src={fab.img}
+                          alt={fab.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="block w-full h-full bg-background" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         )}
 
@@ -562,6 +617,7 @@ function ConfiguratorOverlay({
               sizeBottom={sizeBottom}
               fabA={fabA}
               fabB={fabB}
+              threadColor={threadColor}
               price={PRICE}
               note={note}
               onNoteChange={setNote}
@@ -702,6 +758,20 @@ function CartOverlay({
                           <span className="inline-flex items-center gap-2">
                             {bc && <img src={bc.img} alt={bc.name} className="w-5 h-5 rounded object-cover" />}
                             {bc?.name ?? "—"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between gap-3 items-center">
+                          <span className="text-muted-foreground">Couleur des fils</span>
+                          <span className="inline-flex items-center gap-2">
+                            {(() => {
+                              const tc = item.threadColor === "A" ? a : bc;
+                              return (
+                                <>
+                                  {tc && <img src={tc.img} alt={tc.name} className="w-5 h-5 rounded object-cover" />}
+                                  Côté {item.threadColor}{tc ? ` — ${tc.name}` : ""}
+                                </>
+                              );
+                            })()}
                           </span>
                         </div>
                         <div className="flex justify-between gap-3 pt-1.5 border-t border-border">
