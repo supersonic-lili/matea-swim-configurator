@@ -524,7 +524,7 @@ function ConfiguratorOverlay({
               sizeBottom={sizeBottom}
               fabA={fabA}
               fabB={fabB}
-              total={PRICE + SHIPPING}
+              total={PRICE}
             />
           </div>
         )}
