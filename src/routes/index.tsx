@@ -85,6 +85,7 @@ type CartItem = {
   fabricA: string;
   fabricB: string;
   price: number;
+  note?: string;
 };
 
 function CartIcon({ count, onClick }: { count: number; onClick: () => void }) {
@@ -333,7 +334,9 @@ function OrderRecap({
   sizeBottom,
   fabA,
   fabB,
-  total,
+  price,
+  note,
+  onNoteChange,
 }: {
   selectedTop?: { label: string };
   selectedBottom?: { label: string };
@@ -341,7 +344,9 @@ function OrderRecap({
   sizeBottom: string | null;
   fabA?: { name: string; img: string };
   fabB?: { name: string; img: string };
-  total: number;
+  price: number;
+  note: string;
+  onNoteChange: (v: string) => void;
 }) {
   const Row = ({ label, value }: { label: string; value: React.ReactNode }) => (
     <div className="flex items-center justify-between gap-3 text-sm font-light">
@@ -358,17 +363,33 @@ function OrderRecap({
     ) : (
       <span>—</span>
     );
+  const total = price + SHIPPING;
   return (
-    <div className="rounded-xl bg-secondary/50 p-4 space-y-2">
-      <Row label="Haut" value={`${selectedTop?.label ?? "—"}, taille ${sizeTop ?? "—"}`} />
-      <Row label="Bas" value={`${selectedBottom?.label ?? "—"}, taille ${sizeBottom ?? "—"}`} />
-      <Row label="Côté A" value={<FabricLine f={fabA} />} />
-      <Row label="Côté B" value={<FabricLine f={fabB} />} />
-      <Row label="Maillot" value={`${total - SHIPPING}€`} />
-      <Row label="Livraison France Standard" value={`${SHIPPING}€`} />
-      <div className="pt-2 mt-2 border-t border-border flex items-center justify-between text-base font-light">
-        <span>Total</span>
-        <span>{total}€</span>
+    <div className="space-y-3">
+      <div className="rounded-xl bg-secondary/50 p-4 space-y-2">
+        <Row label="Haut" value={`${selectedTop?.label ?? "—"}, taille ${sizeTop ?? "—"}`} />
+        <Row label="Bas" value={`${selectedBottom?.label ?? "—"}, taille ${sizeBottom ?? "—"}`} />
+        <Row label="Côté A" value={<FabricLine f={fabA} />} />
+        <Row label="Côté B" value={<FabricLine f={fabB} />} />
+        <Row label="Maillot" value={`${price}€`} />
+        <Row label="Livraison France Standard" value={`${SHIPPING}€`} />
+        <div className="pt-2 mt-2 border-t border-border flex items-center justify-between text-base font-light">
+          <span>Total</span>
+          <span>{total}€</span>
+        </div>
+      </div>
+      <div className="space-y-1.5">
+        <label htmlFor="recap-note" className="text-sm font-medium uppercase tracking-wider">
+          Commentaires
+        </label>
+        <textarea
+          id="recap-note"
+          value={note}
+          onChange={(e) => onNoteChange(e.target.value)}
+          placeholder="Une idée de couleurs de fils ? Une préférence particulière ? Demande moi ici et je ferai de mon mieux pour t'accommoder."
+          rows={3}
+          className="w-full rounded-xl border border-input bg-transparent px-3 py-2 text-sm font-light placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none"
+        />
       </div>
     </div>
   );
@@ -395,6 +416,7 @@ function ConfiguratorOverlay({
   const [fabricA, setFabricA] = useState<string | null>(null);
   const [fabricB, setFabricB] = useState<string | null>(null);
   const [warning, setWarning] = useState<string | null>(null);
+  const [note, setNote] = useState("");
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -444,6 +466,7 @@ function ConfiguratorOverlay({
       fabricA,
       fabricB,
       price: PRICE,
+      note: note.trim() || undefined,
     });
   };
 
@@ -539,7 +562,9 @@ function ConfiguratorOverlay({
               sizeBottom={sizeBottom}
               fabA={fabA}
               fabB={fabB}
-              total={PRICE}
+              price={PRICE}
+              note={note}
+              onNoteChange={setNote}
             />
           </div>
         )}
@@ -683,6 +708,12 @@ function CartOverlay({
                           <span className="text-muted-foreground">Prix</span>
                           <span>{item.price}€</span>
                         </div>
+                        {item.note && (
+                          <div className="pt-1.5">
+                            <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Commentaires</p>
+                            <p className="text-sm text-foreground whitespace-pre-wrap">{item.note}</p>
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
@@ -742,6 +773,11 @@ function CartOverlay({
 function Footer() {
   return (
     <footer className="py-12 px-6 text-center text-sm font-light text-muted-foreground border-t border-border">
+      <p className="mb-4">
+        <a href="mailto:bonjour@matea-swimwear.com" className="underline">
+          Contactez-moi
+        </a>
+      </p>
       <p className="text-base italic">
         MATEA — fait main à Marseille
       </p>
