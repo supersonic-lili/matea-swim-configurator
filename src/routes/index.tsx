@@ -450,7 +450,7 @@ function ConfiguratorOverlay({
 
   const canNext =
     (step === 1 && !!top && !!bottom && !!sizeTop && !!sizeBottom) ||
-    (step === 2 && !!fabricA && !!fabricB);
+    (step === 2 && !!fabricA && !!fabricB && !!threadColor);
 
   const selectedTop = TOPS.find((t) => t.id === top);
   const selectedBottom = BOTTOMS.find((b) => b.id === bottom);
@@ -458,7 +458,7 @@ function ConfiguratorOverlay({
   const fabB = FABRICS.find((f) => f.id === fabricB);
 
   const handleAddToCart = () => {
-    if (!top || !bottom || !sizeTop || !sizeBottom || !fabricA || !fabricB) return;
+    if (!top || !bottom || !sizeTop || !sizeBottom || !fabricA || !fabricB || !threadColor) return;
     onAddToCart({
       id: crypto.randomUUID(),
       topId: top,
@@ -467,6 +467,7 @@ function ConfiguratorOverlay({
       sizeBottom,
       fabricA,
       fabricB,
+      threadColor,
       price: PRICE,
       note: note.trim() || undefined,
     });
