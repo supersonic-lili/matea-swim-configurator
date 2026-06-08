@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { X, Instagram, ShoppingBag } from "lucide-react";
 import {
@@ -132,45 +132,12 @@ function Hero({ onOpen }: { onOpen: () => void }) {
         >
           Crée ton maillot
         </button>
-        <a
-          href="#a-propos"
+        <Link
+          to="/a-propos"
           className="inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-light text-background transition-transform hover:scale-105"
         >
           À propos
-        </a>
-      </div>
-    </section>
-  );
-}
-
-function AboutSection() {
-  return (
-    <section id="a-propos" className="bg-background">
-      <div className="w-full">
-        <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-muted">
-          <img
-            src="/images/apropos-photo.jpg"
-            alt="Atelier MATEA"
-            loading="lazy"
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = "none";
-            }}
-          />
-        </div>
-      </div>
-      <div className="max-w-3xl mx-auto px-6 py-20 sm:py-28 text-center">
-        <p className="text-base sm:text-lg font-light leading-relaxed text-foreground/90">
-          Dans mon atelier à Marseille, je confectionne à la main des maillots de bain personnalisables et réversibles, pensés pour s'adapter à vos envies et à votre style. Choisissez vos tissus, sélectionnez la forme qui vous met le plus en valeur, et créez une pièce unique qui vous ressemble. Je réalise votre maillot spécialement pour vous, avec soin et attention à chaque détail.
-        </p>
-        <div className="mt-12">
-          <a
-            href="mailto:bonjour@matea-swimwear.com"
-            className="inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-light text-background transition-transform hover:scale-105"
-          >
-            Contactez-moi
-          </a>
-        </div>
+        </Link>
       </div>
     </section>
   );
@@ -181,25 +148,31 @@ function Editorial() {
     <section className="py-16 sm:py-24 bg-background">
       <div className="w-full">
         <div className="grid grid-cols-2 gap-0.5">
-          <img
-            src={editorial5.url}
-            alt="MATEA 1"
-            loading="lazy"
-            className="w-full h-full object-cover row-span-2 aspect-[3/4]"
-          />
+          <div className="aspect-[3/4] overflow-hidden">
+            <img
+              src={editorial5.url}
+              alt="MATEA 1"
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+          </div>
           <div className="grid grid-rows-2 gap-0.5">
-            <img
-              src={editorial6.url}
-              alt="MATEA 2"
-              loading="lazy"
-              className="w-full h-full object-cover aspect-[3/2]"
-            />
-            <img
-              src={editorial7.url}
-              alt="MATEA 3"
-              loading="lazy"
-              className="w-full h-full object-cover aspect-[3/2]"
-            />
+            <div className="overflow-hidden">
+              <img
+                src={editorial6.url}
+                alt="MATEA 2"
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="overflow-hidden">
+              <img
+                src={editorial7.url}
+                alt="MATEA 3"
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
         <p className="font-light italic text-center text-lg sm:text-xl text-foreground/80 mt-12 sm:mt-16 max-w-2xl mx-auto px-6">
@@ -861,8 +834,8 @@ function Index() {
       <CartIcon count={cart.length} onClick={() => setCartOpen(true)} />
       <Hero onOpen={() => setConfigOpen(true)} />
       <Editorial />
-      <AboutSection />
       <Footer />
+
       {configOpen && (
         <ConfiguratorOverlay
           onClose={() => setConfigOpen(false)}
