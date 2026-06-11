@@ -603,8 +603,9 @@ function ConfiguratorOverlay({
                 Bas
               </h4>
               <ShapePicker options={BOTTOMS} value={bottom} onChange={setBottom} />
-              <div className="mt-3">
+              <div className="mt-3 flex items-center justify-between gap-3 flex-wrap">
                 <SizeRow value={sizeBottom} onChange={setSizeBottom} />
+                <SizeGuideDialog />
               </div>
             </section>
           </div>
