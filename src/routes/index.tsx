@@ -656,10 +656,13 @@ function CartOverlay({
   items: CartItem[];
   onClose: () => void;
   onRemove: (id: string) => void;
-  onCheckout: (email: string) => void;
+  onCheckout: (email: string, promoCode: string | null) => void;
 }) {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
+  const [promoInput, setPromoInput] = useState("");
+  const [promoApplied, setPromoApplied] = useState<string | null>(null);
+  const [promoError, setPromoError] = useState(false);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -674,7 +677,19 @@ function CartOverlay({
 
   const subtotal = items.reduce((s, i) => s + i.price, 0);
   const shipping = items.length > 0 ? SHIPPING : 0;
-  const total = subtotal + shipping;
+  const discount = promoApplied === "MATEA10" ? Math.round(subtotal * 0.1 * 100) / 100 : 0;
+  const total = Math.max(0, subtotal - discount) + shipping;
+
+  const applyPromo = () => {
+    const code = promoInput.trim().toUpperCase();
+    if (code === "MATEA10") {
+      setPromoApplied(code);
+      setPromoError(false);
+    } else {
+      setPromoApplied(null);
+      setPromoError(true);
+    }
+  };
 
   const handleClick = () => {
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -683,8 +698,9 @@ function CartOverlay({
       return;
     }
     setEmailError(false);
-    onCheckout(email.trim());
+    onCheckout(email.trim(), promoApplied);
   };
+
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm overflow-y-auto">
