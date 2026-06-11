@@ -22,10 +22,11 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { items, email, origin } = await req.json() as {
+    const { items, email, origin, promoCode } = await req.json() as {
       items: CartItem[];
       email: string;
       origin: string;
+      promoCode?: string | null;
     };
 
     if (!Array.isArray(items) || items.length === 0) {
@@ -40,6 +41,7 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
       apiVersion: "2024-06-20",
