@@ -59,12 +59,25 @@ Deno.serve(async (req) => {
       quantity: 1,
     }));
 
+    // Handle our app-level promo code (e.g. MATEA10 = 10% off).
+    const normalizedPromo = (promoCode ?? "").trim().toUpperCase();
+    let discounts: { coupon: string }[] | undefined;
+    if (normalizedPromo === "MATEA10") {
+      const coupon = await stripe.coupons.create({
+        percent_off: 10,
+        duration: "once",
+        name: "MATEA10",
+      });
+      discounts = [{ coupon: coupon.id }];
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
       customer_email: email,
       line_items,
-      allow_promotion_codes: true,
+      // allow_promotion_codes and discounts are mutually exclusive in Stripe Checkout.
+      ...(discounts ? { discounts } : { allow_promotion_codes: true }),
       shipping_address_collection: { allowed_countries: ["FR"] },
       shipping_options: [
         {
@@ -79,8 +92,10 @@ Deno.serve(async (req) => {
       cancel_url: `${origin}/?payment=cancel`,
       metadata: {
         cart: JSON.stringify(items).slice(0, 4500),
+        promo_code: normalizedPromo || "",
       },
     });
+
 
     // Persist pending order
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
