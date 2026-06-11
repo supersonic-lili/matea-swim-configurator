@@ -1,12 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { X, Instagram, ShoppingBag } from "lucide-react";
+import { X, Instagram, ShoppingBag, Ruler } from "lucide-react";
 import {
   FabricSwimsuit,
   TriangleTop,
   TangaBottom,
   CulotteBottom,
 } from "@/components/SwimsuitDisplay";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import mateaLogo from "@/assets/matea-logo.png";
