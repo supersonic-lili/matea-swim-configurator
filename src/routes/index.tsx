@@ -125,7 +125,7 @@ function Hero({ onOpen }: { onOpen: () => void }) {
         />
       </div>
       <p className="mt-3 text-base sm:text-lg md:text-xl text-foreground/90 font-light">
-        maillots réversibles &amp; faits main, Marseille
+        <span className="font-bold">maillots réversibles &amp; faits main, Marseille</span>
       </p>
       <div className="mt-16 sm:mt-24 flex items-center gap-4">
         <button

@@ -62,6 +62,7 @@ Deno.serve(async (req) => {
       payment_method_types: ["card"],
       customer_email: email,
       line_items,
+      allow_promotion_codes: true,
       shipping_address_collection: { allowed_countries: ["FR"] },
       shipping_options: [
         {
