@@ -656,10 +656,13 @@ function CartOverlay({
   items: CartItem[];
   onClose: () => void;
   onRemove: (id: string) => void;
-  onCheckout: (email: string) => void;
+  onCheckout: (email: string, promoCode: string | null) => void;
 }) {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
+  const [promoInput, setPromoInput] = useState("");
+  const [promoApplied, setPromoApplied] = useState<string | null>(null);
+  const [promoError, setPromoError] = useState(false);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -674,7 +677,19 @@ function CartOverlay({
 
   const subtotal = items.reduce((s, i) => s + i.price, 0);
   const shipping = items.length > 0 ? SHIPPING : 0;
-  const total = subtotal + shipping;
+  const discount = promoApplied === "MATEA10" ? Math.round(subtotal * 0.1 * 100) / 100 : 0;
+  const total = Math.max(0, subtotal - discount) + shipping;
+
+  const applyPromo = () => {
+    const code = promoInput.trim().toUpperCase();
+    if (code === "MATEA10") {
+      setPromoApplied(code);
+      setPromoError(false);
+    } else {
+      setPromoApplied(null);
+      setPromoError(true);
+    }
+  };
 
   const handleClick = () => {
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -683,8 +698,9 @@ function CartOverlay({
       return;
     }
     setEmailError(false);
-    onCheckout(email.trim());
+    onCheckout(email.trim(), promoApplied);
   };
+
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm overflow-y-auto">
@@ -781,6 +797,36 @@ function CartOverlay({
                   <span className="text-muted-foreground">Sous-total</span>
                   <span>{subtotal}€</span>
                 </div>
+                <div className="py-1">
+                  <div className="flex gap-2 items-center">
+                    <input
+                      type="text"
+                      value={promoInput}
+                      onChange={(e) => {
+                        setPromoInput(e.target.value);
+                        if (promoError) setPromoError(false);
+                      }}
+                      placeholder="Code promo"
+                      className="flex-1 px-3 py-2 rounded-full border border-border bg-background text-sm font-light focus:border-foreground outline-none transition-colors"
+                    />
+                    <button
+                      type="button"
+                      onClick={applyPromo}
+                      className="px-4 py-2 rounded-full border border-border text-sm font-light hover:bg-secondary transition-colors"
+                    >
+                      Appliquer
+                    </button>
+                  </div>
+                  {promoApplied && (
+                    <div className="flex justify-between mt-1.5">
+                      <span className="text-muted-foreground">Réduction ({promoApplied})</span>
+                      <span>-{discount}€</span>
+                    </div>
+                  )}
+                  {promoError && (
+                    <p className="mt-1.5 text-xs text-destructive font-light">Code promo invalide.</p>
+                  )}
+                </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Livraison France Standard</span>
                   <span>{shipping}€</span>
@@ -790,6 +836,7 @@ function CartOverlay({
                   <span>{total}€</span>
                 </div>
               </div>
+
 
               <div className="mt-5">
                 <label className="block text-xs font-light text-muted-foreground mb-2">
@@ -871,13 +918,14 @@ function Index() {
 
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
-  const handleCheckout = async (email: string) => {
+  const handleCheckout = async (email: string, promoCode: string | null) => {
     if (checkoutLoading) return;
     setCheckoutLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { items: cart, email, origin: window.location.origin },
+        body: { items: cart, email, promoCode, origin: window.location.origin },
       });
+
       if (error) throw error;
       if (data?.url) {
         window.location.href = data.url;
