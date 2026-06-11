@@ -269,6 +269,70 @@ function SizeRow({
   );
 }
 
+function SizeGuideDialog() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <button
+          type="button"
+          className="inline-flex items-center gap-1.5 text-xs font-light text-muted-foreground hover:text-foreground underline underline-offset-4 transition-colors"
+        >
+          <Ruler size={14} strokeWidth={1.5} />
+          Guide des tailles
+        </button>
+      </DialogTrigger>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle className="text-center tracking-wider">GUIDE DES TAILLES</DialogTitle>
+          <DialogDescription className="text-center italic">
+            N'hésite pas à m'écrire si tu as un doute !
+          </DialogDescription>
+        </DialogHeader>
+        <div className="space-y-6 pt-2">
+          <section>
+            <h4 className="text-center font-medium mb-2">Haut</h4>
+            <table className="w-full border-collapse text-sm text-center">
+              <tbody>
+                <tr>
+                  <th className="border border-foreground/70 px-2 py-2 font-light">Taille</th>
+                  {["XS", "S", "M", "L", "XL"].map((s) => (
+                    <th key={s} className="border border-foreground/70 px-2 py-2 font-light">{s}</th>
+                  ))}
+                </tr>
+                <tr>
+                  <th className="border border-foreground/70 px-2 py-2 font-light">Bonnet</th>
+                  {["A", "B-C", "C-D", "D-E", "F-G"].map((b) => (
+                    <td key={b} className="border border-foreground/70 px-2 py-2 font-light">{b}</td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section>
+            <h4 className="text-center font-medium mb-2">Bas</h4>
+            <table className="w-full border-collapse text-sm text-center">
+              <tbody>
+                <tr>
+                  <th className="border border-foreground/70 px-2 py-2 font-light">Taille</th>
+                  {["XS", "S", "M", "L", "XL"].map((s) => (
+                    <th key={s} className="border border-foreground/70 px-2 py-2 font-light">{s}</th>
+                  ))}
+                </tr>
+                <tr>
+                  <th className="border border-foreground/70 px-2 py-2 font-light leading-tight">Tour de hanches (cm)</th>
+                  {["81-86", "86-91", "91-96", "96-101", "101-106"].map((h) => (
+                    <td key={h} className="border border-foreground/70 px-2 py-2 font-light whitespace-nowrap">{h}</td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 function FabricPicker({
   value,
   onChange,
