@@ -797,6 +797,36 @@ function CartOverlay({
                   <span className="text-muted-foreground">Sous-total</span>
                   <span>{subtotal}€</span>
                 </div>
+                <div className="py-1">
+                  <div className="flex gap-2 items-center">
+                    <input
+                      type="text"
+                      value={promoInput}
+                      onChange={(e) => {
+                        setPromoInput(e.target.value);
+                        if (promoError) setPromoError(false);
+                      }}
+                      placeholder="Code promo"
+                      className="flex-1 px-3 py-2 rounded-full border border-border bg-background text-sm font-light focus:border-foreground outline-none transition-colors"
+                    />
+                    <button
+                      type="button"
+                      onClick={applyPromo}
+                      className="px-4 py-2 rounded-full border border-border text-sm font-light hover:bg-secondary transition-colors"
+                    >
+                      Appliquer
+                    </button>
+                  </div>
+                  {promoApplied && (
+                    <div className="flex justify-between mt-1.5">
+                      <span className="text-muted-foreground">Réduction ({promoApplied})</span>
+                      <span>-{discount}€</span>
+                    </div>
+                  )}
+                  {promoError && (
+                    <p className="mt-1.5 text-xs text-destructive font-light">Code promo invalide.</p>
+                  )}
+                </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Livraison France Standard</span>
                   <span>{shipping}€</span>
@@ -806,6 +836,7 @@ function CartOverlay({
                   <span>{total}€</span>
                 </div>
               </div>
+
 
               <div className="mt-5">
                 <label className="block text-xs font-light text-muted-foreground mb-2">
