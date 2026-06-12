@@ -465,8 +465,8 @@ function OrderRecap({
 }
 
 const STEP_TITLES: Record<number, string> = {
-  1: "Ton maillot",
-  2: "Tes tissus",
+  1: "A toi de concevoir ton maillot !",
+  2: "Choisis les 2 tissus de ton maillot réversible",
   3: "Récapitulatif",
 };
 
