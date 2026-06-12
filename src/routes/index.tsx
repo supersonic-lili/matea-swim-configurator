@@ -581,7 +581,7 @@ function ConfiguratorOverlay({
           <div className="flex flex-col h-full justify-between gap-4 pt-4 pb-6">
             <section>
               <h4 className="text-sm sm:text-base font-medium uppercase tracking-wider mb-1">
-                Haut
+                Choisis ton haut
               </h4>
               <ShapePicker options={TOPS} value={top} onChange={setTop} />
               <div className="mt-3 flex items-center justify-between gap-3 flex-wrap">
@@ -591,7 +591,7 @@ function ConfiguratorOverlay({
             </section>
             <section>
               <h4 className="text-sm sm:text-base font-medium uppercase tracking-wider mb-1">
-                Bas
+                Choisis ton bas
               </h4>
               <ShapePicker options={BOTTOMS} value={bottom} onChange={setBottom} />
               <div className="mt-3 flex items-center justify-between gap-3 flex-wrap">
