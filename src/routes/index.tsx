@@ -669,7 +669,6 @@ function ConfiguratorOverlay({
               fabA={fabA}
               fabB={fabB}
               threadFabric={threadFabric}
-              price={PRICE}
               note={note}
               onNoteChange={setNote}
             />
