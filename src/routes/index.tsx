@@ -446,15 +446,9 @@ function OrderRecap({
       <div className="rounded-xl bg-secondary/50 p-4 space-y-2">
         <Row label="Haut" value={`${selectedTop?.label ?? "—"}, taille ${sizeTop ?? "—"}`} />
         <Row label="Bas" value={`${selectedBottom?.label ?? "—"}, taille ${sizeBottom ?? "—"}`} />
-        <Row label="Côté A" value={<FabricLine f={fabA} />} />
-        <Row label="Côté B" value={<FabricLine f={fabB} />} />
+        <Row label="RECTO" value={<FabricLine f={fabA} />} />
+        <Row label="VERSO" value={<FabricLine f={fabB} />} />
         <Row label="Liens/Bretelles" value={<FabricLine f={threadFabric} />} />
-        <Row label="Maillot" value={`${price}€`} />
-        <Row label="Livraison France Standard" value={`${SHIPPING}€`} />
-        <div className="pt-2 mt-2 border-t border-border flex items-center justify-between text-base font-light">
-          <span>Total</span>
-          <span>{total}€</span>
-        </div>
       </div>
       <div className="space-y-1.5">
         <label htmlFor="recap-note" className="text-sm font-medium uppercase tracking-wider">
