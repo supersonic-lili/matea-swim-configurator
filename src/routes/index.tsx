@@ -395,8 +395,8 @@ function SwimsuitPreview({
   );
   return (
     <div className="flex gap-4 mx-auto max-w-xs">
-      <Side fab={fabAImg} label="Côté A" uid="a" />
-      <Side fab={fabBImg} label="Côté B" uid="b" />
+      <Side fab={fabAImg} label="RECTO" uid="a" />
+      <Side fab={fabBImg} label="VERSO" uid="b" />
     </div>
   );
 }
@@ -410,7 +410,6 @@ function OrderRecap({
   fabA,
   fabB,
   threadFabric,
-  price,
   note,
   onNoteChange,
 }: {
@@ -421,7 +420,6 @@ function OrderRecap({
   fabA?: { name: string; img: string };
   fabB?: { name: string; img: string };
   threadFabric?: { name: string; img: string };
-  price: number;
   note: string;
   onNoteChange: (v: string) => void;
 }) {
@@ -440,21 +438,14 @@ function OrderRecap({
     ) : (
       <span>—</span>
     );
-  const total = price + SHIPPING;
   return (
     <div className="space-y-3">
       <div className="rounded-xl bg-secondary/50 p-4 space-y-2">
         <Row label="Haut" value={`${selectedTop?.label ?? "—"}, taille ${sizeTop ?? "—"}`} />
         <Row label="Bas" value={`${selectedBottom?.label ?? "—"}, taille ${sizeBottom ?? "—"}`} />
-        <Row label="Côté A" value={<FabricLine f={fabA} />} />
-        <Row label="Côté B" value={<FabricLine f={fabB} />} />
+        <Row label="RECTO" value={<FabricLine f={fabA} />} />
+        <Row label="VERSO" value={<FabricLine f={fabB} />} />
         <Row label="Liens/Bretelles" value={<FabricLine f={threadFabric} />} />
-        <Row label="Maillot" value={`${price}€`} />
-        <Row label="Livraison France Standard" value={`${SHIPPING}€`} />
-        <div className="pt-2 mt-2 border-t border-border flex items-center justify-between text-base font-light">
-          <span>Total</span>
-          <span>{total}€</span>
-        </div>
       </div>
       <div className="space-y-1.5">
         <label htmlFor="recap-note" className="text-sm font-medium uppercase tracking-wider">
@@ -474,8 +465,8 @@ function OrderRecap({
 }
 
 const STEP_TITLES: Record<number, string> = {
-  1: "Ton maillot",
-  2: "Tes tissus",
+  1: "A toi de concevoir ton maillot !",
+  2: "Choisis les 2 tissus de ton maillot réversible",
   3: "Récapitulatif",
 };
 
@@ -508,22 +499,8 @@ function ConfiguratorOverlay({
     };
   }, [onClose]);
 
-  const setFabricBSafe = (v: string) => {
-    if (v === fabricA) {
-      setWarning("Les deux côtés doivent être différents.");
-      return;
-    }
-    setWarning(null);
-    setFabricB(v);
-  };
-  const setFabricASafe = (v: string) => {
-    if (v === fabricB) {
-      setWarning("Les deux côtés doivent être différents.");
-      return;
-    }
-    setWarning(null);
-    setFabricA(v);
-  };
+
+
 
   const canNext =
     (step === 1 && !!top && !!bottom && !!sizeTop && !!sizeBottom) ||
@@ -590,7 +567,7 @@ function ConfiguratorOverlay({
           <div className="flex flex-col h-full justify-between gap-4 pt-4 pb-6">
             <section>
               <h4 className="text-sm sm:text-base font-medium uppercase tracking-wider mb-1">
-                Haut
+                Choisis ton haut
               </h4>
               <ShapePicker options={TOPS} value={top} onChange={setTop} />
               <div className="mt-3 flex items-center justify-between gap-3 flex-wrap">
@@ -600,7 +577,7 @@ function ConfiguratorOverlay({
             </section>
             <section>
               <h4 className="text-sm sm:text-base font-medium uppercase tracking-wider mb-1">
-                Bas
+                Choisis ton bas
               </h4>
               <ShapePicker options={BOTTOMS} value={bottom} onChange={setBottom} />
               <div className="mt-3 flex items-center justify-between gap-3 flex-wrap">
@@ -615,15 +592,62 @@ function ConfiguratorOverlay({
           <div className="space-y-4 md:space-y-6 pb-1">
             <div>
               <p className="text-[11px] font-light text-muted-foreground mb-2 uppercase tracking-wide">
-                Côté A{fabA ? ` : ${fabA.name}` : ""}
+                Tissus sélectionnés{" "}
+                {fabA || fabB
+                  ? `: ${[fabA?.name, fabB?.name].filter(Boolean).join(" & ")}`
+                  : ""}
               </p>
-              <FabricPicker value={fabricA} onChange={setFabricASafe} disabled={fabricB} />
-            </div>
-            <div>
-              <p className="text-[11px] font-light text-muted-foreground mb-2 uppercase tracking-wide">
-                Côté B{fabB ? ` : ${fabB.name}` : ""}
-              </p>
-              <FabricPicker value={fabricB} onChange={setFabricBSafe} disabled={fabricA} />
+              <div className="grid grid-cols-6 md:grid-cols-9 gap-2">
+                {FABRICS.map((f) => {
+                  const isA = fabricA === f.id;
+                  const isB = fabricB === f.id;
+                  const selected = isA || isB;
+                  const order = isA ? 1 : isB ? 2 : null;
+                  const handleClick = () => {
+                    setWarning(null);
+                    if (isA) {
+                      setFabricA(null);
+                      return;
+                    }
+                    if (isB) {
+                      setFabricB(null);
+                      return;
+                    }
+                    if (!fabricA) {
+                      setFabricA(f.id);
+                    } else if (!fabricB) {
+                      setFabricB(f.id);
+                    } else {
+                      setWarning("Tu ne peux sélectionner que 2 tissus. Déselectionnes-en un pour en changer.");
+                    }
+                  };
+                  return (
+                    <button
+                      key={f.id}
+                      onClick={handleClick}
+                      aria-label={f.name}
+                      title={f.name}
+                      className={`relative aspect-square w-full rounded-full overflow-hidden transition-all ${
+                        selected
+                          ? "ring-2 ring-background ring-offset-2 ring-offset-foreground shadow-md"
+                          : "hover:opacity-90"
+                      }`}
+                    >
+                      <img
+                        src={f.img}
+                        alt={f.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover rounded-full"
+                      />
+                      {order && (
+                        <span className="absolute top-1 right-1 w-5 h-5 rounded-full bg-foreground text-background text-[10px] font-medium flex items-center justify-center">
+                          {order}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
             {warning && (
               <p className="text-sm text-destructive font-light">{warning}</p>
@@ -678,7 +702,6 @@ function ConfiguratorOverlay({
               fabA={fabA}
               fabB={fabB}
               threadFabric={threadFabric}
-              price={PRICE}
               note={note}
               onNoteChange={setNote}
             />
