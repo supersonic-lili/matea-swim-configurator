@@ -440,7 +440,6 @@ function OrderRecap({
     ) : (
       <span>—</span>
     );
-  const total = price + SHIPPING;
   return (
     <div className="space-y-3">
       <div className="rounded-xl bg-secondary/50 p-4 space-y-2">
