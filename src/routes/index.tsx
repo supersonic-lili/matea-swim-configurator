@@ -395,8 +395,8 @@ function SwimsuitPreview({
   );
   return (
     <div className="flex gap-4 mx-auto max-w-xs">
-      <Side fab={fabAImg} label="Côté A" uid="a" />
-      <Side fab={fabBImg} label="Côté B" uid="b" />
+      <Side fab={fabAImg} label="RECTO" uid="a" />
+      <Side fab={fabBImg} label="VERSO" uid="b" />
     </div>
   );
 }
