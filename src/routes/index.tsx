@@ -204,6 +204,16 @@ function Editorial() {
   );
 }
 
+import triangleAsset from "@/assets/shapes/triangle.jpg.asset.json";
+import tangaAsset from "@/assets/shapes/tanga.jpg.asset.json";
+import echancreAsset from "@/assets/shapes/echancre.jpg.asset.json";
+
+const SHAPE_PHOTOS: Record<string, { url: string; alt: string }> = {
+  triangle: { url: triangleAsset.url, alt: "Le Triangle" },
+  tanga: { url: tangaAsset.url, alt: "Le Tanga" },
+  culotte: { url: echancreAsset.url, alt: "Le Bas Échancré" },
+};
+
 function ShapePicker({
   options,
   value,
@@ -219,20 +229,29 @@ function ShapePicker({
         const selected = value === o.id;
         const Shape =
           o.kind === "triangle" ? TriangleTop : o.kind === "tanga" ? TangaBottom : CulotteBottom;
+        const photo = SHAPE_PHOTOS[o.kind];
         return (
           <button
             key={o.id}
             onClick={() => onChange(o.id)}
-            className={`group relative rounded-lg border-2 px-3 pt-2 pb-4 transition-all bg-secondary/30 min-h-[44px] ${
+            className={`group relative rounded-lg border-2 px-3 pt-2 pb-4 transition-all bg-secondary/30 min-h-[44px] overflow-hidden ${
               selected ? "border-foreground" : "border-transparent hover:border-border"
             }`}
           >
-            <div className="w-full flex items-center justify-center">
+            <div className="w-full flex items-center justify-center transition-opacity duration-200 group-hover:opacity-0">
               <div className="w-1/2 max-w-[120px] md:max-w-[88px]">
                 <Shape patternId={`pick-${o.id}`} />
               </div>
             </div>
-            <p className="mt-3 text-xs sm:text-sm font-light leading-tight">{o.label}</p>
+            <p className="mt-3 text-xs sm:text-sm font-light leading-tight transition-opacity duration-200 group-hover:opacity-0">{o.label}</p>
+            {photo && (
+              <img
+                src={photo.url}
+                alt={photo.alt}
+                loading="lazy"
+                className="pointer-events-none absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              />
+            )}
           </button>
         );
       })}
