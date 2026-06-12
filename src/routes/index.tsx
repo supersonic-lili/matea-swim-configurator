@@ -499,22 +499,8 @@ function ConfiguratorOverlay({
     };
   }, [onClose]);
 
-  const setFabricBSafe = (v: string) => {
-    if (v === fabricA) {
-      setWarning("Les deux côtés doivent être différents.");
-      return;
-    }
-    setWarning(null);
-    setFabricB(v);
-  };
-  const setFabricASafe = (v: string) => {
-    if (v === fabricB) {
-      setWarning("Les deux côtés doivent être différents.");
-      return;
-    }
-    setWarning(null);
-    setFabricA(v);
-  };
+
+
 
   const canNext =
     (step === 1 && !!top && !!bottom && !!sizeTop && !!sizeBottom) ||
