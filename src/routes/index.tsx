@@ -234,22 +234,22 @@ function ShapePicker({
           <button
             key={o.id}
             onClick={() => onChange(o.id)}
-            className={`group relative rounded-lg border-2 px-3 pt-2 pb-4 transition-all bg-secondary/30 min-h-[44px] overflow-hidden ${
+            className={`group relative rounded-lg border-2 transition-all bg-secondary/30 overflow-hidden aspect-[3/4] flex flex-col ${
               selected ? "border-foreground" : "border-transparent hover:border-border"
             }`}
           >
-            <div className="w-full flex items-center justify-center transition-opacity duration-200 group-hover:opacity-0">
+            <div className="flex-1 w-full flex items-center justify-center px-3 pt-2 transition-opacity duration-200 group-hover:opacity-0">
               <div className="w-1/2 max-w-[120px] md:max-w-[88px]">
                 <Shape patternId={`pick-${o.id}`} />
               </div>
             </div>
-            <p className="mt-3 text-xs sm:text-sm font-light leading-tight transition-opacity duration-200 group-hover:opacity-0">{o.label}</p>
+            <p className="pb-3 px-3 text-xs sm:text-sm font-light leading-tight text-center transition-opacity duration-200 group-hover:opacity-0">{o.label}</p>
             {photo && (
               <img
                 src={photo.url}
                 alt={photo.alt}
                 loading="lazy"
-                className="pointer-events-none absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                className="pointer-events-none absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-200 group-hover:opacity-100"
               />
             )}
           </button>
