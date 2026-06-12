@@ -410,7 +410,6 @@ function OrderRecap({
   fabA,
   fabB,
   threadFabric,
-  price,
   note,
   onNoteChange,
 }: {
@@ -421,7 +420,6 @@ function OrderRecap({
   fabA?: { name: string; img: string };
   fabB?: { name: string; img: string };
   threadFabric?: { name: string; img: string };
-  price: number;
   note: string;
   onNoteChange: (v: string) => void;
 }) {
