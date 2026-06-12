@@ -606,15 +606,62 @@ function ConfiguratorOverlay({
           <div className="space-y-4 md:space-y-6 pb-1">
             <div>
               <p className="text-[11px] font-light text-muted-foreground mb-2 uppercase tracking-wide">
-                Côté A{fabA ? ` : ${fabA.name}` : ""}
+                Tissus sélectionnés{" "}
+                {fabA || fabB
+                  ? `: ${[fabA?.name, fabB?.name].filter(Boolean).join(" & ")}`
+                  : ""}
               </p>
-              <FabricPicker value={fabricA} onChange={setFabricASafe} disabled={fabricB} />
-            </div>
-            <div>
-              <p className="text-[11px] font-light text-muted-foreground mb-2 uppercase tracking-wide">
-                Côté B{fabB ? ` : ${fabB.name}` : ""}
-              </p>
-              <FabricPicker value={fabricB} onChange={setFabricBSafe} disabled={fabricA} />
+              <div className="grid grid-cols-6 md:grid-cols-9 gap-2">
+                {FABRICS.map((f) => {
+                  const isA = fabricA === f.id;
+                  const isB = fabricB === f.id;
+                  const selected = isA || isB;
+                  const order = isA ? 1 : isB ? 2 : null;
+                  const handleClick = () => {
+                    setWarning(null);
+                    if (isA) {
+                      setFabricA(null);
+                      return;
+                    }
+                    if (isB) {
+                      setFabricB(null);
+                      return;
+                    }
+                    if (!fabricA) {
+                      setFabricA(f.id);
+                    } else if (!fabricB) {
+                      setFabricB(f.id);
+                    } else {
+                      setWarning("Tu ne peux sélectionner que 2 tissus. Déselectionnes-en un pour en changer.");
+                    }
+                  };
+                  return (
+                    <button
+                      key={f.id}
+                      onClick={handleClick}
+                      aria-label={f.name}
+                      title={f.name}
+                      className={`relative aspect-square w-full rounded-full overflow-hidden transition-all ${
+                        selected
+                          ? "ring-2 ring-background ring-offset-2 ring-offset-foreground shadow-md"
+                          : "hover:opacity-90"
+                      }`}
+                    >
+                      <img
+                        src={f.img}
+                        alt={f.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover rounded-full"
+                      />
+                      {order && (
+                        <span className="absolute top-1 right-1 w-5 h-5 rounded-full bg-foreground text-background text-[10px] font-medium flex items-center justify-center">
+                          {order}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
             {warning && (
               <p className="text-sm text-destructive font-light">{warning}</p>
