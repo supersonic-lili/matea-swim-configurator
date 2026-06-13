@@ -38,6 +38,9 @@ import fabFruits from "@/assets/fabrics-bundled/fruits.jpg";
 import fabNight from "@/assets/fabrics-bundled/night.jpg";
 import fabPrune from "@/assets/fabrics-bundled/prune.jpg";
 import fabShego from "@/assets/fabrics-bundled/shego.jpg";
+import fabLila from "@/assets/fabrics-bundled/lila.jpg";
+import fabViolet from "@/assets/fabrics-bundled/violet.jpg";
+import fabKaki from "@/assets/fabrics-bundled/kaki.jpg";
 
 // Static images served from /public/images so Netlify includes them in the build.
 const heroAsset = { url: "/images/hero.jpg" };
@@ -51,6 +54,9 @@ export const Route = createFileRoute("/")({
 
 // 18 fabrics: 9 solids then 9 prints (alphabetical within each group).
 const FABRICS = [
+  { id: "lila", name: "Lila", img: fabLila },
+  { id: "violet", name: "Violet", img: fabViolet },
+  { id: "kaki", name: "Kaki", img: fabKaki },
   { id: "noir", name: "Noir", img: fabNoir },
   { id: "bleu", name: "Bleu", img: fabBleu },
   { id: "corail", name: "Corail", img: fabCorail },
