@@ -720,9 +720,9 @@ function ConfiguratorOverlay({
           <div className="space-y-3 md:space-y-4">
             <SwimsuitPreview
               bottomId={selectedBottom?.id}
-              fabAImg={fabA?.img}
-              fabBImg={fabB?.img}
-              threadFabricUrl={threadFabric?.img}
+              fabAImg={fabA ? (DISPLAY_FABRIC_OVERRIDES[fabA.id] ?? fabA.img) : undefined}
+              fabBImg={fabB ? (DISPLAY_FABRIC_OVERRIDES[fabB.id] ?? fabB.img) : undefined}
+              threadFabricUrl={threadFabric ? (DISPLAY_FABRIC_OVERRIDES[threadFabric.id] ?? threadFabric.img) : undefined}
             />
             <OrderRecap
               selectedTop={selectedTop}
