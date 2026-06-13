@@ -41,6 +41,30 @@ import fabShego from "@/assets/fabrics-bundled/shego.jpg";
 import fabLila from "@/assets/fabrics-bundled/lila.jpg";
 import fabViolet from "@/assets/fabrics-bundled/violet.jpg";
 import fabKaki from "@/assets/fabrics-bundled/kaki.jpg";
+// Solid-color display textures used to recolor the swimsuit drawing in step 3.
+import dispBleu from "@/assets/fabrics-display/bleu.jpg";
+import dispCorail from "@/assets/fabrics-display/corail.jpg";
+import dispJaune from "@/assets/fabrics-display/jaune.jpg";
+import dispKaki from "@/assets/fabrics-display/kaki.jpg";
+import dispLila from "@/assets/fabrics-display/lila.jpg";
+import dispOrange from "@/assets/fabrics-display/orange.jpg";
+import dispRose from "@/assets/fabrics-display/rose.jpg";
+import dispRouge from "@/assets/fabrics-display/rouge.jpg";
+import dispVert from "@/assets/fabrics-display/vert.jpg";
+import dispViolet from "@/assets/fabrics-display/violet.jpg";
+
+const DISPLAY_FABRIC_OVERRIDES: Record<string, string> = {
+  bleu: dispBleu,
+  corail: dispCorail,
+  jaune: dispJaune,
+  kaki: dispKaki,
+  lila: dispLila,
+  orange: dispOrange,
+  rose: dispRose,
+  "rouge-satine": dispRouge,
+  vert: dispVert,
+  violet: dispViolet,
+};
 
 // Static images served from /public/images so Netlify includes them in the build.
 const heroAsset = { url: "/images/hero.jpg" };
@@ -696,9 +720,9 @@ function ConfiguratorOverlay({
           <div className="space-y-3 md:space-y-4">
             <SwimsuitPreview
               bottomId={selectedBottom?.id}
-              fabAImg={fabA?.img}
-              fabBImg={fabB?.img}
-              threadFabricUrl={threadFabric?.img}
+              fabAImg={fabA ? (DISPLAY_FABRIC_OVERRIDES[fabA.id] ?? fabA.img) : undefined}
+              fabBImg={fabB ? (DISPLAY_FABRIC_OVERRIDES[fabB.id] ?? fabB.img) : undefined}
+              threadFabricUrl={threadFabric ? (DISPLAY_FABRIC_OVERRIDES[threadFabric.id] ?? threadFabric.img) : undefined}
             />
             <OrderRecap
               selectedTop={selectedTop}
