@@ -758,7 +758,7 @@ function ConfiguratorOverlay({
             disabled={!canNext}
             className="min-h-[44px] inline-flex items-center justify-center rounded-full bg-foreground px-6 text-sm font-light text-background disabled:opacity-30 transition-transform hover:scale-105"
           >
-            Suivant →
+            {step === 2 ? "Voir mon maillot →" : "Suivant →"}
           </button>
         ) : (
           <button
