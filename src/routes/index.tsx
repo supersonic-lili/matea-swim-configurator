@@ -477,6 +477,11 @@ function OrderRecap({
         <Row label="VERSO" value={<FabricLine f={fabB} />} />
         <Row label="Liens/Bretelles" value={<FabricLine f={threadFabric} />} />
       </div>
+      <p className="text-xs text-muted-foreground font-light">
+        Les commandes sont préparées et expédiées sous une semaine maximum après la validation du paiement.
+        <br />
+        Réductions et frais de livraison calculés à l'étape du paiement
+      </p>
       <div className="space-y-1.5">
         <label htmlFor="recap-note" className="text-sm font-medium uppercase tracking-wider">
           Commentaires
