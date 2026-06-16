@@ -43,7 +43,7 @@ async function processPaidSession(stripe: Stripe, sessionId: string) {
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
   const session = await stripe.checkout.sessions.retrieve(sessionId, {
-    expand: ["customer_details"],
+    expand: ["customer_details", "total_details.breakdown.discounts"],
   });
 
   if (session.payment_status !== "paid") {
@@ -88,15 +88,26 @@ async function processPaidSession(stripe: Stripe, sessionId: string) {
   );
 
   const items = order.items as any[];
-  const subtotal = (order.total_amount / 100).toFixed(2);
-  const SHIPPING = 6;
-  const total = (order.total_amount / 100 + SHIPPING).toFixed(2);
+  const fmt = (cents: number) => (cents / 100).toFixed(2);
+  const subtotalCents = (session.amount_subtotal ?? order.total_amount) as number;
+  const discountCents = (session.total_details?.amount_discount ?? 0) as number;
+  const shippingCents = (session.total_details?.amount_shipping ?? 600) as number;
+  const totalCents = (session.amount_total ?? (subtotalCents - discountCents + shippingCents)) as number;
+  const discountBreakdown = (session.total_details as any)?.breakdown?.discounts ?? [];
+  const discountLabel = discountBreakdown
+    .map((d: any) => d?.discount?.coupon?.name || d?.discount?.promotion_code || d?.discount?.coupon?.id)
+    .filter(Boolean)
+    .join(", ") || (order as any)?.items?.[0]?.promoCode || "Réduction";
+  const discountRow = discountCents > 0
+    ? `<tr><td style="padding:4px 8px;text-align:right;color:#1a7f37">Réduction (${discountLabel})</td><td style="padding:4px 8px;text-align:right;width:80px;color:#1a7f37">−${fmt(discountCents)}€</td></tr>`
+    : "";
   const rows = orderRows(items);
   const totalsHtml = `
     <table style="width:100%;font-size:14px;margin-top:16px">
-      <tr><td style="padding:4px 8px;text-align:right">Maillot MATEA</td><td style="padding:4px 8px;text-align:right;width:80px">${subtotal}€</td></tr>
-      <tr><td style="padding:4px 8px;text-align:right">Livraison France Standard</td><td style="padding:4px 8px;text-align:right">${SHIPPING.toFixed(2)}€</td></tr>
-      <tr><td style="padding:8px;text-align:right;border-top:1px solid #111"><strong>Total</strong></td><td style="padding:8px;text-align:right;border-top:1px solid #111"><strong>${total}€</strong></td></tr>
+      <tr><td style="padding:4px 8px;text-align:right">Maillot MATEA</td><td style="padding:4px 8px;text-align:right;width:80px">${fmt(subtotalCents)}€</td></tr>
+      ${discountRow}
+      <tr><td style="padding:4px 8px;text-align:right">Livraison France Standard</td><td style="padding:4px 8px;text-align:right">${fmt(shippingCents)}€</td></tr>
+      <tr><td style="padding:8px;text-align:right;border-top:1px solid #111"><strong>Total</strong></td><td style="padding:8px;text-align:right;border-top:1px solid #111"><strong>${fmt(totalCents)}€</strong></td></tr>
     </table>`;
   const escapeHtml = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
   const notes = (items as any[]).map((it, i) => it?.note ? `<p style="margin:4px 0;font-weight:300;white-space:pre-wrap">${items.length > 1 ? `<strong>Maillot ${i + 1} :</strong> ` : ""}${escapeHtml(String(it.note))}</p>` : "").join("");
