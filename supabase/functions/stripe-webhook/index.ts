@@ -43,7 +43,7 @@ async function processPaidSession(stripe: Stripe, sessionId: string) {
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
   const session = await stripe.checkout.sessions.retrieve(sessionId, {
-    expand: ["customer_details"],
+    expand: ["customer_details", "total_details.breakdown.discounts"],
   });
 
   if (session.payment_status !== "paid") {
