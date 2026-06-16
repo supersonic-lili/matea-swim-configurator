@@ -52,7 +52,7 @@ Deno.serve(async (req) => {
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2024-06-20" });
     const session = await stripe.checkout.sessions.retrieve(session_id, {
-      expand: ["customer_details"],
+      expand: ["customer_details", "total_details.breakdown.discounts"],
     });
 
     if (session.payment_status !== "paid") {
