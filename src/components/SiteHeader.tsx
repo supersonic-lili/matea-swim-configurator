@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
-import mateaLogo from "@/assets/matea-logo.png";
 import { CartIcon, CartOverlay } from "@/lib/shop";
 import { useCart } from "@/hooks/useCart";
 
