@@ -789,8 +789,9 @@ export function CartOverlay({
             <>
               <div className="space-y-3">
                 {items.map((item) => {
-                  const t = TOPS.find((x) => x.id === item.topId);
-                  const b = BOTTOMS.find((x) => x.id === item.bottomId);
+                  const product = PRODUCTS.find(
+                    (p) => p.topId === item.topId && p.bottomId === item.bottomId,
+                  );
                   const a = FABRICS.find((f) => f.id === item.fabricA);
                   const bc = FABRICS.find((f) => f.id === item.fabricB);
                   const tc = FABRICS.find((f) => f.id === item.threadColor);
@@ -803,30 +804,36 @@ export function CartOverlay({
                         Retirer
                       </button>
                       <div className="space-y-1.5 text-sm font-light pr-16">
+                        <p className="text-base font-medium">{product?.name ?? "Maillot MATEA"}</p>
                         <div className="flex justify-between gap-3">
-                          <span className="text-muted-foreground">Haut</span>
-                          <span>{t?.label}, taille {item.sizeTop}</span>
+                          <span className="text-muted-foreground">Taille du haut</span>
+                          <span>{item.sizeTop}</span>
                         </div>
                         <div className="flex justify-between gap-3">
-                          <span className="text-muted-foreground">Bas</span>
-                          <span>{b?.label}, taille {item.sizeBottom}</span>
+                          <span className="text-muted-foreground">Taille du bas</span>
+                          <span>{item.sizeBottom}</span>
                         </div>
                         <div className="flex justify-between gap-3 items-center">
-                          <span className="text-muted-foreground">Côté A</span>
-                          <span className="inline-flex items-center gap-2">
-                            {a && <img src={a.img} alt={a.name} className="w-5 h-5 rounded object-cover" />}
-                            {a?.name ?? "—"}
+                          <span className="text-muted-foreground">Tissus</span>
+                          <span className="inline-flex items-center gap-2 flex-wrap justify-end">
+                            {a && (
+                              <span className="inline-flex items-center gap-1.5">
+                                <img src={a.img} alt={a.name} className="w-5 h-5 rounded object-cover" />
+                                {a.name}
+                              </span>
+                            )}
+                            {a && bc && <span className="text-muted-foreground">&</span>}
+                            {bc && (
+                              <span className="inline-flex items-center gap-1.5">
+                                <img src={bc.img} alt={bc.name} className="w-5 h-5 rounded object-cover" />
+                                {bc.name}
+                              </span>
+                            )}
+                            {!a && !bc && <span>—</span>}
                           </span>
                         </div>
                         <div className="flex justify-between gap-3 items-center">
-                          <span className="text-muted-foreground">Côté B</span>
-                          <span className="inline-flex items-center gap-2">
-                            {bc && <img src={bc.img} alt={bc.name} className="w-5 h-5 rounded object-cover" />}
-                            {bc?.name ?? "—"}
-                          </span>
-                        </div>
-                        <div className="flex justify-between gap-3 items-center">
-                          <span className="text-muted-foreground">Liens/Bretelles</span>
+                          <span className="text-muted-foreground">Bretelles &amp; lien</span>
                           <span className="inline-flex items-center gap-2">
                             {tc && <img src={tc.img} alt={tc.name} className="w-5 h-5 rounded object-cover" />}
                             {tc?.name ?? "—"}
