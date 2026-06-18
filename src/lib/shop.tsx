@@ -131,24 +131,24 @@ export type Product = {
 
 export const PRODUCTS: Product[] = [
   {
-    slug: "bas-echancre",
-    name: "Le Bas Échancré",
-    priceFrom: PRICE,
-    topId: "triangle",
-    bottomId: "culotte",
-    images: [prodBasEch1.url, prodBasEch3.url, prodBasEch2.url],
-    description:
-      "Un bas échancré et flatteur, associé au triangle MATEA. Réversible et fait main à Marseille — personnalise les deux faces selon ton style.",
-  },
-  {
     slug: "tanga",
-    name: "Le Tanga",
+    name: "L'ensemble Tanga",
     priceFrom: PRICE,
     topId: "triangle",
     bottomId: "tanga",
     images: [prodTanga1.url, prodTanga2.url, prodTanga3.url],
     description:
       "Le tanga MATEA, fin et confortable, à porter avec le triangle. Réversible et fait main à Marseille — choisis tes tissus et tes liens.",
+  },
+  {
+    slug: "bas-echancre",
+    name: "L'ensemble Bas Échancré",
+    priceFrom: PRICE,
+    topId: "triangle",
+    bottomId: "culotte",
+    images: [prodBasEch1.url, prodBasEch3.url, prodBasEch2.url],
+    description:
+      "Un bas échancré et flatteur, associé au triangle MATEA. Réversible et fait main à Marseille — personnalise les deux faces selon ton style.",
   },
 ];
 
