@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PRODUCTS } from "@/lib/shop";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/boutique")({
   head: () => ({
