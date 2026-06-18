@@ -136,7 +136,7 @@ export const PRODUCTS: Product[] = [
     priceFrom: PRICE,
     topId: "triangle",
     bottomId: "tanga",
-    images: [prodTanga1.url, prodTanga2.url, prodTanga3.url],
+    images: [prodTanga1, prodTanga2, prodTanga3],
     description:
       "Le tanga MATEA, fin et confortable, à porter avec le triangle. Réversible et fait main à Marseille — choisis tes tissus et tes liens.",
   },
