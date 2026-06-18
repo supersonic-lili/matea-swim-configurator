@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
 function Hero() {
   return (
     <section
-      className="relative min-h-[calc(100vh-3.5rem)] w-full flex flex-col items-center justify-center px-6 text-center"
+      className="relative -mt-14 min-h-screen w-full flex flex-col items-center justify-center px-6 text-center pt-14"
       style={{
         backgroundImage: `linear-gradient(rgba(255,255,255,0.25), rgba(255,255,255,0.45)), url(${heroAsset.url})`,
         backgroundSize: "cover",
