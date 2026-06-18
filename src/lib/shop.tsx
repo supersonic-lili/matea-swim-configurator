@@ -98,8 +98,8 @@ export const TOPS = [
   { id: "triangle", label: "Le Triangle", kind: "triangle" as const },
 ];
 export const BOTTOMS = [
-  { id: "tanga", label: "Le Tanga", kind: "tanga" as const },
-  { id: "culotte", label: "Le Bas Échancré", kind: "culotte" as const },
+  { id: "tanga", label: "Le tanga", kind: "tanga" as const },
+  { id: "culotte", label: "Le bas échancré", kind: "culotte" as const },
 ];
 export const SIZES = ["XS", "S", "M", "L", "XL"];
 
@@ -132,7 +132,7 @@ export type Product = {
 export const PRODUCTS: Product[] = [
   {
     slug: "tanga",
-    name: "L'ensemble Tanga",
+    name: "L'ensemble tanga",
     priceFrom: PRICE,
     topId: "triangle",
     bottomId: "tanga",
@@ -142,7 +142,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     slug: "bas-echancre",
-    name: "L'ensemble Bas Échancré",
+    name: "L'ensemble bas échancré",
     priceFrom: PRICE,
     topId: "triangle",
     bottomId: "culotte",
