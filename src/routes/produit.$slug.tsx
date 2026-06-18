@@ -165,7 +165,7 @@ function ProductPage() {
           {/* RIGHT — Configurator */}
           <div className="flex flex-col gap-6">
             <div>
-              <h1 className="text-base sm:text-3xl font-light tracking-wide truncate">
+              <h1 className="text-2xl sm:text-3xl font-light tracking-wide">
                 {product.name} <span className="text-muted-foreground">— personnalisable (réversible)</span>
               </h1>
               <p className="mt-2 text-lg font-light">{product.priceFrom}€</p>
@@ -175,33 +175,19 @@ function ProductPage() {
             </div>
 
             <section>
-              <div className="flex items-center justify-between gap-2 sm:mb-2">
-                <h4 className="text-sm font-medium shrink-0">Taille du haut</h4>
-                <div className="sm:hidden">
-                  <SizeRow value={sizeTop} onChange={setSizeTop} compact />
-                </div>
-                <div className="hidden sm:block">
-                  <SizeGuideDialog />
-                </div>
-              </div>
-              <div className="hidden sm:block">
-                <SizeRow value={sizeTop} onChange={setSizeTop} />
-              </div>
-              <div className="mt-1 sm:hidden">
+              <div className="flex items-center justify-between mb-2 gap-3 flex-wrap">
+                <h4 className="text-sm font-medium">Taille du haut</h4>
                 <SizeGuideDialog />
               </div>
+              <SizeRow value={sizeTop} onChange={setSizeTop} />
             </section>
 
             <section>
-              <div className="flex items-center justify-between gap-2 sm:mb-2">
-                <h4 className="text-sm font-medium shrink-0">Taille du bas</h4>
-                <div className="sm:hidden">
-                  <SizeRow value={sizeBottom} onChange={setSizeBottom} compact />
-                </div>
+              <div className="flex items-center justify-between mb-2 gap-3 flex-wrap">
+                <h4 className="text-sm font-medium">Taille du bas</h4>
+                <SizeGuideDialog />
               </div>
-              <div className="hidden sm:block">
-                <SizeRow value={sizeBottom} onChange={setSizeBottom} />
-              </div>
+              <SizeRow value={sizeBottom} onChange={setSizeBottom} />
             </section>
 
             <section>
@@ -271,7 +257,7 @@ function ProductPage() {
                   </span>
                 )}
               </h4>
-              <div className="grid grid-cols-11 gap-1 sm:gap-2">
+              <div className="grid grid-cols-6 sm:grid-cols-7 lg:grid-cols-11 gap-2">
                 {FABRICS.map((f) => {
                   const selected = threadColor === f.id;
                   return (
@@ -312,7 +298,7 @@ function ProductPage() {
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
                 placeholder="Un commentaire ?"
-                rows={2}
+                rows={3}
                 className="w-full rounded-xl border border-input bg-transparent px-3 py-2 text-sm font-light placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none"
               />
             </section>
