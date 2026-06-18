@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { X, ShoppingBag, Ruler } from "lucide-react";
+import { cn } from "@/lib/utils";
 import {
   FabricSwimsuit,
   TriangleTop,
@@ -215,20 +216,32 @@ function ShapePicker({
   );
 }
 
-export function SizeRow({ value, onChange }: { value: string | null; onChange: (v: string) => void }) {
+export function SizeRow({
+  value,
+  onChange,
+  compact,
+}: {
+  value: string | null;
+  onChange: (v: string) => void;
+  compact?: boolean;
+}) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className={cn("flex gap-2", compact ? "flex-nowrap" : "flex-wrap")}>
       {SIZES.map((s) => {
         const selected = value === s;
         return (
           <button
             key={s}
             onClick={() => onChange(s)}
-            className={`min-w-[44px] min-h-[44px] px-4 rounded-full text-sm font-light border transition-all ${
+            className={cn(
+              "rounded-full border transition-all",
+              compact
+                ? "min-w-[36px] min-h-[36px] px-2 text-xs"
+                : "min-w-[44px] min-h-[44px] px-4 text-sm",
               selected
                 ? "bg-foreground text-background border-foreground"
-                : "bg-background text-foreground border-border hover:border-foreground"
-            }`}
+                : "bg-background text-foreground border-border hover:border-foreground",
+            )}
           >
             {s}
           </button>
