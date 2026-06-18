@@ -17,12 +17,10 @@ function Boutique() {
   return (
     <main className="bg-background min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-        <header className="text-center mb-10 sm:mb-14">
-          <h1 className="text-2xl sm:text-3xl font-light tracking-wide">Boutique</h1>
-          <p className="mt-2 text-sm sm:text-base font-light text-muted-foreground">
-            Choisis ton modèle, puis personnalise-le.
-          </p>
+        <header className="mb-8 sm:mb-12">
+          <h1 className="text-xl sm:text-2xl font-light tracking-wide">Produits</h1>
         </header>
+
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-14">
           {PRODUCTS.map((p) => (

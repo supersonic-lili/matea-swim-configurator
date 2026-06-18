@@ -18,7 +18,11 @@ export function SiteHeader() {
 
   return (
     <>
+      <div className="w-full bg-foreground text-background text-center text-xs sm:text-sm font-light py-2 px-4">
+        10% offerts pour tout achat avec le code <span className="font-semibold tracking-wide">MATEA10</span>
+      </div>
       <header className="sticky top-0 z-30 w-full bg-background/85 backdrop-blur-md border-b border-border">
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
           <Link to="/" aria-label="Accueil MATEA" className="flex items-center">
             <img src={mateaLogo} alt="MATEA" className="h-7 sm:h-8 w-auto" />
