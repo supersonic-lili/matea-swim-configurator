@@ -49,13 +49,13 @@ import dispRouge from "@/assets/fabrics-display/rouge.jpg";
 import dispVert from "@/assets/fabrics-display/vert.jpg";
 import dispViolet from "@/assets/fabrics-display/violet.jpg";
 
-// Product images (CDN-hosted)
-const prodBasEch1 = { url: "/__l5e/assets-v1/6b1e079d-4da5-46bf-8292-cfb673db1062/bas-echancre-1.jpg" };
-const prodBasEch2 = { url: "/__l5e/assets-v1/5ab2e01e-f69f-4712-9e58-cf3448b91317/bas-echancre-2.jpg" };
-const prodBasEch3 = { url: "/__l5e/assets-v1/32ea1d14-f30b-41bb-b083-129215e414b4/bas-echancre-3.jpg" };
-const prodTanga1 = { url: "/__l5e/assets-v1/281639e9-08ae-40f4-80bb-2c999a657c04/tanga-1.jpg" };
-const prodTanga2 = { url: "/__l5e/assets-v1/49ff1f8d-93ea-44fa-a6ba-d4ab4e6e254d/tanga-2.jpg" };
-const prodTanga3 = { url: "/__l5e/assets-v1/17b70811-efb4-4b5b-a9a9-9947824b6e65/tanga-3.jpg" };
+// Product images (bundled for production)
+import prodBasEch1 from "@/assets/products-bundled/bas-echancre-1.jpg";
+import prodBasEch2 from "@/assets/products-bundled/bas-echancre-2.jpg";
+import prodBasEch3 from "@/assets/products-bundled/bas-echancre-3.jpg";
+import prodTanga1 from "@/assets/products-bundled/tanga-1.jpg";
+import prodTanga2 from "@/assets/products-bundled/tanga-2.jpg";
+import prodTanga3 from "@/assets/products-bundled/tanga-3.jpg";
 
 export const DISPLAY_FABRIC_OVERRIDES: Record<string, string> = {
   bleu: dispBleu,
