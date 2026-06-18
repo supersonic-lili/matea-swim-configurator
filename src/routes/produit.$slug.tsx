@@ -257,7 +257,7 @@ function ProductPage() {
                   </span>
                 )}
               </h4>
-              <div className="grid grid-cols-6 sm:grid-cols-7 gap-2">
+              <div className="grid grid-cols-6 sm:grid-cols-7 lg:grid-cols-11 gap-2">
                 {FABRICS.map((f) => {
                   const selected = threadColor === f.id;
                   return (
