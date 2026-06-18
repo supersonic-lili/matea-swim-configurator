@@ -25,37 +25,44 @@ function Boutique() {
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-14">
           {PRODUCTS.map((p) => (
-            <Link
-              key={p.slug}
-              to="/produit/$slug"
-              params={{ slug: p.slug }}
-              className="group block"
-            >
-              <div className="relative aspect-[3/4] overflow-hidden bg-secondary/40 rounded-lg">
-                <img
-                  src={p.images[0]}
-                  alt={p.name}
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
-                />
-                {p.images[1] && (
+            <div key={p.slug} className="group block">
+              <Link
+                to="/produit/$slug"
+                params={{ slug: p.slug }}
+                className="block"
+              >
+                <div className="relative aspect-[3/4] overflow-hidden bg-secondary/40 rounded-lg">
                   <img
-                    src={p.images[1]}
-                    alt=""
-                    aria-hidden="true"
+                    src={p.images[0]}
+                    alt={p.name}
                     loading="lazy"
-                    className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
                   />
-                )}
-              </div>
+                  {p.images[1] && (
+                    <img
+                      src={p.images[1]}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    />
+                  )}
+                </div>
+              </Link>
               <div className="mt-3 px-1">
-                <h2 className="text-sm sm:text-base font-light">{p.name}</h2>
+                <Link
+                  to="/produit/$slug"
+                  params={{ slug: p.slug }}
+                  className="block"
+                >
+                  <h2 className="text-sm sm:text-base font-light">{p.name}</h2>
+                </Link>
                 <p className="mt-0.5 text-xs sm:text-sm font-light text-muted-foreground">
                   {p.priceFrom}€
                 </p>
                 <Button
                   asChild
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   className="mt-3 w-full rounded-full text-xs font-light"
                 >
@@ -64,7 +71,7 @@ function Boutique() {
                   </Link>
                 </Button>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
