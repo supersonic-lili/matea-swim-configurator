@@ -9,9 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as BoutiqueRouteImport } from './routes/boutique'
 import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProduitSlugRouteImport } from './routes/produit.$slug'
+import { Route as PersonnaliserSlugRouteImport } from './routes/personnaliser.$slug'
 
+const BoutiqueRoute = BoutiqueRouteImport.update({
+  id: '/boutique',
+  path: '/boutique',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AProposRoute = AProposRouteImport.update({
   id: '/a-propos',
   path: '/a-propos',
@@ -22,35 +30,80 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProduitSlugRoute = ProduitSlugRouteImport.update({
+  id: '/produit/$slug',
+  path: '/produit/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PersonnaliserSlugRoute = PersonnaliserSlugRouteImport.update({
+  id: '/personnaliser/$slug',
+  path: '/personnaliser/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/boutique': typeof BoutiqueRoute
+  '/personnaliser/$slug': typeof PersonnaliserSlugRoute
+  '/produit/$slug': typeof ProduitSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/boutique': typeof BoutiqueRoute
+  '/personnaliser/$slug': typeof PersonnaliserSlugRoute
+  '/produit/$slug': typeof ProduitSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/boutique': typeof BoutiqueRoute
+  '/personnaliser/$slug': typeof PersonnaliserSlugRoute
+  '/produit/$slug': typeof ProduitSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/a-propos'
+  fullPaths:
+    | '/'
+    | '/a-propos'
+    | '/boutique'
+    | '/personnaliser/$slug'
+    | '/produit/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/a-propos'
-  id: '__root__' | '/' | '/a-propos'
+  to:
+    | '/'
+    | '/a-propos'
+    | '/boutique'
+    | '/personnaliser/$slug'
+    | '/produit/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/a-propos'
+    | '/boutique'
+    | '/personnaliser/$slug'
+    | '/produit/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AProposRoute: typeof AProposRoute
+  BoutiqueRoute: typeof BoutiqueRoute
+  PersonnaliserSlugRoute: typeof PersonnaliserSlugRoute
+  ProduitSlugRoute: typeof ProduitSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/boutique': {
+      id: '/boutique'
+      path: '/boutique'
+      fullPath: '/boutique'
+      preLoaderRoute: typeof BoutiqueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/a-propos': {
       id: '/a-propos'
       path: '/a-propos'
@@ -65,12 +118,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/produit/$slug': {
+      id: '/produit/$slug'
+      path: '/produit/$slug'
+      fullPath: '/produit/$slug'
+      preLoaderRoute: typeof ProduitSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/personnaliser/$slug': {
+      id: '/personnaliser/$slug'
+      path: '/personnaliser/$slug'
+      fullPath: '/personnaliser/$slug'
+      preLoaderRoute: typeof PersonnaliserSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AProposRoute: AProposRoute,
+  BoutiqueRoute: BoutiqueRoute,
+  PersonnaliserSlugRoute: PersonnaliserSlugRoute,
+  ProduitSlugRoute: ProduitSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
