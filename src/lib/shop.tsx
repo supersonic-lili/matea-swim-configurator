@@ -146,7 +146,7 @@ export const PRODUCTS: Product[] = [
     priceFrom: PRICE,
     topId: "triangle",
     bottomId: "culotte",
-    images: [prodBasEch1.url, prodBasEch3.url, prodBasEch2.url],
+    images: [prodBasEch1, prodBasEch3, prodBasEch2],
     description:
       "Un bas échancré et flatteur, associé au triangle MATEA. Réversible et fait main à Marseille — personnalise les deux faces selon ton style.",
   },
