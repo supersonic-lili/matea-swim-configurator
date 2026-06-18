@@ -53,6 +53,16 @@ function Boutique() {
                 <p className="mt-0.5 text-xs sm:text-sm font-light text-muted-foreground">
                   {p.priceFrom}€
                 </p>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="mt-3 w-full rounded-full text-xs font-light"
+                >
+                  <Link to="/produit/$slug" params={{ slug: p.slug }}>
+                    Personnaliser
+                  </Link>
+                </Button>
               </div>
             </Link>
           ))}
