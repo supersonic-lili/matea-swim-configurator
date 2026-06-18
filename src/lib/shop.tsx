@@ -50,7 +50,7 @@ import dispVert from "@/assets/fabrics-display/vert.jpg";
 import dispViolet from "@/assets/fabrics-display/violet.jpg";
 
 // Product images (bundled for production)
-import prodBasEch0 from "@/assets/products-bundled/bas-echancre-0.jpg";
+import prodBasEch0 from "@/assets/products-bundled/bas-echancre-hero.png";
 import prodBasEch1 from "@/assets/products-bundled/bas-echancre-1.jpg";
 import prodBasEch2 from "@/assets/products-bundled/bas-echancre-2.jpg";
 import prodBasEch3 from "@/assets/products-bundled/bas-echancre-3.jpg";
