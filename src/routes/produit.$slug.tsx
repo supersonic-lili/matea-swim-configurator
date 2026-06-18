@@ -121,9 +121,9 @@ function ProductPage() {
           </Link>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-14">
-          {/* LEFT — Gallery + Preview */}
-          <div className="flex flex-col gap-10">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-start">
+          {/* LEFT — Gallery + Preview (desktop only) */}
+          <div className="flex flex-col gap-10 lg:sticky lg:top-6">
             <div className="flex gap-3">
               {/* Thumbs */}
               {product.images.length > 1 && (
