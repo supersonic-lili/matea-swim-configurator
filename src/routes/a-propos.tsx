@@ -17,11 +17,7 @@ export const Route = createFileRoute("/a-propos")({
 function AProposPage() {
   return (
     <main className="bg-background min-h-screen">
-      <header className="px-6 pt-8 pb-4 flex items-center justify-center">
-        <Link to="/" aria-label="Accueil MATEA">
-          <img src={mateaLogo} alt="MATEA" className="w-[160px] sm:w-[200px] h-auto" />
-        </Link>
-      </header>
+
 
       <div className="max-w-3xl mx-auto px-6 py-20 sm:py-28 text-center">
         <h1 className="sr-only">À propos</h1>

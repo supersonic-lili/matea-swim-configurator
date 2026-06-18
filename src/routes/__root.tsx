@@ -10,6 +10,8 @@ import {
 
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
+import { SiteHeader } from "@/components/SiteHeader";
+import { useStripeReturn } from "@/hooks/useCart";
 
 function NotFoundComponent() {
   return (
@@ -121,10 +123,12 @@ function PromoBanner() {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useStripeReturn();
 
   return (
     <QueryClientProvider client={queryClient}>
       <PromoBanner />
+      <SiteHeader />
       <Outlet />
       <Toaster position="bottom-center" />
     </QueryClientProvider>
