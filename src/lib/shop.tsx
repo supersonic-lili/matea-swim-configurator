@@ -214,7 +214,7 @@ function ShapePicker({
   );
 }
 
-function SizeRow({ value, onChange }: { value: string | null; onChange: (v: string) => void }) {
+export function SizeRow({ value, onChange }: { value: string | null; onChange: (v: string) => void }) {
   return (
     <div className="flex flex-wrap gap-2">
       {SIZES.map((s) => {
@@ -237,7 +237,8 @@ function SizeRow({ value, onChange }: { value: string | null; onChange: (v: stri
   );
 }
 
-function SizeGuideDialog() {
+export function SizeGuideDialog() {
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -301,7 +302,7 @@ function SizeGuideDialog() {
   );
 }
 
-function SwimsuitPreview({
+export function SwimsuitPreview({
   bottomId,
   fabAImg,
   fabBImg,
