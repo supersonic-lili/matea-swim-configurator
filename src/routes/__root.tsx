@@ -113,21 +113,12 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-function PromoBanner() {
-  return (
-    <div className="w-full bg-foreground text-background text-center py-2 px-4 text-xs sm:text-sm font-light tracking-wide">
-      10% offerts pour tout achat avec le code <span className="font-semibold">MATEA10</span>
-    </div>
-  );
-}
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   useStripeReturn();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <PromoBanner />
       <SiteHeader />
       <Outlet />
       <Toaster position="bottom-center" />
