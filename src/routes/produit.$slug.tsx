@@ -85,6 +85,30 @@ function ProductPage() {
     toast.success("Ajouté au panier !", { duration: 3000 });
   };
 
+  const PreviewBlock = ({ className = "" }: { className?: string }) => (
+    <div className={className}>
+      <h3 className="text-center text-base sm:text-lg font-light mb-4">
+        Choisis des tissus et visualise ton maillot
+      </h3>
+      <SwimsuitPreview
+        bottomId={product.bottomId}
+        fabAImg={fabA ? DISPLAY_FABRIC_OVERRIDES[fabA.id] ?? fabA.img : undefined}
+        fabBImg={fabB ? DISPLAY_FABRIC_OVERRIDES[fabB.id] ?? fabB.img : undefined}
+        threadFabricUrl={
+          threadFabric
+            ? DISPLAY_FABRIC_OVERRIDES[threadFabric.id] ?? threadFabric.img
+            : undefined
+        }
+      />
+      <div className="mt-6">
+        <p className="text-sm font-semibold">Fait main à la commande</p>
+        <p className="text-sm font-light text-muted-foreground">
+          Compte une semaine de confection après le paiement
+        </p>
+      </div>
+    </div>
+  );
+
   return (
     <main className="bg-background min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
@@ -135,28 +159,7 @@ function ProductPage() {
               </div>
             </div>
 
-            {/* Preview */}
-            <div>
-              <h3 className="text-center text-base sm:text-lg font-light mb-4">
-                Choisis des tissus et visualise ton maillot
-              </h3>
-              <SwimsuitPreview
-                bottomId={product.bottomId}
-                fabAImg={fabA ? DISPLAY_FABRIC_OVERRIDES[fabA.id] ?? fabA.img : undefined}
-                fabBImg={fabB ? DISPLAY_FABRIC_OVERRIDES[fabB.id] ?? fabB.img : undefined}
-                threadFabricUrl={
-                  threadFabric
-                    ? DISPLAY_FABRIC_OVERRIDES[threadFabric.id] ?? threadFabric.img
-                    : undefined
-                }
-              />
-              <div className="mt-6">
-                <p className="text-sm font-semibold">Fait main à la commande</p>
-                <p className="text-sm font-light text-muted-foreground">
-                  Compte une semaine de confection après le paiement
-                </p>
-              </div>
-            </div>
+            <PreviewBlock className="hidden lg:block" />
           </div>
 
           {/* RIGHT — Configurator */}
@@ -280,6 +283,8 @@ function ProductPage() {
                 })}
               </div>
             </section>
+
+            <PreviewBlock className="lg:hidden" />
 
             <section>
               <label

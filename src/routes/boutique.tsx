@@ -50,7 +50,7 @@ function Boutique() {
               <div className="mt-3 px-1">
                 <h2 className="text-sm sm:text-base font-light">{p.name}</h2>
                 <p className="mt-0.5 text-xs sm:text-sm font-light text-muted-foreground">
-                  à partir de {p.priceFrom}€
+                  {p.priceFrom}€
                 </p>
               </div>
             </Link>
