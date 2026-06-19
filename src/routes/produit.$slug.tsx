@@ -11,6 +11,7 @@ import {
   getProduct,
 } from "@/lib/shop";
 import { useCart } from "@/hooks/useCart";
+import mateaLogo from "@/assets/matea-logo.png";
 
 export const Route = createFileRoute("/produit/$slug")({
   head: ({ params }) => {
