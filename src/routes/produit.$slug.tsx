@@ -113,11 +113,6 @@ function ProductPage() {
   return (
     <main className="bg-background min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
-        <div className="flex items-start justify-between mb-4">
-          <Link to="/" aria-label="Accueil MATEA">
-            <img src={mateaLogo} alt="MATEA" className="h-8 sm:h-10 w-auto object-contain" />
-          </Link>
-        </div>
 
         <div className="mb-6">
           <Link
