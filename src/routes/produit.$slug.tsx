@@ -316,13 +316,20 @@ function ProductPage() {
               />
             </section>
 
-            <button
-              onClick={handleAdd}
-              disabled={!canAdd}
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-light text-background transition-transform hover:scale-[1.02] disabled:opacity-40 disabled:hover:scale-100 self-start"
-            >
-              Ajouter au panier — {product.priceFrom}€
-            </button>
+            <div className="flex flex-col items-start gap-2 mt-2">
+              <button
+                onClick={handleAdd}
+                aria-disabled={!canAdd}
+                className={`inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-light text-background transition-transform hover:scale-[1.02] ${!canAdd ? "opacity-60" : ""}`}
+              >
+                Ajouter au panier — {product.priceFrom}€
+              </button>
+              {!canAdd && (
+                <p className="text-xs font-light text-muted-foreground">
+                  Pour ajouter au panier, sélectionne&nbsp;: {missingFields.join(", ")}.
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>
