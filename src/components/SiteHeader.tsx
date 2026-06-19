@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
+import mateaLogo from "@/assets/matea-logo.png";
 import { CartIcon, CartOverlay } from "@/lib/shop";
 import { useCart } from "@/hooks/useCart";
 
@@ -26,7 +27,11 @@ export function SiteHeader() {
 
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
-          <div className="flex-1" />
+          <div className="flex-1 flex items-center">
+            <Link to="/" aria-label="Accueil MATEA">
+              <img src={mateaLogo} alt="MATEA" className="h-8 sm:h-10 w-auto object-contain" />
+            </Link>
+          </div>
 
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((n) => (
