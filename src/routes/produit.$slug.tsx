@@ -198,7 +198,6 @@ function ProductPage() {
             <section>
               <div className="flex items-center justify-between mb-2 gap-3 flex-wrap">
                 <h4 className="text-sm font-medium">Taille du bas</h4>
-                <SizeGuideDialog />
               </div>
               <SizeRow value={sizeBottom} onChange={setSizeBottom} />
             </section>
@@ -270,7 +269,7 @@ function ProductPage() {
                   </span>
                 )}
               </h4>
-              <div className="grid grid-cols-6 sm:grid-cols-7 lg:grid-cols-11 gap-2">
+              <div className="grid grid-cols-4 sm:grid-cols-7 lg:grid-cols-11 gap-2 max-w-[260px] sm:max-w-none mx-auto sm:mx-0">
                 {FABRICS.map((f) => {
                   const selected = threadColor === f.id;
                   return (
@@ -279,7 +278,7 @@ function ProductPage() {
                       onClick={() => setThreadColor(f.id)}
                       aria-label={f.name}
                       title={f.name}
-                      className={`relative aspect-square w-full rounded-full overflow-hidden transition-all ${
+                      className={`relative aspect-square w-full max-w-[52px] sm:max-w-none rounded-full overflow-hidden transition-all ${
                         selected
                           ? "ring-2 ring-background ring-offset-2 ring-offset-foreground shadow-md"
                           : "hover:opacity-90"
