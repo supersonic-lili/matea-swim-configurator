@@ -67,7 +67,7 @@ function Boutique() {
                   className="mt-3 w-full rounded-full text-xs font-light"
                 >
                   <Link to="/produit/$slug" params={{ slug: p.slug }}>
-                    Personnaliser
+                    Choisir mes tissus
                   </Link>
                 </Button>
               </div>
