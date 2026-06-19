@@ -28,7 +28,7 @@ function Boutique() {
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-14">
           {PRODUCTS.map((p) => (
-            <div key={p.slug} className="group block">
+            <div key={p.slug} className="group block scale-[0.7] origin-top">
               <Link
                 to="/produit/$slug"
                 params={{ slug: p.slug }}
