@@ -198,7 +198,6 @@ function ProductPage() {
             <section>
               <div className="flex items-center justify-between mb-2 gap-3 flex-wrap">
                 <h4 className="text-sm font-medium">Taille du bas</h4>
-                <SizeGuideDialog />
               </div>
               <SizeRow value={sizeBottom} onChange={setSizeBottom} />
             </section>
