@@ -17,6 +17,8 @@ export function SiteHeader() {
   const { items, removeItem, checkout } = useCart();
   const { pathname } = useLocation();
   const isProductPage = pathname.startsWith("/produit/");
+  const isBoutique = pathname === "/boutique";
+  const notSticky = isProductPage || isBoutique;
 
   return (
     <>
