@@ -66,11 +66,22 @@ function ProductPage() {
     [threadColor],
   );
 
-  const canAdd =
-    !!sizeTop && !!sizeBottom && !!fabricA && !!fabricB && !!threadColor;
+  const missingFields = useMemo(() => {
+    const m: string[] = [];
+    if (!sizeTop) m.push("la taille du haut");
+    if (!sizeBottom) m.push("la taille du bas");
+    if (!fabricA || !fabricB) m.push("2 tissus (recto & verso)");
+    if (!threadColor) m.push("la couleur des bretelles & lien");
+    return m;
+  }, [sizeTop, sizeBottom, fabricA, fabricB, threadColor]);
+
+  const canAdd = missingFields.length === 0;
 
   const handleAdd = () => {
-    if (!canAdd) return;
+    if (!canAdd) {
+      toast.error(`Il manque : ${missingFields.join(", ")}.`, { duration: 4000 });
+      return;
+    }
     addItem({
       id: crypto.randomUUID(),
       topId: product.topId,
