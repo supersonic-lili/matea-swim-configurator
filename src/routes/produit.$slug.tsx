@@ -174,9 +174,6 @@ function ProductPage() {
               <p className="mt-1 text-xs font-light text-muted-foreground">
                 Réductions et frais de livraison calculés à l'étape du paiement
               </p>
-              <p className="mt-3 text-sm font-light text-foreground">
-                Tous nos maillots sont réversibles. Choisis ta coupe préférée et personnalise ton maillot !
-              </p>
             </div>
 
             <section>
