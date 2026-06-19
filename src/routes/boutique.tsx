@@ -58,16 +58,16 @@ function Boutique() {
                   params={{ slug: p.slug }}
                   className="block"
                 >
-                  <h2 className="text-base sm:text-lg font-light">{p.name} — réversible</h2>
+                  <h2 className="text-base sm:text-lg lg:text-xl font-light">{p.name} — réversible</h2>
                 </Link>
-                <p className="mt-0.5 text-xs sm:text-sm font-light text-muted-foreground">
+                <p className="mt-0.5 text-xs sm:text-sm lg:text-base font-light text-muted-foreground">
                   {p.priceFrom}€
                 </p>
                 <Button
                   asChild
                   variant="default"
                   size="sm"
-                  className="mt-3 w-full rounded-full text-xs font-light"
+                  className="mt-3 w-full rounded-full text-xs lg:text-sm font-light"
                 >
                   <Link to="/produit/$slug" params={{ slug: p.slug }}>
                     Choisir mes tissus
