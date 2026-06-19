@@ -20,6 +20,9 @@ function Boutique() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
         <header className="mb-8 sm:mb-12">
           <h1 className="text-xl sm:text-2xl font-light tracking-wide">Produits</h1>
+          <p className="mt-2 text-sm sm:text-base font-light text-foreground/90 max-w-2xl">
+            Tous nos maillots sont réversibles. Choisis ta coupe préférée et personnalise ton maillot !
+          </p>
         </header>
 
 
