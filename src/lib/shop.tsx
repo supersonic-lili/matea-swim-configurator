@@ -107,7 +107,7 @@ export const BOTTOMS = [
 export const SIZES = ["XS", "S", "M", "L", "XL"];
 
 export const PRICE = 89;
-export const SHIPPING = 6;
+export const SHIPPING = 4.9;
 
 export type CartItem = {
   id: string;

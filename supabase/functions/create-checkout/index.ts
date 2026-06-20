@@ -83,7 +83,7 @@ Deno.serve(async (req) => {
         {
           shipping_rate_data: {
             type: "fixed_amount",
-            fixed_amount: { amount: 600, currency: "eur" },
+            fixed_amount: { amount: 490, currency: "eur" },
             display_name: "Livraison France Standard",
           },
         },
