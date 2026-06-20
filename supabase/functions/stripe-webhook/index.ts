@@ -91,7 +91,7 @@ async function processPaidSession(stripe: Stripe, sessionId: string) {
   const fmt = (cents: number) => (cents / 100).toFixed(2);
   const subtotalCents = (session.amount_subtotal ?? order.total_amount) as number;
   const discountCents = (session.total_details?.amount_discount ?? 0) as number;
-  const shippingCents = (session.total_details?.amount_shipping ?? 600) as number;
+  const shippingCents = (session.total_details?.amount_shipping ?? 490) as number;
   const totalCents = (session.amount_total ?? (subtotalCents - discountCents + shippingCents)) as number;
   const discountBreakdown = (session.total_details as any)?.breakdown?.discounts ?? [];
   const discountLabel = discountBreakdown
