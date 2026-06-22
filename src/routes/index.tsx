@@ -2,10 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Instagram } from "lucide-react";
 import mateaLogo from "@/assets/matea-logo.png";
 
-const heroAsset = { url: "/images/hero.jpg" };
+const heroAsset = { url: "/images/editorial-7.jpg" };
 const editorial5 = { url: "/images/editorial-5.jpg" };
 const editorial6 = { url: "/images/editorial-6.jpg" };
-const editorial7 = { url: "/images/editorial-7.jpg" };
+const editorialBottom = { url: "/images/hero.jpg" };
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -46,14 +46,14 @@ function Editorial() {
       <div className="w-full">
         <div className="grid grid-cols-2 gap-0.5 items-start">
           <div className="aspect-[3/4] overflow-hidden">
-            <img src={editorial7.url} alt="MATEA 1" loading="lazy" className="w-full h-full object-cover" />
+            <img src={editorial5.url} alt="MATEA 1" loading="lazy" className="w-full h-full object-cover" />
           </div>
           <div className="flex flex-col gap-0.5">
             <div className="aspect-[3/2] overflow-hidden">
               <img src={editorial6.url} alt="MATEA 2" loading="lazy" className="w-full h-full object-cover" />
             </div>
             <div className="aspect-[3/2] overflow-hidden">
-              <img src={editorial5.url} alt="MATEA 3" loading="lazy" className="w-full h-full object-cover" />
+              <img src={editorialBottom.url} alt="MATEA 3" loading="lazy" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>

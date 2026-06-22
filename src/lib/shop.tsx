@@ -59,7 +59,7 @@ import prodTanga2 from "@/assets/products-bundled/tanga-2.jpg";
 import prodTanga3 from "@/assets/products-bundled/tanga-3.jpg";
 import prodTanga4 from "@/assets/products-bundled/tanga-4.jpg";
 import prodTanga5 from "@/assets/products-bundled/tanga-5.jpg";
-import prodTangaFruits from "@/assets/products/tanga-fruits.jpg.asset.json";
+import prodTangaFruits from "@/assets/products-bundled/tanga-fruits.jpg";
 
 export const DISPLAY_FABRIC_OVERRIDES: Record<string, string> = {
   bleu: dispBleu,
@@ -141,7 +141,7 @@ export const PRODUCTS: Product[] = [
     priceFrom: PRICE,
     topId: "triangle",
     bottomId: "tanga",
-    images: [prodTangaFruits.url, prodTanga1, prodTanga2, prodTanga3, prodTanga4, prodTanga5],
+    images: [prodTangaFruits, prodTanga1, prodTanga2, prodTanga3, prodTanga4, prodTanga5],
     description:
       "Le tanga MATEA, fin et confortable, à porter avec le triangle. Réversible et fait main à Marseille — choisis tes tissus et tes liens.",
     blurb:
