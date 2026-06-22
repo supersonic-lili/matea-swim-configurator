@@ -21,9 +21,14 @@ function AProposPage() {
 
       <div className="max-w-3xl mx-auto px-6 py-20 sm:py-28 text-center">
         <h1 className="sr-only">À propos</h1>
-        <p className="text-base sm:text-lg font-light leading-relaxed text-foreground/90">
-          Dans mon atelier à Marseille, je confectionne à la main des maillots de bain personnalisables et réversibles, pensés pour s'adapter à vos envies et à votre style. Choisissez vos tissus, sélectionnez la forme qui vous met le plus en valeur, et créez une pièce unique qui vous ressemble. Je réalise votre maillot spécialement pour vous, avec soin et attention à chaque détail.
-        </p>
+        <div className="text-base sm:text-lg font-light leading-relaxed text-foreground/90 text-left space-y-5">
+          <p>Je m'appelle Mathilde et je vis à Marseille, au bord de la Méditerranée.</p>
+          <p>Passionnée par la mer et la couture depuis des années, ici à Marseille le maillot de bain fait presque partie du quotidien. Pourtant, j'ai longtemps eu du mal à trouver des maillots dans lesquels je me sentais vraiment bien : suffisamment confortables et maintenus pour bouger et nager, tout en restant féminins et agréables à porter. J'ai donc commencé à confectionner mes propres maillots.</p>
+          <p>C'est ainsi qu'est née l'idée des maillots réversibles MATEA, un seul maillot mais plusieurs possibilités. Une façon simple d'emporter moins, de varier les styles et de profiter davantage de chaque pièce. Cette approche reflète aussi une valeur qui me tient particulièrement à cœur : consommer moins mais mieux.</p>
+          <p>Chaque maillot MATEA est confectionné à la main à Marseille. Je privilégie une fabrication en petites quantités et à la commande afin d'éviter la surproduction et de proposer des pièces uniques ou produites en séries limitées.</p>
+          <p>À travers MATEA, j'ai voulu créer les maillots que je recherchais moi-même : des maillots confortables, féminins, pensés pour accompagner aussi bien une journée à la plage qu'une exploration sous l'eau. Au départ, je les créais pour moi. Aujourd'hui, je suis heureuse de pouvoir les partager avec toutes celles qui aiment la mer, la liberté et les belles pièces fabriquées avec soin.</p>
+          <p>Bienvenue dans l'univers MATEA.</p>
+        </div>
         <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
           <a
             href="mailto:bonjour@matea-swimwear.com"
