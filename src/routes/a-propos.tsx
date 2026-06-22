@@ -21,7 +21,7 @@ function AProposPage() {
 
       <div className="max-w-3xl mx-auto px-6 py-20 sm:py-28 text-center">
         <h1 className="sr-only">À propos</h1>
-        <div className="text-base sm:text-lg font-light leading-relaxed text-foreground/90 text-left space-y-5">
+        <div className="text-base sm:text-lg font-light leading-relaxed text-foreground/90 text-center space-y-5">
           <p>Je m'appelle Mathilde et je vis à Marseille, au bord de la Méditerranée.</p>
           <p>Passionnée par la mer et la couture depuis des années, ici à Marseille le maillot de bain fait presque partie du quotidien. Pourtant, j'ai longtemps eu du mal à trouver des maillots dans lesquels je me sentais vraiment bien : suffisamment confortables et maintenus pour bouger et nager, tout en restant féminins et agréables à porter. J'ai donc commencé à confectionner mes propres maillots.</p>
           <p>C'est ainsi qu'est née l'idée des maillots réversibles MATEA, un seul maillot mais plusieurs possibilités. Une façon simple d'emporter moins, de varier les styles et de profiter davantage de chaque pièce. Cette approche reflète aussi une valeur qui me tient particulièrement à cœur : consommer moins mais mieux.</p>
