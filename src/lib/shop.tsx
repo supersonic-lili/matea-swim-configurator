@@ -226,7 +226,7 @@ export function SizeRow({ value, onChange }: { value: string | null; onChange: (
           <button
             key={s}
             onClick={() => onChange(s)}
-            className={`min-w-[34px] h-9 sm:min-w-[44px] sm:h-11 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-light border transition-all ${
+            className={`min-w-[34px] h-9 sm:min-w-[44px] sm:h-11 lg:min-w-[36px] lg:h-9 px-3 sm:px-4 lg:px-3 rounded-full text-xs sm:text-sm lg:text-xs font-light border transition-all ${
               selected
                 ? "bg-foreground text-background border-foreground"
                 : "bg-background text-foreground border-border hover:border-foreground"
