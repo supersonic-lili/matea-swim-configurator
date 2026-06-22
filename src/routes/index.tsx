@@ -2,10 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Instagram } from "lucide-react";
 import mateaLogo from "@/assets/matea-logo.png";
 
-const heroAsset = { url: "/images/hero.jpg" };
+const heroAsset = { url: "/images/editorial-7.jpg" };
 const editorial5 = { url: "/images/editorial-5.jpg" };
 const editorial6 = { url: "/images/editorial-6.jpg" };
-const editorial7 = { url: "/images/editorial-7.jpg" };
+const editorialBottom = { url: "/images/hero.jpg" };
 
 export const Route = createFileRoute("/")({
   component: Index,
