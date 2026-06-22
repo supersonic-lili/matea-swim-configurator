@@ -187,6 +187,10 @@ function ProductPage() {
               </p>
             </div>
 
+            <p className="text-sm sm:text-base font-light leading-relaxed text-foreground/85">
+              {product.blurb}
+            </p>
+
             <section>
               <div className="flex items-center justify-between mb-2 gap-3 flex-wrap">
                 <h4 className="text-sm font-medium">Taille du haut</h4>

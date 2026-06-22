@@ -130,6 +130,7 @@ export type Product = {
   bottomId: string;
   images: string[];
   description: string;
+  blurb: string;
 };
 
 export const PRODUCTS: Product[] = [
@@ -142,6 +143,8 @@ export const PRODUCTS: Product[] = [
     images: [prodTanga1, prodTanga2, prodTanga3, prodTanga4, prodTanga5],
     description:
       "Le tanga MATEA, fin et confortable, à porter avec le triangle. Réversible et fait main à Marseille — choisis tes tissus et tes liens.",
+    blurb:
+      "Cet ensemble est composé d'un haut triangle, classique indémodable qui s'adapte à toutes les morphologies, et d'un tanga à la fois confortable et sexy.",
   },
   {
     slug: "bas-echancre",
@@ -152,6 +155,8 @@ export const PRODUCTS: Product[] = [
     images: [prodBasEch0, prodBasEch1, prodBasEch3, prodBasEch2],
     description:
       "Un bas échancré et flatteur, associé au triangle MATEA. Réversible et fait main à Marseille — personnalise les deux faces selon ton style.",
+    blurb:
+      "Cet ensemble est composé d'un haut triangle, classique indémodable qui s'adapte à toutes les morphologies, et d'un bas échancré qui met en valeur la silhouette.",
   },
 ];
 
@@ -226,7 +231,7 @@ export function SizeRow({ value, onChange }: { value: string | null; onChange: (
           <button
             key={s}
             onClick={() => onChange(s)}
-            className={`min-w-[34px] h-9 sm:min-w-[44px] sm:h-11 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-light border transition-all ${
+            className={`min-w-[34px] h-9 sm:min-w-[44px] sm:h-11 lg:min-w-[36px] lg:h-9 px-3 sm:px-4 lg:px-3 rounded-full text-xs sm:text-sm lg:text-xs font-light border transition-all ${
               selected
                 ? "bg-foreground text-background border-foreground"
                 : "bg-background text-foreground border-border hover:border-foreground"
