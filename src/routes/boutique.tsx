@@ -28,7 +28,7 @@ function Boutique() {
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-14">
           {PRODUCTS.map((p) => (
-            <div key={p.slug} className="group block scale-[0.7] origin-top">
+            <div key={p.slug} className="group block scale-100 md:scale-[0.7] origin-top">
               <Link
                 to="/produit/$slug"
                 params={{ slug: p.slug }}
@@ -58,7 +58,7 @@ function Boutique() {
                   params={{ slug: p.slug }}
                   className="block"
                 >
-                  <h2 className="text-base sm:text-lg lg:text-xl font-light">{p.name} — réversible</h2>
+                  <h2 className="text-base sm:text-lg lg:text-xl font-light line-clamp-2">{p.name} — réversible</h2>
                 </Link>
                 <p className="mt-0.5 text-xs sm:text-sm lg:text-base font-light text-muted-foreground">
                   {p.priceFrom}€
