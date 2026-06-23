@@ -52,13 +52,13 @@ function Boutique() {
                   )}
                 </div>
               </Link>
-              <div className="mt-3 px-1">
+              <div className="mt-3 px-1 flex flex-col flex-grow">
                 <Link
                   to="/produit/$slug"
                   params={{ slug: p.slug }}
                   className="block"
                 >
-                  <h2 className="text-base sm:text-lg lg:text-xl font-light line-clamp-2">{p.name} — réversible</h2>
+                  <h2 className="text-sm sm:text-base lg:text-lg font-light line-clamp-2">{p.name} — réversible</h2>
                 </Link>
                 <p className="mt-0.5 text-xs sm:text-sm lg:text-base font-light text-muted-foreground">
                   {p.priceFrom}€
@@ -67,7 +67,7 @@ function Boutique() {
                   asChild
                   variant="default"
                   size="sm"
-                  className="mt-3 w-full rounded-full text-xs lg:text-sm font-light"
+                  className="mt-auto w-full rounded-full text-xs lg:text-sm font-light"
                 >
                   <Link to="/produit/$slug" params={{ slug: p.slug }}>
                     Choisir mes tissus
