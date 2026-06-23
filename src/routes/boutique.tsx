@@ -67,7 +67,7 @@ function Boutique() {
                   asChild
                   variant="default"
                   size="sm"
-                  className="mt-auto w-full rounded-full text-xs lg:text-sm font-light"
+                  className="mt-5 w-full rounded-full text-xs lg:text-sm font-light"
                 >
                   <Link to="/produit/$slug" params={{ slug: p.slug }}>
                     Choisir mes tissus
