@@ -302,7 +302,6 @@ function ProductPage() {
               </div>
             </section>
 
-
             <section>
               <label
                 htmlFor="product-note"
