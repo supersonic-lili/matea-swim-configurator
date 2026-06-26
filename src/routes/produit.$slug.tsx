@@ -206,6 +206,8 @@ function ProductPage() {
               <SizeRow value={sizeBottom} onChange={setSizeBottom} />
             </section>
 
+            <PreviewBlock className="lg:hidden" />
+
             <section>
               <h4 className="text-sm font-medium mb-2">
                 Tissus recto &amp; verso
@@ -300,7 +302,6 @@ function ProductPage() {
               </div>
             </section>
 
-            <PreviewBlock className="lg:hidden" />
 
             <section>
               <label
