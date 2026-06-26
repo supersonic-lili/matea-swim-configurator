@@ -185,9 +185,16 @@ function ProductPage() {
               <h1 className="text-2xl sm:text-3xl font-light tracking-wide">
                 {product.name} <span className="text-muted-foreground">— personnalisable (réversible)</span>
               </h1>
-              <p className="mt-2 text-lg font-light">{product.priceFrom}€</p>
+              <div className="mt-2">
+                <PriceTag amount={product.priceFrom} size="lg" />
+              </div>
+              {AUTO_PROMO.enabled && (
+                <p className="mt-1 text-xs font-medium text-foreground">
+                  Promo {AUTO_PROMO.code} appliquée automatiquement (-{AUTO_PROMO.percent}%)
+                </p>
+              )}
               <p className="mt-1 text-xs font-light text-muted-foreground">
-                Réductions et frais de livraison calculés à l'étape du paiement
+                Frais de livraison calculés à l'étape du paiement
               </p>
             </div>
 
