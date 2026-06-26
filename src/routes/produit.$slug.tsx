@@ -116,12 +116,6 @@ function ProductPage() {
             : undefined
         }
       />
-      <div className="mt-6">
-        <p className="text-sm font-semibold">Fait main à la commande</p>
-        <p className="text-sm font-light text-muted-foreground">
-          Compte une semaine de confection après le paiement
-        </p>
-      </div>
     </div>
   );
 
