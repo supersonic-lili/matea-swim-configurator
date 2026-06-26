@@ -13,7 +13,6 @@ import {
   getDiscountedPrice,
   formatPrice,
   AUTO_PROMO,
-  getProduct,
 } from "@/lib/shop";
 import { useCart } from "@/hooks/useCart";
 
