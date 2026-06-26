@@ -326,6 +326,7 @@ function ProductPage() {
               </p>
             </div>
 
+            <div className="flex flex-col items-start gap-2 mt-2">
               <button
                 onClick={handleAdd}
                 aria-disabled={!canAdd}
