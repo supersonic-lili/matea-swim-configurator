@@ -336,7 +336,14 @@ function ProductPage() {
                 aria-disabled={!canAdd}
                 className={`inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-light text-background transition-transform hover:scale-[1.02] ${!canAdd ? "opacity-60" : ""}`}
               >
-                Ajouter au panier — {product.priceFrom}€
+                Ajouter au panier — {AUTO_PROMO.enabled ? (
+                  <>
+                    <span className="line-through opacity-60 ml-1">{formatPrice(product.priceFrom)}€</span>
+                    <span className="ml-2 font-semibold">{formatPrice(getDiscountedPrice(product.priceFrom))}€</span>
+                  </>
+                ) : (
+                  <span className="ml-1">{formatPrice(product.priceFrom)}€</span>
+                )}
               </button>
               {!canAdd && (
                 <p className="text-xs font-light text-muted-foreground">
