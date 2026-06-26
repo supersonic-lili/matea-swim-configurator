@@ -110,6 +110,61 @@ export const SIZES = ["XS", "S", "M", "L", "XL"];
 export const PRICE = 89;
 export const SHIPPING = 4.9;
 
+// ---- Auto-applied promotion (display + checkout layer) ----
+// Set AUTO_PROMO.enabled = false to disable the campaign instantly.
+export const AUTO_PROMO = {
+  enabled: true,
+  code: "MATEA10",
+  percent: 10,
+};
+
+export function formatPrice(n: number): string {
+  // 2 decimals only when needed, French formatting
+  const rounded = Math.round(n * 100) / 100;
+  const hasDecimals = Math.round(rounded * 100) % 100 !== 0;
+  return new Intl.NumberFormat("fr-FR", {
+    minimumFractionDigits: hasDecimals ? 2 : 0,
+    maximumFractionDigits: 2,
+  }).format(rounded);
+}
+
+export function getDiscountedPrice(base: number): number {
+  if (!AUTO_PROMO.enabled) return base;
+  return Math.round(base * (1 - AUTO_PROMO.percent / 100) * 100) / 100;
+}
+
+/** Inline price tag: original (struck) + discounted (highlighted) when promo active. */
+export function PriceTag({
+  amount,
+  className = "",
+  size = "md",
+}: {
+  amount: number;
+  className?: string;
+  size?: "sm" | "md" | "lg";
+}) {
+  const discounted = getDiscountedPrice(amount);
+  const promo = AUTO_PROMO.enabled && discounted < amount;
+  const sizes = {
+    sm: { strike: "text-xs", main: "text-sm" },
+    md: { strike: "text-sm", main: "text-base" },
+    lg: { strike: "text-base", main: "text-xl" },
+  }[size];
+  if (!promo) {
+    return <span className={`font-light ${sizes.main} ${className}`}>{formatPrice(amount)}€</span>;
+  }
+  return (
+    <span className={`inline-flex items-baseline gap-2 ${className}`}>
+      <span className={`line-through text-muted-foreground font-light ${sizes.strike}`}>
+        {formatPrice(amount)}€
+      </span>
+      <span className={`font-semibold text-foreground ${sizes.main}`}>
+        {formatPrice(discounted)}€
+      </span>
+    </span>
+  );
+}
+
 export type CartItem = {
   id: string;
   topId: string;
