@@ -188,11 +188,6 @@ function ProductPage() {
               <div className="mt-2">
                 <PriceTag amount={product.priceFrom} size="lg" />
               </div>
-              {AUTO_PROMO.enabled && (
-                <p className="mt-1 text-xs font-medium text-foreground">
-                  Promo {AUTO_PROMO.code} appliquée automatiquement (-{AUTO_PROMO.percent}%)
-                </p>
-              )}
               <p className="mt-1 text-xs font-light text-muted-foreground">
                 Frais de livraison calculés à l'étape du paiement
               </p>
