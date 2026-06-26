@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { PRODUCTS } from "@/lib/shop";
+import { PRODUCTS, PriceTag } from "@/lib/shop";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/boutique")({
@@ -60,9 +60,9 @@ function Boutique() {
                 >
                   <h2 className="text-sm sm:text-base lg:text-lg font-light line-clamp-2">{p.name} — réversible</h2>
                 </Link>
-                <p className="mt-0.5 text-xs sm:text-sm lg:text-base font-light text-muted-foreground">
-                  {p.priceFrom}€
-                </p>
+                <div className="mt-0.5">
+                  <PriceTag amount={p.priceFrom} size="sm" />
+                </div>
                 <Button
                   asChild
                   variant="default"

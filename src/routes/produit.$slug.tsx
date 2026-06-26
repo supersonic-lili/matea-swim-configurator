@@ -9,6 +9,10 @@ import {
   SwimsuitPreview,
   DISPLAY_FABRIC_OVERRIDES,
   getProduct,
+  PriceTag,
+  getDiscountedPrice,
+  formatPrice,
+  AUTO_PROMO,
 } from "@/lib/shop";
 import { useCart } from "@/hooks/useCart";
 
@@ -181,9 +185,16 @@ function ProductPage() {
               <h1 className="text-2xl sm:text-3xl font-light tracking-wide">
                 {product.name} <span className="text-muted-foreground">— personnalisable (réversible)</span>
               </h1>
-              <p className="mt-2 text-lg font-light">{product.priceFrom}€</p>
+              <div className="mt-2">
+                <PriceTag amount={product.priceFrom} size="lg" />
+              </div>
+              {AUTO_PROMO.enabled && (
+                <p className="mt-1 text-xs font-medium text-foreground">
+                  Promo {AUTO_PROMO.code} appliquée automatiquement (-{AUTO_PROMO.percent}%)
+                </p>
+              )}
               <p className="mt-1 text-xs font-light text-muted-foreground">
-                Réductions et frais de livraison calculés à l'étape du paiement
+                Frais de livraison calculés à l'étape du paiement
               </p>
             </div>
 
@@ -325,7 +336,14 @@ function ProductPage() {
                 aria-disabled={!canAdd}
                 className={`inline-flex items-center justify-center rounded-full bg-foreground px-8 py-4 text-sm sm:text-base font-light text-background transition-transform hover:scale-[1.02] ${!canAdd ? "opacity-60" : ""}`}
               >
-                Ajouter au panier — {product.priceFrom}€
+                Ajouter au panier — {AUTO_PROMO.enabled ? (
+                  <>
+                    <span className="line-through opacity-60 ml-1">{formatPrice(product.priceFrom)}€</span>
+                    <span className="ml-2 font-semibold">{formatPrice(getDiscountedPrice(product.priceFrom))}€</span>
+                  </>
+                ) : (
+                  <span className="ml-1">{formatPrice(product.priceFrom)}€</span>
+                )}
               </button>
               {!canAdd && (
                 <p className="text-xs font-light text-muted-foreground">

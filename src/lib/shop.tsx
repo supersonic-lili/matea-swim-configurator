@@ -110,6 +110,61 @@ export const SIZES = ["XS", "S", "M", "L", "XL"];
 export const PRICE = 89;
 export const SHIPPING = 4.9;
 
+// ---- Auto-applied promotion (display + checkout layer) ----
+// Set AUTO_PROMO.enabled = false to disable the campaign instantly.
+export const AUTO_PROMO = {
+  enabled: true,
+  code: "MATEA10",
+  percent: 10,
+};
+
+export function formatPrice(n: number): string {
+  // 2 decimals only when needed, French formatting
+  const rounded = Math.round(n * 100) / 100;
+  const hasDecimals = Math.round(rounded * 100) % 100 !== 0;
+  return new Intl.NumberFormat("fr-FR", {
+    minimumFractionDigits: hasDecimals ? 2 : 0,
+    maximumFractionDigits: 2,
+  }).format(rounded);
+}
+
+export function getDiscountedPrice(base: number): number {
+  if (!AUTO_PROMO.enabled) return base;
+  return Math.round(base * (1 - AUTO_PROMO.percent / 100) * 100) / 100;
+}
+
+/** Inline price tag: original (struck) + discounted (highlighted) when promo active. */
+export function PriceTag({
+  amount,
+  className = "",
+  size = "md",
+}: {
+  amount: number;
+  className?: string;
+  size?: "sm" | "md" | "lg";
+}) {
+  const discounted = getDiscountedPrice(amount);
+  const promo = AUTO_PROMO.enabled && discounted < amount;
+  const sizes = {
+    sm: { strike: "text-xs", main: "text-sm" },
+    md: { strike: "text-sm", main: "text-base" },
+    lg: { strike: "text-base", main: "text-xl" },
+  }[size];
+  if (!promo) {
+    return <span className={`font-light ${sizes.main} ${className}`}>{formatPrice(amount)}€</span>;
+  }
+  return (
+    <span className={`inline-flex items-baseline gap-2 ${className}`}>
+      <span className={`line-through text-muted-foreground font-light ${sizes.strike}`}>
+        {formatPrice(amount)}€
+      </span>
+      <span className={`font-semibold text-foreground ${sizes.main}`}>
+        {formatPrice(discounted)}€
+      </span>
+    </span>
+  );
+}
+
 export type CartItem = {
   id: string;
   topId: string;
@@ -735,9 +790,6 @@ export function CartOverlay({
 }) {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
-  const [promoInput, setPromoInput] = useState("");
-  const [promoApplied, setPromoApplied] = useState<string | null>(null);
-  const [promoError, setPromoError] = useState(false);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -752,19 +804,11 @@ export function CartOverlay({
 
   const subtotal = items.reduce((s, i) => s + i.price, 0);
   const shipping = items.length > 0 ? SHIPPING : 0;
-  const discount = promoApplied === "MATEA10" ? Math.round(subtotal * 0.1 * 100) / 100 : 0;
+  const promoActive = AUTO_PROMO.enabled && items.length > 0;
+  const discount = promoActive
+    ? Math.round(subtotal * (AUTO_PROMO.percent / 100) * 100) / 100
+    : 0;
   const total = Math.max(0, subtotal - discount) + shipping;
-
-  const applyPromo = () => {
-    const code = promoInput.trim().toUpperCase();
-    if (code === "MATEA10") {
-      setPromoApplied(code);
-      setPromoError(false);
-    } else {
-      setPromoApplied(null);
-      setPromoError(true);
-    }
-  };
 
   const handleClick = () => {
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -773,7 +817,7 @@ export function CartOverlay({
       return;
     }
     setEmailError(false);
-    onCheckout(email.trim(), promoApplied);
+    onCheckout(email.trim(), promoActive ? AUTO_PROMO.code : null);
   };
 
   return (
@@ -848,9 +892,9 @@ export function CartOverlay({
                             {tc?.name ?? "—"}
                           </span>
                         </div>
-                        <div className="flex justify-between gap-3 pt-1.5 border-t border-border">
+                        <div className="flex justify-between gap-3 pt-1.5 border-t border-border items-baseline">
                           <span className="text-muted-foreground">Prix</span>
-                          <span>{item.price}€</span>
+                          <PriceTag amount={item.price} size="sm" />
                         </div>
                         {item.note && (
                           <div className="pt-1.5">
@@ -867,45 +911,23 @@ export function CartOverlay({
               <div className="mt-5 pt-4 border-t border-border space-y-1.5 text-sm font-light">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Sous-total</span>
-                  <span>{subtotal}€</span>
+                  <span className={promoActive ? "line-through text-muted-foreground" : ""}>
+                    {formatPrice(subtotal)}€
+                  </span>
                 </div>
-                <div className="py-1">
-                  <div className="flex gap-2 items-center">
-                    <input
-                      type="text"
-                      value={promoInput}
-                      onChange={(e) => {
-                        setPromoInput(e.target.value);
-                        if (promoError) setPromoError(false);
-                      }}
-                      placeholder="Code promo"
-                      className="flex-1 px-3 py-2 rounded-full border border-border bg-background text-sm font-light focus:border-foreground outline-none transition-colors"
-                    />
-                    <button
-                      type="button"
-                      onClick={applyPromo}
-                      className="px-4 py-2 rounded-full border border-border text-sm font-light hover:bg-secondary transition-colors"
-                    >
-                      Appliquer
-                    </button>
+                {promoActive && (
+                  <div className="flex justify-between text-foreground">
+                    <span>Réduction ({AUTO_PROMO.code} · -{AUTO_PROMO.percent}%)</span>
+                    <span className="font-medium">-{formatPrice(discount)}€</span>
                   </div>
-                  {promoApplied && (
-                    <div className="flex justify-between mt-1.5">
-                      <span className="text-muted-foreground">Réduction ({promoApplied})</span>
-                      <span>-{discount}€</span>
-                    </div>
-                  )}
-                  {promoError && (
-                    <p className="mt-1.5 text-xs text-destructive font-light">Code promo invalide.</p>
-                  )}
-                </div>
+                )}
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Livraison France Standard</span>
-                  <span>{shipping}€</span>
+                  <span>{formatPrice(shipping)}€</span>
                 </div>
                 <div className="flex justify-between text-base pt-2 border-t border-border">
                   <span>Total</span>
-                  <span>{total}€</span>
+                  <span className="font-semibold">{formatPrice(total)}€</span>
                 </div>
               </div>
 
