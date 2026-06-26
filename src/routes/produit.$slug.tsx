@@ -116,12 +116,6 @@ function ProductPage() {
             : undefined
         }
       />
-      <div className="mt-6">
-        <p className="text-sm font-semibold">Fait main à la commande</p>
-        <p className="text-sm font-light text-muted-foreground">
-          Compte une semaine de confection après le paiement
-        </p>
-      </div>
     </div>
   );
 
@@ -188,11 +182,6 @@ function ProductPage() {
               <div className="mt-2">
                 <PriceTag amount={product.priceFrom} size="lg" />
               </div>
-              {AUTO_PROMO.enabled && (
-                <p className="mt-1 text-xs font-medium text-foreground">
-                  Promo {AUTO_PROMO.code} appliquée automatiquement (-{AUTO_PROMO.percent}%)
-                </p>
-              )}
               <p className="mt-1 text-xs font-light text-muted-foreground">
                 Frais de livraison calculés à l'étape du paiement
               </p>
@@ -329,6 +318,13 @@ function ProductPage() {
                 className="w-full rounded-xl border border-input bg-transparent px-3 py-2 text-sm font-light placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none"
               />
             </section>
+
+            <div className="mt-2">
+              <p className="text-sm font-semibold">Fait main à la commande</p>
+              <p className="text-sm font-light text-muted-foreground">
+                Compte une semaine de confection après le paiement
+              </p>
+            </div>
 
             <div className="flex flex-col items-start gap-2 mt-2">
               <button
