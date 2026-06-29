@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Instagram } from "lucide-react";
 import mateaLogo from "@/assets/matea-logo.png";
 import { Testimonials } from "@/components/Testimonials";
 
