@@ -3,6 +3,7 @@
 // that we recolor with a <pattern> using the selected fabric image as a texture.
 // The dark outlines and detail paths keep their default black fill.
 
+import type { CSSProperties } from "react";
 import stringBottomPng from "@/assets/illustrations/string-bottom.png";
 
 
@@ -100,15 +101,49 @@ export function CulotteBottom({ fabricUrl, patternId }: PieceProps) {
 }
 
 
-export function StringBottom(_props: PieceProps) {
+export function StringBottom({ fabricUrl, threadFabricUrl }: PieceProps) {
+  const maskStyle = {
+    WebkitMaskImage: `url(${stringBottomPng})`,
+    maskImage: `url(${stringBottomPng})`,
+    WebkitMaskRepeat: "no-repeat",
+    maskRepeat: "no-repeat",
+    WebkitMaskPosition: "center",
+    maskPosition: "center",
+    WebkitMaskSize: "contain",
+    maskSize: "contain",
+  } satisfies CSSProperties;
+
+  const fabricLayerStyle = (url?: string): CSSProperties => ({
+    ...maskStyle,
+    backgroundColor: url ? undefined : "#fff",
+    backgroundImage: url ? `url(${url})` : undefined,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  });
+
   return (
-    <img
-      src={stringBottomPng}
-      alt=""
-      aria-hidden="true"
-      className="w-full h-auto block select-none pointer-events-none"
-      draggable={false}
-    />
+    <div className="relative w-full aspect-[490/436]" aria-hidden="true">
+      <div
+        className="absolute inset-0"
+        style={{
+          ...fabricLayerStyle(fabricUrl),
+          clipPath: "polygon(18% 0, 82% 0, 82% 100%, 18% 100%)",
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          ...fabricLayerStyle(threadFabricUrl ?? fabricUrl),
+          clipPath: "polygon(0 0, 24% 0, 24% 100%, 0 100%, 76% 0, 100% 0, 100% 100%, 76% 100%)",
+        }}
+      />
+      <img
+        src={stringBottomPng}
+        alt=""
+        className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none mix-blend-multiply"
+        draggable={false}
+      />
+    </div>
   );
 }
 
