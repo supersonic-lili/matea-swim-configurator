@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Instagram } from "lucide-react";
 import mateaLogo from "@/assets/matea-logo.png";
+import { Testimonials } from "@/components/Testimonials";
 
 const heroAsset = { url: "/images/editorial-7.jpg" };
 const editorial5 = { url: "/images/editorial-5.jpg" };
@@ -95,6 +96,7 @@ function Index() {
     <main className="bg-background text-foreground">
       <Hero />
       <Editorial />
+      <Testimonials />
       <Footer />
     </main>
   );
