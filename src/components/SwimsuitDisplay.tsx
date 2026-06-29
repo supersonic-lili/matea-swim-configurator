@@ -3,6 +3,9 @@
 // that we recolor with a <pattern> using the selected fabric image as a texture.
 // The dark outlines and detail paths keep their default black fill.
 
+import stringBottomPng from "@/assets/illustrations/string-bottom.png";
+
+
 type PieceProps = {
   fabricUrl?: string;
   patternId: string;
