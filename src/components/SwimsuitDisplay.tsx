@@ -4,6 +4,7 @@
 // The dark outlines and detail paths keep their default black fill.
 
 import type { CSSProperties } from "react";
+import triangleTopPng from "@/assets/illustrations/triangle-top.png";
 import stringBottomPng from "@/assets/illustrations/string-bottom.png";
 
 
@@ -40,7 +41,59 @@ function FabricPattern({ id, fabricUrl }: { id: string; fabricUrl?: string }) {
   );
 }
 
-export function TriangleTop({ fabricUrl, patternId, threadFabricUrl }: PieceProps) {
+function maskFromPng(src: string): CSSProperties {
+  return {
+    WebkitMaskImage: `url(${src})`,
+    maskImage: `url(${src})`,
+    WebkitMaskRepeat: "no-repeat",
+    maskRepeat: "no-repeat",
+    WebkitMaskPosition: "center",
+    maskPosition: "center",
+    WebkitMaskSize: "contain",
+    maskSize: "contain",
+  };
+}
+
+function textureLayer(src: string, url?: string): CSSProperties {
+  return {
+    ...maskFromPng(src),
+    backgroundColor: url ? undefined : "#fff",
+    backgroundImage: url ? `url(${url})` : undefined,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  };
+}
+
+export function TriangleTop({ fabricUrl, threadFabricUrl }: PieceProps) {
+  return (
+    <div className="relative w-full aspect-[1527/1709]" aria-hidden="true">
+      <div
+        className="absolute inset-0"
+        style={{
+          ...textureLayer(triangleTopPng, fabricUrl),
+          clipPath:
+            "polygon(5% 38%, 23% 38%, 44% 100%, 26% 100%, 0 80%, 0 48%, 50% 38%, 100% 48%, 100% 80%, 74% 100%, 56% 100%, 77% 38%, 95% 38%, 95% 100%, 5% 100%)",
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          ...textureLayer(triangleTopPng, threadFabricUrl),
+          clipPath:
+            "polygon(0 0, 100% 0, 100% 86%, 91% 86%, 91% 100%, 54% 100%, 54% 84%, 46% 84%, 46% 100%, 9% 100%, 9% 86%, 0 86%)",
+        }}
+      />
+      <img
+        src={triangleTopPng}
+        alt=""
+        className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none mix-blend-multiply"
+        draggable={false}
+      />
+    </div>
+  );
+}
+
+function LegacyTriangleTop({ fabricUrl, patternId, threadFabricUrl }: PieceProps) {
   const fill = fabricUrl ? `url(#${patternId})` : "#fff";
   const threadPatternId = `${patternId}-thread`;
   const threadFill = threadFabricUrl ? `url(#${threadPatternId})` : "#111";
