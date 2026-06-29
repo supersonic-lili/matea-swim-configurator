@@ -5,6 +5,7 @@ import {
   TriangleTop,
   TangaBottom,
   CulotteBottom,
+  StringBottom,
 } from "@/components/SwimsuitDisplay";
 import {
   Dialog,
@@ -271,7 +272,10 @@ function ShapePicker({
       {options.map((o) => {
         const selected = value === o.id;
         const Shape =
-          o.kind === "triangle" ? TriangleTop : o.kind === "tanga" ? TangaBottom : CulotteBottom;
+          o.kind === "triangle" ? TriangleTop
+            : o.kind === "tanga" ? TangaBottom
+            : o.kind === "string" ? StringBottom
+            : CulotteBottom;
         return (
           <button
             key={o.id}
