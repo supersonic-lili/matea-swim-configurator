@@ -99,7 +99,6 @@ export function CulotteBottom({ fabricUrl, patternId }: PieceProps) {
   );
 }
 
-import stringBottomPng from "@/assets/illustrations/string-bottom.png";
 
 export function StringBottom(_props: PieceProps) {
   return (
