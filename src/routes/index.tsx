@@ -96,6 +96,7 @@ function Index() {
     <main className="bg-background text-foreground">
       <Hero />
       <Editorial />
+      <Testimonials />
       <Footer />
     </main>
   );
