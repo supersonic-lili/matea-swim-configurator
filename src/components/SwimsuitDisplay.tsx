@@ -161,15 +161,21 @@ export function StringBottom({ fabricUrl, threadFabricUrl }: PieceProps) {
         className="absolute inset-0"
         style={{
           ...textureLayer(stringBottomPng, fabricUrl),
-          clipPath: "polygon(31% 18%, 69% 18%, 84% 100%, 16% 100%)",
+          clipPath: "polygon(31% 21%, 50% 36%, 69% 21%, 58% 100%, 42% 100%)",
         }}
       />
       <div
         className="absolute inset-0"
         style={{
           ...textureLayer(stringBottomPng, threadFabricUrl),
-          clipPath:
-            "polygon(0 0, 36% 0, 36% 36%, 0 42%, 0 0, 64% 0, 100% 0, 100% 42%, 64% 36%)",
+          clipPath: "polygon(0 0, 37% 0, 37% 37%, 0 43%)",
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          ...textureLayer(stringBottomPng, threadFabricUrl),
+          clipPath: "polygon(63% 0, 100% 0, 100% 43%, 63% 37%)",
         }}
       />
       <img
