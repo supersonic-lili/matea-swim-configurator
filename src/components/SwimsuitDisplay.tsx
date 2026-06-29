@@ -96,6 +96,56 @@ export function CulotteBottom({ fabricUrl, patternId }: PieceProps) {
   );
 }
 
+export function StringBottom({ fabricUrl, patternId, threadFabricUrl }: PieceProps) {
+  const fill = fabricUrl ? `url(#${patternId})` : "#fff";
+  const threadPatternId = `${patternId}-thread`;
+  const threadFill = threadFabricUrl ? `url(#${threadPatternId})` : "#fff";
+  const stroke = "#111";
+  const sw = 1.4;
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 500 440"
+      className="w-full h-auto block"
+      aria-hidden="true"
+    >
+      <FabricPattern id={patternId} fabricUrl={fabricUrl} />
+      <FabricPattern id={threadPatternId} fabricUrl={threadFabricUrl} />
+
+      {/* Thong body (fabric) */}
+      <path
+        fill={fill}
+        stroke={stroke}
+        strokeWidth={sw}
+        strokeLinejoin="round"
+        d="M118,92 L245,165 L378,92 L302,300 L274,432 L220,432 L196,300 Z"
+      />
+
+      {/* Side straps connecting bows to thong */}
+      <path fill={threadFill} stroke={stroke} strokeWidth={sw} d="M72,55 L120,90 L116,98 L68,63 Z" />
+      <path fill={threadFill} stroke={stroke} strokeWidth={sw} d="M428,55 L380,90 L384,98 L432,63 Z" />
+
+      {/* LEFT BOW */}
+      <g transform="translate(70 45)">
+        <ellipse cx="-20" cy="-10" rx="22" ry="13" transform="rotate(-30 -20 -10)" fill={threadFill} stroke={stroke} strokeWidth={sw} />
+        <ellipse cx="22" cy="-10" rx="22" ry="13" transform="rotate(30 22 -10)" fill={threadFill} stroke={stroke} strokeWidth={sw} />
+        <circle cx="0" cy="3" r="6" fill={threadFill} stroke={stroke} strokeWidth={sw} />
+        <path fill={threadFill} stroke={stroke} strokeWidth={sw} d="M-6,8 L-16,65 L-9,67 L0,10 Z" />
+        <path fill={threadFill} stroke={stroke} strokeWidth={sw} d="M6,8 L18,63 L11,65 L0,10 Z" />
+      </g>
+
+      {/* RIGHT BOW (mirror) */}
+      <g transform="translate(430 45)">
+        <ellipse cx="20" cy="-10" rx="22" ry="13" transform="rotate(30 20 -10)" fill={threadFill} stroke={stroke} strokeWidth={sw} />
+        <ellipse cx="-22" cy="-10" rx="22" ry="13" transform="rotate(-30 -22 -10)" fill={threadFill} stroke={stroke} strokeWidth={sw} />
+        <circle cx="0" cy="3" r="6" fill={threadFill} stroke={stroke} strokeWidth={sw} />
+        <path fill={threadFill} stroke={stroke} strokeWidth={sw} d="M6,8 L16,65 L9,67 L0,10 Z" />
+        <path fill={threadFill} stroke={stroke} strokeWidth={sw} d="M-6,8 L-18,63 L-11,65 L0,10 Z" />
+      </g>
+    </svg>
+  );
+}
+
 export function FabricSwimsuit({
   bottomId,
   fabricUrl,
@@ -115,6 +165,8 @@ export function FabricSwimsuit({
       <div className="w-full max-w-[200px] -mt-2">
         {bottomId === "culotte" ? (
           <CulotteBottom fabricUrl={fabricUrl} patternId={`pat-bot-${uid}`} />
+        ) : bottomId === "string" ? (
+          <StringBottom fabricUrl={fabricUrl} threadFabricUrl={threadFabricUrl} patternId={`pat-bot-${uid}`} />
         ) : (
           <TangaBottom fabricUrl={fabricUrl} patternId={`pat-bot-${uid}`} />
         )}
