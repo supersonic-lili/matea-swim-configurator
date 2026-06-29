@@ -155,39 +155,21 @@ export function CulotteBottom({ fabricUrl, patternId }: PieceProps) {
 
 
 export function StringBottom({ fabricUrl, threadFabricUrl }: PieceProps) {
-  const maskStyle = {
-    WebkitMaskImage: `url(${stringBottomPng})`,
-    maskImage: `url(${stringBottomPng})`,
-    WebkitMaskRepeat: "no-repeat",
-    maskRepeat: "no-repeat",
-    WebkitMaskPosition: "center",
-    maskPosition: "center",
-    WebkitMaskSize: "contain",
-    maskSize: "contain",
-  } satisfies CSSProperties;
-
-  const fabricLayerStyle = (url?: string): CSSProperties => ({
-    ...maskStyle,
-    backgroundColor: url ? undefined : "#fff",
-    backgroundImage: url ? `url(${url})` : undefined,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  });
-
   return (
     <div className="relative w-full aspect-[490/436]" aria-hidden="true">
       <div
         className="absolute inset-0"
         style={{
-          ...fabricLayerStyle(fabricUrl),
-          clipPath: "polygon(18% 0, 82% 0, 82% 100%, 18% 100%)",
+          ...textureLayer(stringBottomPng, fabricUrl),
+          clipPath: "polygon(31% 18%, 69% 18%, 84% 100%, 16% 100%)",
         }}
       />
       <div
         className="absolute inset-0"
         style={{
-          ...fabricLayerStyle(threadFabricUrl ?? fabricUrl),
-          clipPath: "polygon(0 0, 24% 0, 24% 100%, 0 100%, 76% 0, 100% 0, 100% 100%, 76% 100%)",
+          ...textureLayer(stringBottomPng, threadFabricUrl),
+          clipPath:
+            "polygon(0 0, 36% 0, 36% 36%, 0 42%, 0 0, 64% 0, 100% 0, 100% 42%, 64% 36%)",
         }}
       />
       <img
