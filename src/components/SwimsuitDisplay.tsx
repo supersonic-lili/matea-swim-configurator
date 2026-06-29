@@ -5,7 +5,10 @@
 
 import type { CSSProperties } from "react";
 import triangleTopPng from "@/assets/illustrations/triangle-top.png";
+import triangleTopFabricMask from "@/assets/illustrations/triangle-top-fabric-mask.png";
 import stringBottomPng from "@/assets/illustrations/string-bottom.png";
+import stringBottomBodyMask from "@/assets/illustrations/string-bottom-body-mask.png";
+import stringBottomTiesMask from "@/assets/illustrations/string-bottom-ties-mask.png";
 
 
 type PieceProps = {
@@ -70,17 +73,7 @@ export function TriangleTop({ fabricUrl, threadFabricUrl }: PieceProps) {
       <div
         className="absolute inset-0"
         style={{
-          ...textureLayer(triangleTopPng, fabricUrl),
-          clipPath:
-            "polygon(5% 38%, 23% 38%, 44% 100%, 26% 100%, 0 80%, 0 48%, 50% 38%, 100% 48%, 100% 80%, 74% 100%, 56% 100%, 77% 38%, 95% 38%, 95% 100%, 5% 100%)",
-        }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          ...textureLayer(triangleTopPng, threadFabricUrl),
-          clipPath:
-            "polygon(0 0, 100% 0, 100% 86%, 91% 86%, 91% 100%, 54% 100%, 54% 84%, 46% 84%, 46% 100%, 9% 100%, 9% 86%, 0 86%)",
+          ...textureLayer(triangleTopFabricMask, fabricUrl),
         }}
       />
       <img
@@ -160,22 +153,13 @@ export function StringBottom({ fabricUrl, threadFabricUrl }: PieceProps) {
       <div
         className="absolute inset-0"
         style={{
-          ...textureLayer(stringBottomPng, fabricUrl),
-          clipPath: "polygon(31% 21%, 50% 36%, 69% 21%, 58% 100%, 42% 100%)",
+          ...textureLayer(stringBottomBodyMask, fabricUrl),
         }}
       />
       <div
         className="absolute inset-0"
         style={{
-          ...textureLayer(stringBottomPng, threadFabricUrl),
-          clipPath: "polygon(0 0, 37% 0, 37% 37%, 0 43%)",
-        }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          ...textureLayer(stringBottomPng, threadFabricUrl),
-          clipPath: "polygon(63% 0, 100% 0, 100% 43%, 63% 37%)",
+          ...textureLayer(stringBottomTiesMask, threadFabricUrl),
         }}
       />
       <img
