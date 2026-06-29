@@ -262,7 +262,7 @@ function ShapePicker({
   value,
   onChange,
 }: {
-  options: { id: string; label: string; kind: "triangle" | "tanga" | "culotte" }[];
+  options: { id: string; label: string; kind: "triangle" | "tanga" | "culotte" | "string" }[];
   value: string | null;
   onChange: (v: string) => void;
 }) {
