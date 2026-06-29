@@ -58,20 +58,6 @@ function Editorial() {
             </div>
           </div>
         </div>
-        <p className="font-light italic text-center text-lg sm:text-xl text-foreground/80 mt-12 sm:mt-16 max-w-2xl mx-auto px-6">
-          Chaque maillot est unique, cousu à la main, à Marseille.
-        </p>
-        <div className="flex justify-center mt-6">
-          <a
-            href="https://www.instagram.com/matea.swimwear/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram MATEA"
-            className="text-foreground transition-opacity hover:opacity-60"
-          >
-            <Instagram size={24} />
-          </a>
-        </div>
       </div>
     </section>
   );
