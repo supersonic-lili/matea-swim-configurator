@@ -60,6 +60,8 @@ import prodTanga3 from "@/assets/products-bundled/tanga-3.jpg";
 import prodTanga4 from "@/assets/products-bundled/tanga-4.jpg";
 import prodTanga5 from "@/assets/products-bundled/tanga-5.jpg";
 import prodTangaFruits from "@/assets/products-bundled/tanga-fruits.jpg";
+import prodString1 from "@/assets/products-bundled/string-1.jpg";
+import prodString2 from "@/assets/products-bundled/string-2.jpg";
 
 export const DISPLAY_FABRIC_OVERRIDES: Record<string, string> = {
   bleu: dispBleu,
@@ -104,6 +106,7 @@ export const TOPS = [
 export const BOTTOMS = [
   { id: "tanga", label: "Le tanga", kind: "tanga" as const },
   { id: "culotte", label: "Le bas échancré", kind: "culotte" as const },
+  { id: "string", label: "Le string", kind: "string" as const },
 ];
 export const SIZES = ["XS", "S", "M", "L", "XL"];
 
@@ -213,6 +216,18 @@ export const PRODUCTS: Product[] = [
       "Un bas échancré et flatteur, associé au triangle MATEA. Réversible et fait main à Marseille — personnalise les deux faces selon ton style.",
     blurb:
       "Cet ensemble est composé d'un haut triangle, classique indémodable qui s'adapte à toutes les morphologies, et d'un bas échancré qui met en valeur la silhouette.",
+  },
+  {
+    slug: "string",
+    name: "L'ensemble string",
+    priceFrom: PRICE,
+    topId: "triangle",
+    bottomId: "string",
+    images: [prodString1, prodString2],
+    description:
+      "Le string MATEA, à nouer sur les côtés, à porter avec le triangle. Réversible et fait main à Marseille — choisis tes tissus et tes liens.",
+    blurb:
+      "Cet ensemble est composé d'un haut triangle, classique indémodable qui s'adapte à toutes les morphologies, et d'un string à nouer sur les côtés.",
   },
 ];
 
