@@ -15,7 +15,10 @@ interface CartItem {
   fabricB: string;
   sizeTop: string;
   sizeBottom: string;
+  threadColor?: string;
   price: number;
+}
+// (interface closed above; original closing brace below is removed via range)
 }
 
 Deno.serve(async (req) => {
