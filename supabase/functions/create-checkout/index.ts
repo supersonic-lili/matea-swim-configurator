@@ -18,8 +18,7 @@ interface CartItem {
   threadColor?: string;
   price: number;
 }
-// (interface closed above; original closing brace below is removed via range)
-}
+
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
