@@ -15,8 +15,10 @@ interface CartItem {
   fabricB: string;
   sizeTop: string;
   sizeBottom: string;
+  threadColor?: string;
   price: number;
 }
+
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -47,12 +49,29 @@ Deno.serve(async (req) => {
       apiVersion: "2024-06-20",
     });
 
+    // Keep product names in sync with the site catalog (src/lib/shop.tsx).
+    const PRODUCT_NAMES: Record<string, string> = {
+      tanga: "L'ensemble tanga — réversible",
+      culotte: "L'ensemble bas échancré — réversible",
+      string: "L'ensemble string — réversible",
+    };
+    const FABRIC_NAMES: Record<string, string> = {
+      lila: "Lila", violet: "Violet", kaki: "Kaki", noir: "Noir", bleu: "Bleu",
+      corail: "Corail", jaune: "Jaune", "marron-satine": "Marron Satiné",
+      orange: "Orange", rose: "Rose", "rouge-satine": "Rouge Satiné", vert: "Vert",
+      bee: "Bee", "black-water": "Blackwater", disco: "Disco", fire: "Fire",
+      fog: "Fog", fruits: "Fruits", night: "Night", prune: "Prune", shego: "Shego",
+    };
+    const fabricName = (id: string) => FABRIC_NAMES[id] ?? id;
+    const productName = (it: CartItem) =>
+      PRODUCT_NAMES[it.bottomId] ?? `Maillot MATEA · ${it.topId}/${it.bottomId}`;
+
     const line_items = items.map((it) => ({
       price_data: {
         currency: "eur",
         product_data: {
-          name: `Maillot MATEA · ${it.topId}/${it.bottomId}`,
-          description: `Haut ${it.sizeTop} · Bas ${it.sizeBottom} · A:${it.fabricA} / B:${it.fabricB}`,
+          name: productName(it),
+          description: `Taille haut ${it.sizeTop} · Taille bas ${it.sizeBottom} · Tissus : ${fabricName(it.fabricA)} & ${fabricName(it.fabricB)} · Bretelles & lien : ${fabricName(it.threadColor ?? "")}`,
         },
         unit_amount: Math.round(it.price * 100),
       },
