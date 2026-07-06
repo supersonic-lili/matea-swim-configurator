@@ -55,6 +55,7 @@ import prodBasEch0 from "@/assets/products-bundled/bas-echancre-hero.png";
 import prodBasEch1 from "@/assets/products-bundled/bas-echancre-1.jpg";
 import prodBasEch2 from "@/assets/products-bundled/bas-echancre-2.jpg";
 import prodBasEch3 from "@/assets/products-bundled/bas-echancre-3.jpg";
+import prodBasEch4 from "@/assets/products/bas-echancre-4.jpg.asset.json";
 import prodTanga1 from "@/assets/products-bundled/tanga-1.jpg";
 import prodTanga2 from "@/assets/products-bundled/tanga-2.jpg";
 import prodTanga3 from "@/assets/products-bundled/tanga-3.jpg";
@@ -212,7 +213,7 @@ export const PRODUCTS: Product[] = [
     priceFrom: PRICE,
     topId: "triangle",
     bottomId: "culotte",
-    images: [prodBasEch0, prodBasEch1, prodBasEch3, prodBasEch2],
+    images: [prodBasEch0, prodBasEch1, prodBasEch3, prodBasEch2, prodBasEch4.url],
     description:
       "Un bas échancré et flatteur, associé au triangle MATEA. Réversible et fait main à Marseille — personnalise les deux faces selon ton style.",
     blurb:
