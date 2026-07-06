@@ -321,9 +321,6 @@ function ProductPage() {
 
             <div className="mt-2">
               <p className="text-sm font-semibold">Fait main à la commande</p>
-              <p className="text-sm font-light text-muted-foreground">
-                Compte une semaine de confection après le paiement
-              </p>
             </div>
 
             <div className="flex flex-col items-start gap-2 mt-2">
