@@ -55,7 +55,7 @@ import prodBasEch0 from "@/assets/products-bundled/bas-echancre-hero.png";
 import prodBasEch1 from "@/assets/products-bundled/bas-echancre-1.jpg";
 import prodBasEch2 from "@/assets/products-bundled/bas-echancre-2.jpg";
 import prodBasEch3 from "@/assets/products-bundled/bas-echancre-3.jpg";
-import prodBasEch4 from "@/assets/products/bas-echancre-4.jpg.asset.json";
+import prodBasEch4 from "@/assets/products-bundled/bas-echancre-4.jpg";
 import prodTanga1 from "@/assets/products-bundled/tanga-1.jpg";
 import prodTanga2 from "@/assets/products-bundled/tanga-2.jpg";
 import prodTanga3 from "@/assets/products-bundled/tanga-3.jpg";
