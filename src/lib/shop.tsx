@@ -50,6 +50,7 @@ import dispRose from "@/assets/fabrics-display/rose.jpg";
 import dispRouge from "@/assets/fabrics-display/rouge.jpg";
 import dispVert from "@/assets/fabrics-display/vert.jpg";
 import dispViolet from "@/assets/fabrics-display/violet.jpg";
+import dispBleuRoi from "@/assets/fabrics-display/bleu-roi.jpg";
 
 // Product images (bundled for production)
 import prodBasEch0 from "@/assets/products-bundled/bas-echancre-hero.png";
