@@ -77,6 +77,14 @@ export function TriangleTop({ fabricUrl, threadFabricUrl }: PieceProps) {
           ...textureLayer(triangleTopFabricMask, fabricUrl),
         }}
       />
+      {threadFabricUrl && (
+        <div
+          className="absolute inset-0"
+          style={{
+            ...textureLayer(triangleTopTiesMask, threadFabricUrl),
+          }}
+        />
+      )}
       <img
         src={triangleTopPng}
         alt=""
