@@ -78,6 +78,7 @@ export const DISPLAY_FABRIC_OVERRIDES: Record<string, string> = {
   "rouge-satine": dispRouge,
   vert: dispVert,
   violet: dispViolet,
+  "bleu-roi": dispBleuRoi,
 };
 
 export const FABRICS = [
