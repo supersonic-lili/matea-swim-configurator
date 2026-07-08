@@ -87,6 +87,7 @@ export const FABRICS = [
   { id: "kaki", name: "Kaki", img: fabKaki },
   { id: "noir", name: "Noir", img: fabNoir },
   { id: "bleu", name: "Bleu", img: fabBleu },
+  { id: "bleu-roi", name: "Bleu Roi", img: fabBleuRoi },
   { id: "corail", name: "Corail", img: fabCorail },
   { id: "jaune", name: "Jaune", img: fabJaune },
   { id: "marron-satine", name: "Marron Satiné", img: fabMarron },
