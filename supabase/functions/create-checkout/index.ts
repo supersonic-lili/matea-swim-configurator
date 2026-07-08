@@ -56,7 +56,7 @@ Deno.serve(async (req) => {
       string: "L'ensemble string — réversible",
     };
     const FABRIC_NAMES: Record<string, string> = {
-      lila: "Lila", violet: "Violet", kaki: "Kaki", noir: "Noir", bleu: "Bleu",
+      lila: "Lila", violet: "Violet", kaki: "Kaki", noir: "Noir", bleu: "Bleu", "bleu-roi": "Bleu Roi",
       corail: "Corail", jaune: "Jaune", "marron-satine": "Marron Satiné",
       orange: "Orange", rose: "Rose", "rouge-satine": "Rouge Satiné", vert: "Vert",
       bee: "Bee", "black-water": "Blackwater", disco: "Disco", fire: "Fire",
