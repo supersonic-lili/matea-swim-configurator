@@ -38,6 +38,7 @@ import fabShego from "@/assets/fabrics-bundled/shego.jpg";
 import fabLila from "@/assets/fabrics-bundled/lila.jpg";
 import fabViolet from "@/assets/fabrics-bundled/violet.jpg";
 import fabKaki from "@/assets/fabrics-bundled/kaki.jpg";
+import fabBleuRoi from "@/assets/fabrics-bundled/bleu-roi.jpg";
 // Display textures
 import dispBleu from "@/assets/fabrics-display/bleu.jpg";
 import dispCorail from "@/assets/fabrics-display/corail.jpg";
