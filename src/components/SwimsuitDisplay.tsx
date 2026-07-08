@@ -6,6 +6,7 @@
 import type { CSSProperties } from "react";
 import triangleTopPng from "@/assets/illustrations/triangle-top.png";
 import triangleTopFabricMask from "@/assets/illustrations/triangle-top-fabric-mask.png";
+import triangleTopTiesMask from "@/assets/illustrations/triangle-top-ties-mask.png";
 import stringBottomPng from "@/assets/illustrations/string-bottom.png";
 import stringBottomBodyMask from "@/assets/illustrations/string-bottom-body-mask.png";
 import stringBottomTiesMask from "@/assets/illustrations/string-bottom-ties-mask.png";
