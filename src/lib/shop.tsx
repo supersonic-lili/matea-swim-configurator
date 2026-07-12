@@ -39,6 +39,7 @@ import fabLila from "@/assets/fabrics-bundled/lila.jpg";
 import fabViolet from "@/assets/fabrics-bundled/violet.jpg";
 import fabKaki from "@/assets/fabrics-bundled/kaki.jpg";
 import fabBleuRoi from "@/assets/fabrics-bundled/bleu-roi.jpg";
+import fabCamo from "@/assets/fabrics-bundled/camo.jpg";
 // Display textures
 import dispBleu from "@/assets/fabrics-display/bleu.jpg";
 import dispCorail from "@/assets/fabrics-display/corail.jpg";
@@ -51,6 +52,7 @@ import dispRouge from "@/assets/fabrics-display/rouge.jpg";
 import dispVert from "@/assets/fabrics-display/vert.jpg";
 import dispViolet from "@/assets/fabrics-display/violet.jpg";
 import dispBleuRoi from "@/assets/fabrics-display/bleu-roi.jpg";
+import dispCamo from "@/assets/fabrics-display/camo.jpg";
 
 // Product images (bundled for production)
 import prodBasEch0 from "@/assets/products-bundled/bas-echancre-hero.png";
@@ -79,6 +81,7 @@ export const DISPLAY_FABRIC_OVERRIDES: Record<string, string> = {
   vert: dispVert,
   violet: dispViolet,
   "bleu-roi": dispBleuRoi,
+  camo: dispCamo,
 };
 
 export const FABRICS = [
@@ -104,6 +107,7 @@ export const FABRICS = [
   { id: "night", name: "Night", img: fabNight },
   { id: "prune", name: "Prune", img: fabPrune },
   { id: "shego", name: "Shego", img: fabShego },
+  { id: "camo", name: "Camo", img: fabCamo },
 ];
 
 export const TOPS = [
