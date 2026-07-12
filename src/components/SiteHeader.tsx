@@ -22,9 +22,6 @@ export function SiteHeader() {
 
   return (
     <>
-      <div className="w-full bg-foreground text-background text-center text-xs sm:text-sm font-light py-2 px-4">
-        10% offerts pour tout achat avec le code <span className="font-semibold tracking-wide">MATEA10</span>
-      </div>
       <header className={`${notSticky ? "relative" : "sticky top-0"} z-30 w-full bg-transparent bg-gradient-to-b from-background/40 to-transparent`}>
 
 

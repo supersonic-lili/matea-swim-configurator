@@ -126,7 +126,7 @@ export const SHIPPING = 4.9;
 // ---- Auto-applied promotion (display + checkout layer) ----
 // Set AUTO_PROMO.enabled = false to disable the campaign instantly.
 export const AUTO_PROMO = {
-  enabled: true,
+  enabled: false,
   code: "MATEA10",
   percent: 10,
 };
