@@ -60,7 +60,7 @@ Deno.serve(async (req) => {
       corail: "Corail", jaune: "Jaune", "marron-satine": "Marron Satiné",
       orange: "Orange", rose: "Rose", "rouge-satine": "Rouge Satiné", vert: "Vert",
       bee: "Bee", "black-water": "Blackwater", disco: "Disco", fire: "Fire",
-      fog: "Fog", fruits: "Fruits", night: "Night", prune: "Prune", shego: "Shego",
+      fog: "Fog", fruits: "Fruits", night: "Night", prune: "Prune", shego: "Shego", camo: "Camo",
     };
     const fabricName = (id: string) => FABRIC_NAMES[id] ?? id;
     const productName = (it: CartItem) =>
