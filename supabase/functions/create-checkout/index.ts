@@ -23,26 +23,69 @@ interface CartItem {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  const json = (body: unknown, status = 200) =>
+    new Response(JSON.stringify(body), {
+      status,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+
   try {
-    const { items, email, origin, promoCode } = await req.json() as {
+    const { items, email, origin, promoCode, validatePromo } = await req.json() as {
       items: CartItem[];
       email: string;
       origin: string;
       promoCode?: string | null;
+      validatePromo?: string | null;
     };
 
+    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY")!;
+
+    // --- Promo code validation (called from the cart before checkout) ---
+    if (validatePromo !== undefined && validatePromo !== null) {
+      const code = String(validatePromo).trim().toUpperCase();
+      if (!code) return json({ valid: false });
+      const stripeV = new Stripe(stripeKey, { apiVersion: "2024-06-20" });
+
+      // 1) Promotion code (case-insensitive match against Stripe promotion codes)
+      const list = await stripeV.promotionCodes.list({ active: true, limit: 100 });
+      const promo = list.data.find((p) => p.code.trim().toUpperCase() === code);
+      if (promo && promo.coupon?.valid) {
+        return json({
+          valid: true,
+          code: promo.code.toUpperCase(),
+          percent_off: promo.coupon.percent_off ?? null,
+          amount_off: promo.coupon.amount_off ? promo.coupon.amount_off / 100 : null,
+        });
+      }
+
+      // 2) Coupon matched by id or name
+      const coupons = await stripeV.coupons.list({ limit: 100 });
+      const coupon = coupons.data.find(
+        (c) =>
+          c.valid &&
+          (c.id.trim().toUpperCase() === code || (c.name ?? "").trim().toUpperCase() === code),
+      );
+      if (coupon) {
+        return json({
+          valid: true,
+          code,
+          coupon_id: coupon.id,
+          percent_off: coupon.percent_off ?? null,
+          amount_off: coupon.amount_off ? coupon.amount_off / 100 : null,
+        });
+      }
+
+      return json({ valid: false });
+    }
+
+
     if (!Array.isArray(items) || items.length === 0) {
-      return new Response(JSON.stringify({ error: "Empty cart" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json({ error: "Empty cart" }, 400);
     }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return new Response(JSON.stringify({ error: "Invalid email" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json({ error: "Invalid email" }, 400);
     }
+
 
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
@@ -78,19 +121,37 @@ Deno.serve(async (req) => {
       quantity: 1,
     }));
 
-    // Handle our app-level promo codes (keep in sync with PROMO_CODES in src/lib/shop.tsx).
-    const PROMO_CODES: Record<string, number> = { MATEA10: 10 };
+    // Promo code: prefer a real Stripe promotion code, fall back to app-level codes.
+    const APP_PROMOS: Record<string, number> = { MATEA10: 10 };
     const normalizedPromo = (promoCode ?? "").trim().toUpperCase();
-    let discounts: { coupon: string }[] | undefined;
-    const percentOff = PROMO_CODES[normalizedPromo];
-    if (percentOff) {
-      const coupon = await stripe.coupons.create({
-        percent_off: percentOff,
-        duration: "once",
-        name: normalizedPromo,
-      });
-      discounts = [{ coupon: coupon.id }];
+    let discounts: ({ coupon: string } | { promotion_code: string })[] | undefined;
+    if (normalizedPromo) {
+      const found = await stripe.promotionCodes.list({ active: true, limit: 100 });
+      const promo = found.data.find((p) => p.code.trim().toUpperCase() === normalizedPromo);
+      if (promo && promo.coupon?.valid) {
+        discounts = [{ promotion_code: promo.id }];
+      } else {
+        const coupons = await stripe.coupons.list({ limit: 100 });
+        const existing = coupons.data.find(
+          (c) =>
+            c.valid &&
+            (c.id.trim().toUpperCase() === normalizedPromo ||
+              (c.name ?? "").trim().toUpperCase() === normalizedPromo),
+        );
+        if (existing) {
+          discounts = [{ coupon: existing.id }];
+        } else if (APP_PROMOS[normalizedPromo]) {
+          const coupon = await stripe.coupons.create({
+            percent_off: APP_PROMOS[normalizedPromo],
+            duration: "once",
+            name: normalizedPromo,
+          });
+          discounts = [{ coupon: coupon.id }];
+        }
+      }
     }
+
+
 
 
     const session = await stripe.checkout.sessions.create({

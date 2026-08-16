@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { X, ShoppingBag, Ruler } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import {
   FabricSwimsuit,
   TriangleTop,
@@ -832,8 +833,13 @@ export function CartOverlay({
   const [emailError, setEmailError] = useState(false);
   const [promoInput, setPromoInput] = useState("");
   const [promoError, setPromoError] = useState<string | null>(null);
-  const [appliedPromo, setAppliedPromo] = useState<{ code: string; percent: number } | null>(
-    AUTO_PROMO.enabled ? { code: AUTO_PROMO.code, percent: AUTO_PROMO.percent } : null,
+  const [promoLoading, setPromoLoading] = useState(false);
+  const [appliedPromo, setAppliedPromo] = useState<
+    { code: string; percent: number | null; amount: number | null } | null
+  >(
+    AUTO_PROMO.enabled
+      ? { code: AUTO_PROMO.code, percent: AUTO_PROMO.percent, amount: null }
+      : null,
   );
 
   useEffect(() => {
@@ -851,20 +857,48 @@ export function CartOverlay({
   const shipping = items.length > 0 ? SHIPPING : 0;
   const promoActive = !!appliedPromo && items.length > 0;
   const discount = promoActive
-    ? Math.round(subtotal * (appliedPromo!.percent / 100) * 100) / 100
+    ? Math.min(
+        subtotal,
+        appliedPromo!.percent
+          ? Math.round(subtotal * (appliedPromo!.percent / 100) * 100) / 100
+          : (appliedPromo!.amount ?? 0),
+      )
     : 0;
   const total = Math.max(0, subtotal - discount) + shipping;
 
-  const applyPromo = () => {
-    const found = lookupPromo(promoInput);
-    if (!found) {
-      setAppliedPromo(null);
-      setPromoError("Code promo invalide.");
-      return;
-    }
-    setAppliedPromo(found);
+  const applyPromo = async () => {
+    const code = promoInput.trim().toUpperCase();
+    if (!code || promoLoading) return;
+    setPromoLoading(true);
     setPromoError(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { validatePromo: code },
+      });
+      if (error) throw error;
+      if (data?.valid) {
+        setAppliedPromo({
+          code: data.code ?? code,
+          percent: data.percent_off ?? null,
+          amount: data.amount_off ?? null,
+        });
+      } else {
+        setAppliedPromo(null);
+        setPromoError("Code promo invalide ou expiré.");
+      }
+    } catch (e) {
+      console.error(e);
+      const fallback = lookupPromo(code);
+      if (fallback) {
+        setAppliedPromo({ code: fallback.code, percent: fallback.percent, amount: null });
+      } else {
+        setPromoError("Vérification impossible. Réessaie.");
+      }
+    } finally {
+      setPromoLoading(false);
+    }
   };
+
 
   const handleClick = () => {
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -978,23 +1012,29 @@ export function CartOverlay({
                       if (promoError) setPromoError(null);
                     }}
                     onKeyDown={(e) => e.key === "Enter" && applyPromo()}
-                    placeholder="Ex : MATEA10"
+                    placeholder=""
                     className="flex-1 px-4 py-3 rounded-full border border-border bg-background text-sm font-light uppercase focus:border-foreground outline-none transition-colors"
                   />
                   <button
                     type="button"
                     onClick={applyPromo}
-                    className="rounded-full border border-foreground px-5 py-3 text-sm font-light hover:bg-foreground hover:text-background transition-colors"
+                    disabled={promoLoading}
+                    className="rounded-full border border-foreground px-5 py-3 text-sm font-light hover:bg-foreground hover:text-background transition-colors disabled:opacity-50"
                   >
-                    Appliquer
+                    {promoLoading ? "..." : "Appliquer"}
                   </button>
+
                 </div>
                 {promoError && (
                   <p className="mt-2 text-xs text-destructive font-light">{promoError}</p>
                 )}
                 {appliedPromo && (
                   <p className="mt-2 text-xs font-light text-foreground">
-                    Code {appliedPromo.code} appliqué (-{appliedPromo.percent}%).{" "}
+                    Code {appliedPromo.code} appliqué (
+                    {appliedPromo.percent
+                      ? `-${appliedPromo.percent}%`
+                      : `-${formatPrice(appliedPromo.amount ?? 0)}€`}
+                    ).{" "}
                     <button
                       type="button"
                       onClick={() => {
@@ -1018,7 +1058,10 @@ export function CartOverlay({
                 </div>
                 {promoActive && (
                   <div className="flex justify-between text-foreground">
-                    <span>Réduction ({appliedPromo!.code} · -{appliedPromo!.percent}%)</span>
+                    <span>
+                      Réduction ({appliedPromo!.code}
+                      {appliedPromo!.percent ? ` · -${appliedPromo!.percent}%` : ""})
+                    </span>
                     <span className="font-medium">-{formatPrice(discount)}€</span>
                   </div>
                 )}
