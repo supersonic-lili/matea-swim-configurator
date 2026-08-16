@@ -1028,7 +1028,11 @@ export function CartOverlay({
                 )}
                 {appliedPromo && (
                   <p className="mt-2 text-xs font-light text-foreground">
-                    Code {appliedPromo.code} appliqué (-{appliedPromo.percent}%).{" "}
+                    Code {appliedPromo.code} appliqué (
+                    {appliedPromo.percent
+                      ? `-${appliedPromo.percent}%`
+                      : `-${formatPrice(appliedPromo.amount ?? 0)}€`}
+                    ).{" "}
                     <button
                       type="button"
                       onClick={() => {
