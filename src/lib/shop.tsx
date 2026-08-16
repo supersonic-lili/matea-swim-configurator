@@ -131,6 +131,18 @@ export const AUTO_PROMO = {
   percent: 10,
 };
 
+/** Promo codes the customer can enter manually in the cart. Keep in sync with create-checkout. */
+export const PROMO_CODES: Record<string, number> = {
+  MATEA10: 10,
+};
+
+export function lookupPromo(code: string): { code: string; percent: number } | null {
+  const normalized = code.trim().toUpperCase();
+  const percent = PROMO_CODES[normalized];
+  return percent ? { code: normalized, percent } : null;
+}
+
+
 export function formatPrice(n: number): string {
   // 2 decimals only when needed, French formatting
   const rounded = Math.round(n * 100) / 100;
