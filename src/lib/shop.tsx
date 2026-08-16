@@ -1012,16 +1012,18 @@ export function CartOverlay({
                       if (promoError) setPromoError(null);
                     }}
                     onKeyDown={(e) => e.key === "Enter" && applyPromo()}
-                    placeholder="Ex : MATEA10"
+                    placeholder=""
                     className="flex-1 px-4 py-3 rounded-full border border-border bg-background text-sm font-light uppercase focus:border-foreground outline-none transition-colors"
                   />
                   <button
                     type="button"
                     onClick={applyPromo}
-                    className="rounded-full border border-foreground px-5 py-3 text-sm font-light hover:bg-foreground hover:text-background transition-colors"
+                    disabled={promoLoading}
+                    className="rounded-full border border-foreground px-5 py-3 text-sm font-light hover:bg-foreground hover:text-background transition-colors disabled:opacity-50"
                   >
-                    Appliquer
+                    {promoLoading ? "..." : "Appliquer"}
                   </button>
+
                 </div>
                 {promoError && (
                   <p className="mt-2 text-xs text-destructive font-light">{promoError}</p>
