@@ -965,6 +965,50 @@ export function CartOverlay({
                 })}
               </div>
 
+              <div className="mt-5">
+                <label className="block text-xs font-light text-muted-foreground mb-2">
+                  Code promo
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={promoInput}
+                    onChange={(e) => {
+                      setPromoInput(e.target.value);
+                      if (promoError) setPromoError(null);
+                    }}
+                    onKeyDown={(e) => e.key === "Enter" && applyPromo()}
+                    placeholder="Ex : MATEA10"
+                    className="flex-1 px-4 py-3 rounded-full border border-border bg-background text-sm font-light uppercase focus:border-foreground outline-none transition-colors"
+                  />
+                  <button
+                    type="button"
+                    onClick={applyPromo}
+                    className="rounded-full border border-foreground px-5 py-3 text-sm font-light hover:bg-foreground hover:text-background transition-colors"
+                  >
+                    Appliquer
+                  </button>
+                </div>
+                {promoError && (
+                  <p className="mt-2 text-xs text-destructive font-light">{promoError}</p>
+                )}
+                {appliedPromo && (
+                  <p className="mt-2 text-xs font-light text-foreground">
+                    Code {appliedPromo.code} appliqué (-{appliedPromo.percent}%).{" "}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAppliedPromo(null);
+                        setPromoInput("");
+                      }}
+                      className="underline text-muted-foreground hover:text-foreground"
+                    >
+                      Retirer
+                    </button>
+                  </p>
+                )}
+              </div>
+
               <div className="mt-5 pt-4 border-t border-border space-y-1.5 text-sm font-light">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Sous-total</span>
@@ -974,10 +1018,11 @@ export function CartOverlay({
                 </div>
                 {promoActive && (
                   <div className="flex justify-between text-foreground">
-                    <span>Réduction ({AUTO_PROMO.code} · -{AUTO_PROMO.percent}%)</span>
+                    <span>Réduction ({appliedPromo!.code} · -{appliedPromo!.percent}%)</span>
                     <span className="font-medium">-{formatPrice(discount)}€</span>
                   </div>
                 )}
+
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Livraison France Standard</span>
                   <span>{formatPrice(shipping)}€</span>
