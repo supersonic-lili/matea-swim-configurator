@@ -1058,7 +1058,10 @@ export function CartOverlay({
                 </div>
                 {promoActive && (
                   <div className="flex justify-between text-foreground">
-                    <span>Réduction ({appliedPromo!.code} · -{appliedPromo!.percent}%)</span>
+                    <span>
+                      Réduction ({appliedPromo!.code}
+                      {appliedPromo!.percent ? ` · -${appliedPromo!.percent}%` : ""})
+                    </span>
                     <span className="font-medium">-{formatPrice(discount)}€</span>
                   </div>
                 )}
