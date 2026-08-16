@@ -126,23 +126,31 @@ Deno.serve(async (req) => {
     const normalizedPromo = (promoCode ?? "").trim().toUpperCase();
     let discounts: ({ coupon: string } | { promotion_code: string })[] | undefined;
     if (normalizedPromo) {
-      const found = await stripe.promotionCodes.list({
-        code: normalizedPromo,
-        active: true,
-        limit: 1,
-      });
-      const promo = found.data[0];
+      const found = await stripe.promotionCodes.list({ active: true, limit: 100 });
+      const promo = found.data.find((p) => p.code.trim().toUpperCase() === normalizedPromo);
       if (promo && promo.coupon?.valid) {
         discounts = [{ promotion_code: promo.id }];
-      } else if (APP_PROMOS[normalizedPromo]) {
-        const coupon = await stripe.coupons.create({
-          percent_off: APP_PROMOS[normalizedPromo],
-          duration: "once",
-          name: normalizedPromo,
-        });
-        discounts = [{ coupon: coupon.id }];
+      } else {
+        const coupons = await stripe.coupons.list({ limit: 100 });
+        const existing = coupons.data.find(
+          (c) =>
+            c.valid &&
+            (c.id.trim().toUpperCase() === normalizedPromo ||
+              (c.name ?? "").trim().toUpperCase() === normalizedPromo),
+        );
+        if (existing) {
+          discounts = [{ coupon: existing.id }];
+        } else if (APP_PROMOS[normalizedPromo]) {
+          const coupon = await stripe.coupons.create({
+            percent_off: APP_PROMOS[normalizedPromo],
+            duration: "once",
+            name: normalizedPromo,
+          });
+          discounts = [{ coupon: coupon.id }];
+        }
       }
     }
+
 
 
 
