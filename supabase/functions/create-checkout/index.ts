@@ -45,8 +45,10 @@ Deno.serve(async (req) => {
       const code = String(validatePromo).trim().toUpperCase();
       if (!code) return json({ valid: false });
       const stripeV = new Stripe(stripeKey, { apiVersion: "2024-06-20" });
-      const list = await stripeV.promotionCodes.list({ code, active: true, limit: 1 });
-      const promo = list.data[0];
+
+      // 1) Promotion code (case-insensitive match against Stripe promotion codes)
+      const list = await stripeV.promotionCodes.list({ active: true, limit: 100 });
+      const promo = list.data.find((p) => p.code.trim().toUpperCase() === code);
       if (promo && promo.coupon?.valid) {
         return json({
           valid: true,
@@ -55,8 +57,27 @@ Deno.serve(async (req) => {
           amount_off: promo.coupon.amount_off ? promo.coupon.amount_off / 100 : null,
         });
       }
+
+      // 2) Coupon matched by id or name
+      const coupons = await stripeV.coupons.list({ limit: 100 });
+      const coupon = coupons.data.find(
+        (c) =>
+          c.valid &&
+          (c.id.trim().toUpperCase() === code || (c.name ?? "").trim().toUpperCase() === code),
+      );
+      if (coupon) {
+        return json({
+          valid: true,
+          code,
+          coupon_id: coupon.id,
+          percent_off: coupon.percent_off ?? null,
+          amount_off: coupon.amount_off ? coupon.amount_off / 100 : null,
+        });
+      }
+
       return json({ valid: false });
     }
+
 
     if (!Array.isArray(items) || items.length === 0) {
       return json({ error: "Empty cart" }, 400);
