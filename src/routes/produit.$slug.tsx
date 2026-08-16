@@ -51,7 +51,9 @@ export const Route = createFileRoute("/produit/$slug")({
 });
 
 function ProductPage() {
-  const { product } = Route.useLoaderData();
+  const { slug } = Route.useParams();
+  const product = getProduct(slug)!;
+
   const { addItem } = useCart();
 
   const [activeIdx, setActiveIdx] = useState(0);

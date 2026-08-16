@@ -34,7 +34,8 @@ export const Route = createFileRoute("/personnaliser/$slug")({
 });
 
 function PersonnaliserPage() {
-  const { product } = Route.useLoaderData();
+  const { slug } = Route.useParams();
+  const product = getProduct(slug)!;
   const { addItem } = useCart();
   const navigate = useNavigate();
 

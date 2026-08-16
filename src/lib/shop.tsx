@@ -131,6 +131,18 @@ export const AUTO_PROMO = {
   percent: 10,
 };
 
+/** Promo codes the customer can enter manually in the cart. Keep in sync with create-checkout. */
+export const PROMO_CODES: Record<string, number> = {
+  MATEA10: 10,
+};
+
+export function lookupPromo(code: string): { code: string; percent: number } | null {
+  const normalized = code.trim().toUpperCase();
+  const percent = PROMO_CODES[normalized];
+  return percent ? { code: normalized, percent } : null;
+}
+
+
 export function formatPrice(n: number): string {
   // 2 decimals only when needed, French formatting
   const rounded = Math.round(n * 100) / 100;
@@ -818,6 +830,11 @@ export function CartOverlay({
 }) {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
+  const [promoInput, setPromoInput] = useState("");
+  const [promoError, setPromoError] = useState<string | null>(null);
+  const [appliedPromo, setAppliedPromo] = useState<{ code: string; percent: number } | null>(
+    AUTO_PROMO.enabled ? { code: AUTO_PROMO.code, percent: AUTO_PROMO.percent } : null,
+  );
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -832,11 +849,22 @@ export function CartOverlay({
 
   const subtotal = items.reduce((s, i) => s + i.price, 0);
   const shipping = items.length > 0 ? SHIPPING : 0;
-  const promoActive = AUTO_PROMO.enabled && items.length > 0;
+  const promoActive = !!appliedPromo && items.length > 0;
   const discount = promoActive
-    ? Math.round(subtotal * (AUTO_PROMO.percent / 100) * 100) / 100
+    ? Math.round(subtotal * (appliedPromo!.percent / 100) * 100) / 100
     : 0;
   const total = Math.max(0, subtotal - discount) + shipping;
+
+  const applyPromo = () => {
+    const found = lookupPromo(promoInput);
+    if (!found) {
+      setAppliedPromo(null);
+      setPromoError("Code promo invalide.");
+      return;
+    }
+    setAppliedPromo(found);
+    setPromoError(null);
+  };
 
   const handleClick = () => {
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -845,8 +873,9 @@ export function CartOverlay({
       return;
     }
     setEmailError(false);
-    onCheckout(email.trim(), promoActive ? AUTO_PROMO.code : null);
+    onCheckout(email.trim(), promoActive ? appliedPromo!.code : null);
   };
+
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm overflow-y-auto">
@@ -936,6 +965,50 @@ export function CartOverlay({
                 })}
               </div>
 
+              <div className="mt-5">
+                <label className="block text-xs font-light text-muted-foreground mb-2">
+                  Code promo
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={promoInput}
+                    onChange={(e) => {
+                      setPromoInput(e.target.value);
+                      if (promoError) setPromoError(null);
+                    }}
+                    onKeyDown={(e) => e.key === "Enter" && applyPromo()}
+                    placeholder="Ex : MATEA10"
+                    className="flex-1 px-4 py-3 rounded-full border border-border bg-background text-sm font-light uppercase focus:border-foreground outline-none transition-colors"
+                  />
+                  <button
+                    type="button"
+                    onClick={applyPromo}
+                    className="rounded-full border border-foreground px-5 py-3 text-sm font-light hover:bg-foreground hover:text-background transition-colors"
+                  >
+                    Appliquer
+                  </button>
+                </div>
+                {promoError && (
+                  <p className="mt-2 text-xs text-destructive font-light">{promoError}</p>
+                )}
+                {appliedPromo && (
+                  <p className="mt-2 text-xs font-light text-foreground">
+                    Code {appliedPromo.code} appliqué (-{appliedPromo.percent}%).{" "}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAppliedPromo(null);
+                        setPromoInput("");
+                      }}
+                      className="underline text-muted-foreground hover:text-foreground"
+                    >
+                      Retirer
+                    </button>
+                  </p>
+                )}
+              </div>
+
               <div className="mt-5 pt-4 border-t border-border space-y-1.5 text-sm font-light">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Sous-total</span>
@@ -945,10 +1018,11 @@ export function CartOverlay({
                 </div>
                 {promoActive && (
                   <div className="flex justify-between text-foreground">
-                    <span>Réduction ({AUTO_PROMO.code} · -{AUTO_PROMO.percent}%)</span>
+                    <span>Réduction ({appliedPromo!.code} · -{appliedPromo!.percent}%)</span>
                     <span className="font-medium">-{formatPrice(discount)}€</span>
                   </div>
                 )}
+
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Livraison France Standard</span>
                   <span>{formatPrice(shipping)}€</span>
