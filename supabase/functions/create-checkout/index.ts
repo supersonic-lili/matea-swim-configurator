@@ -100,19 +100,29 @@ Deno.serve(async (req) => {
       quantity: 1,
     }));
 
-    // Handle our app-level promo codes (keep in sync with PROMO_CODES in src/lib/shop.tsx).
-    const PROMO_CODES: Record<string, number> = { MATEA10: 10 };
+    // Promo code: prefer a real Stripe promotion code, fall back to app-level codes.
+    const APP_PROMOS: Record<string, number> = { MATEA10: 10 };
     const normalizedPromo = (promoCode ?? "").trim().toUpperCase();
-    let discounts: { coupon: string }[] | undefined;
-    const percentOff = PROMO_CODES[normalizedPromo];
-    if (percentOff) {
-      const coupon = await stripe.coupons.create({
-        percent_off: percentOff,
-        duration: "once",
-        name: normalizedPromo,
+    let discounts: ({ coupon: string } | { promotion_code: string })[] | undefined;
+    if (normalizedPromo) {
+      const found = await stripe.promotionCodes.list({
+        code: normalizedPromo,
+        active: true,
+        limit: 1,
       });
-      discounts = [{ coupon: coupon.id }];
+      const promo = found.data[0];
+      if (promo && promo.coupon?.valid) {
+        discounts = [{ promotion_code: promo.id }];
+      } else if (APP_PROMOS[normalizedPromo]) {
+        const coupon = await stripe.coupons.create({
+          percent_off: APP_PROMOS[normalizedPromo],
+          duration: "once",
+          name: normalizedPromo,
+        });
+        discounts = [{ coupon: coupon.id }];
+      }
     }
+
 
 
     const session = await stripe.checkout.sessions.create({
