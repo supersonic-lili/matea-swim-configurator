@@ -832,8 +832,13 @@ export function CartOverlay({
   const [emailError, setEmailError] = useState(false);
   const [promoInput, setPromoInput] = useState("");
   const [promoError, setPromoError] = useState<string | null>(null);
-  const [appliedPromo, setAppliedPromo] = useState<{ code: string; percent: number } | null>(
-    AUTO_PROMO.enabled ? { code: AUTO_PROMO.code, percent: AUTO_PROMO.percent } : null,
+  const [promoLoading, setPromoLoading] = useState(false);
+  const [appliedPromo, setAppliedPromo] = useState<
+    { code: string; percent: number | null; amount: number | null } | null
+  >(
+    AUTO_PROMO.enabled
+      ? { code: AUTO_PROMO.code, percent: AUTO_PROMO.percent, amount: null }
+      : null,
   );
 
   useEffect(() => {
@@ -851,20 +856,48 @@ export function CartOverlay({
   const shipping = items.length > 0 ? SHIPPING : 0;
   const promoActive = !!appliedPromo && items.length > 0;
   const discount = promoActive
-    ? Math.round(subtotal * (appliedPromo!.percent / 100) * 100) / 100
+    ? Math.min(
+        subtotal,
+        appliedPromo!.percent
+          ? Math.round(subtotal * (appliedPromo!.percent / 100) * 100) / 100
+          : (appliedPromo!.amount ?? 0),
+      )
     : 0;
   const total = Math.max(0, subtotal - discount) + shipping;
 
-  const applyPromo = () => {
-    const found = lookupPromo(promoInput);
-    if (!found) {
-      setAppliedPromo(null);
-      setPromoError("Code promo invalide.");
-      return;
-    }
-    setAppliedPromo(found);
+  const applyPromo = async () => {
+    const code = promoInput.trim().toUpperCase();
+    if (!code || promoLoading) return;
+    setPromoLoading(true);
     setPromoError(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { validatePromo: code },
+      });
+      if (error) throw error;
+      if (data?.valid) {
+        setAppliedPromo({
+          code: data.code ?? code,
+          percent: data.percent_off ?? null,
+          amount: data.amount_off ?? null,
+        });
+      } else {
+        setAppliedPromo(null);
+        setPromoError("Code promo invalide ou expiré.");
+      }
+    } catch (e) {
+      console.error(e);
+      const fallback = lookupPromo(code);
+      if (fallback) {
+        setAppliedPromo({ code: fallback.code, percent: fallback.percent, amount: null });
+      } else {
+        setPromoError("Vérification impossible. Réessaie.");
+      }
+    } finally {
+      setPromoLoading(false);
+    }
   };
+
 
   const handleClick = () => {
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
