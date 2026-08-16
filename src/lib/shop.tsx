@@ -830,6 +830,11 @@ export function CartOverlay({
 }) {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
+  const [promoInput, setPromoInput] = useState("");
+  const [promoError, setPromoError] = useState<string | null>(null);
+  const [appliedPromo, setAppliedPromo] = useState<{ code: string; percent: number } | null>(
+    AUTO_PROMO.enabled ? { code: AUTO_PROMO.code, percent: AUTO_PROMO.percent } : null,
+  );
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -844,11 +849,22 @@ export function CartOverlay({
 
   const subtotal = items.reduce((s, i) => s + i.price, 0);
   const shipping = items.length > 0 ? SHIPPING : 0;
-  const promoActive = AUTO_PROMO.enabled && items.length > 0;
+  const promoActive = !!appliedPromo && items.length > 0;
   const discount = promoActive
-    ? Math.round(subtotal * (AUTO_PROMO.percent / 100) * 100) / 100
+    ? Math.round(subtotal * (appliedPromo!.percent / 100) * 100) / 100
     : 0;
   const total = Math.max(0, subtotal - discount) + shipping;
+
+  const applyPromo = () => {
+    const found = lookupPromo(promoInput);
+    if (!found) {
+      setAppliedPromo(null);
+      setPromoError("Code promo invalide.");
+      return;
+    }
+    setAppliedPromo(found);
+    setPromoError(null);
+  };
 
   const handleClick = () => {
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -857,8 +873,9 @@ export function CartOverlay({
       return;
     }
     setEmailError(false);
-    onCheckout(email.trim(), promoActive ? AUTO_PROMO.code : null);
+    onCheckout(email.trim(), promoActive ? appliedPromo!.code : null);
   };
+
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm overflow-y-auto">
