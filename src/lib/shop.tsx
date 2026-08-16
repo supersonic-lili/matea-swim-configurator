@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { X, ShoppingBag, Ruler } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import {
   FabricSwimsuit,
   TriangleTop,
