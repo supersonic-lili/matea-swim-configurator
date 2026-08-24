@@ -22,6 +22,9 @@ export function SiteHeader() {
 
   return (
     <>
+      <div className="bg-primary text-primary-foreground text-center py-2 px-4 text-xs font-medium tracking-wide z-40 relative">
+        Code promo <span className="font-bold">MATEA15</span> : -15% de réduction sur ta commande
+      </div>
       <header className={`${notSticky ? "relative" : "sticky top-0"} z-30 w-full bg-transparent bg-gradient-to-b from-background/40 to-transparent`}>
 
 
