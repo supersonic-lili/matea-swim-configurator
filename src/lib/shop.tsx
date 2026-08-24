@@ -61,6 +61,9 @@ import prodBasEch1 from "@/assets/products-bundled/bas-echancre-1.jpg";
 import prodBasEch2 from "@/assets/products-bundled/bas-echancre-2.jpg";
 import prodBasEch3 from "@/assets/products-bundled/bas-echancre-3.jpg";
 import prodBasEch4 from "@/assets/products-bundled/bas-echancre-4.jpg";
+import prodBasEch5 from "@/assets/products-bundled/bas-echancre-5.jpg";
+import prodBasEch6 from "@/assets/products-bundled/bas-echancre-6.jpg";
+import prodBasEch7 from "@/assets/products-bundled/bas-echancre-7.jpg";
 import prodTanga1 from "@/assets/products-bundled/tanga-1.jpg";
 import prodTanga2 from "@/assets/products-bundled/tanga-2.jpg";
 import prodTanga3 from "@/assets/products-bundled/tanga-3.jpg";
@@ -69,6 +72,7 @@ import prodTanga5 from "@/assets/products-bundled/tanga-5.jpg";
 import prodTangaFruits from "@/assets/products-bundled/tanga-fruits.jpg";
 import prodString1 from "@/assets/products-bundled/string-1.jpg";
 import prodString2 from "@/assets/products-bundled/string-2.jpg";
+import prodString3 from "@/assets/products-bundled/string-3.jpg";
 
 export const DISPLAY_FABRIC_OVERRIDES: Record<string, string> = {
   bleu: dispBleu,
@@ -234,7 +238,7 @@ export const PRODUCTS: Product[] = [
     priceFrom: PRICE,
     topId: "triangle",
     bottomId: "culotte",
-    images: [prodBasEch0, prodBasEch1, prodBasEch3, prodBasEch2, prodBasEch4],
+    images: [prodBasEch0, prodBasEch1, prodBasEch3, prodBasEch2, prodBasEch4, prodBasEch5, prodBasEch6, prodBasEch7],
     description:
       "Un bas échancré et flatteur, associé au triangle MATEA. Réversible et fait main à Marseille — personnalise les deux faces selon ton style.",
     blurb:
@@ -246,7 +250,7 @@ export const PRODUCTS: Product[] = [
     priceFrom: PRICE,
     topId: "triangle",
     bottomId: "string",
-    images: [prodString1, prodString2],
+    images: [prodString1, prodString2, prodString3],
     description:
       "Le string MATEA, à nouer sur les côtés, à porter avec le triangle. Réversible et fait main à Marseille — choisis tes tissus et tes liens.",
     blurb:
